@@ -60,7 +60,6 @@
   75%       { transform: translateY(-6px); }
 }
 
-// On hover: stop float, tilt right (bot's right = our left visually)
 .hovered .floater {
   animation: none;
   transform: translateY(-8px) rotate(6deg);
@@ -123,33 +122,29 @@
   position: relative;
 }
 
-// ─── Arm slot (left of head = bot's right arm) ───────────────
+// ─── Arm slot ─────────────────────────────────────────────────
 .armSlot {
   width: 0;
   overflow: visible;
   position: relative;
-  // Hidden by default
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.25s ease;
 
   &_visible {
     opacity: 1;
-    pointer-events: none;
   }
 }
 
 // ─── Waving arm ───────────────────────────────────────────────
 .arm {
   position: absolute;
-  // Sits to the left of the head, slightly overlapping
   right: 8px;
   bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   transform-origin: bottom right;
-  // Whole arm waves
   animation: armWave 0.7s ease-in-out infinite alternate;
 }
 
@@ -164,7 +159,6 @@
   background: linear-gradient(to bottom, #7b7bcc, #4a4aaa);
   border-radius: 7px;
   box-shadow: 0 3px 10px rgba(0,0,0,0.3);
-  transform-origin: top center;
 }
 
 .arm__lower {
@@ -177,7 +171,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  transform-origin: top center;
   animation: forearmWave 0.7s ease-in-out infinite alternate;
 }
 
@@ -265,7 +258,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 18px;
+  gap: 14px;
   position: relative;
   overflow: hidden;
   box-shadow:
@@ -298,7 +291,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0;
 }
 
 .eye {
@@ -307,7 +299,6 @@
   justify-content: center;
 }
 
-// Normal: cyan glow ring
 .eye__outer {
   width: 44px;
   height: 44px;
@@ -322,7 +313,6 @@
   box-shadow: 0 0 12px rgba(0,198,255,0.22), inset 0 2px 4px rgba(0,0,0,0.5);
   transition: box-shadow 0.35s ease, border-color 0.35s ease;
 
-  // Green on hover
   &_green {
     border-color: rgba(93,202,165,0.5);
     box-shadow: 0 0 16px rgba(93,202,165,0.55), inset 0 2px 4px rgba(0,0,0,0.5);
@@ -355,7 +345,6 @@
   transition: transform 0.07s linear, background 0.35s ease, box-shadow 0.35s ease;
   box-shadow: 0 0 10px rgba(0,198,255,0.7);
 
-  // Green on hover
   &_green {
     background: radial-gradient(circle at 40% 35%, #5dff9e, #0fa060);
     box-shadow: 0 0 14px rgba(93,202,165,0.9);
@@ -414,78 +403,21 @@
   z-index: 3;
 }
 
-// ─── Mouth — ALL variants are CLOSED curves, no open mouth ───
+// ─── Mouth SVG ────────────────────────────────────────────────
+// The <svg> itself is the mouth container
 .mouth {
-  width: 60px;
-  height: 28px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  position: relative;
+  display: block;
+  overflow: visible;
+  flex-shrink: 0;
 }
 
-.mouth__curve {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+// The path inside SVG — CSS transition on d property not supported
+// so we animate via JS (config values in TSX)
+.mouth__path {
+  // transition handled inline in TSX via style prop
 }
 
-// Normal smile — medium ) arc
-.mouth_smile {
-  .mouth__curve {
-    width: 36px;
-    height: 16px;
-    border-bottom: 3px solid #00c6ff;
-    border-left:   3px solid transparent;
-    border-right:  3px solid transparent;
-    border-radius: 0 0 36px 36px;
-    background: transparent;
-    box-shadow: 0 4px 10px rgba(0,198,255,0.3);
-  }
-}
-
-// Grin — wider ) arc, still closed
-.mouth_grin {
-  .mouth__curve {
-    width: 50px;
-    height: 22px;
-    border-bottom: 3.5px solid #00e5ff;
-    border-left:   3.5px solid transparent;
-    border-right:  3.5px solid transparent;
-    border-radius: 0 0 50px 50px;
-    background: transparent;
-    box-shadow: 0 5px 16px rgba(0,198,255,0.5);
-    animation: grinPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-}
-
-@keyframes grinPop {
-  from { transform: translateX(-50%) scaleX(0.4) scaleY(0.3); opacity: 0; }
-  to   { transform: translateX(-50%) scaleX(1)   scaleY(1);   opacity: 1; }
-}
-
-// Green grin on hover
-.hovered .mouth_grin .mouth__curve,
-.hovered .mouth_smile .mouth__curve {
-  border-bottom-color: #5dff9e;
-  box-shadow: 0 5px 16px rgba(93,202,165,0.55);
-}
-
-// Neutral — straight line
-.mouth_neutral {
-  .mouth__curve {
-    width: 30px;
-    height: 3px;
-    background: linear-gradient(to right, transparent, rgba(0,198,255,0.65), transparent);
-    border-radius: 2px;
-    bottom: 8px;
-    box-shadow: none;
-  }
-}
-
-// ─── Shadow ───────────────────────────────────────────────────
+// ─── Shadow under bot ─────────────────────────────────────────
 .shadow {
   width: 120px;
   height: 14px;

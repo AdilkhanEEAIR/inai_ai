@@ -16,14 +16,14 @@ const BOT_REPLIES: Record<string, string[]> = {
     'Я могу помочь с вопросами о кредитах, ставках и условиях займов.',
     'Для расчёта кредитного скоринга перейдите в раздел «Кредитный скоринг».',
   ],
-  ставк: ['Процентные ставки зависят от суммы и срока займа. Минимальная ставка — от 8% годовых.'],
+  ставк:  ['Процентные ставки зависят от суммы и срока займа. Минимальная ставка — от 8% годовых.'],
   кредит: ['Кредит можно оформить на сумму от 50 000 до 5 000 000 ₸ сроком от 6 до 84 месяцев.'],
-  скоринг: ['Скоринг — это числовая оценка кредитоспособности заёмщика. Чем ниже P(default), тем надёжнее заёмщик.'],
+  скоринг:['Скоринг — это числовая оценка кредитоспособности заёмщика. Чем ниже P(default), тем надёжнее заёмщик.'],
   дефолт: ['Дефолт — невозврат кредита. Наша модель предсказывает его вероятность с точностью 78.5% ROC-AUC.'],
-  одобр: ['Решение об одобрении принимается автоматически на основе ML-модели. Обычно это занимает меньше секунды.'],
+  одобр:  ['Решение об одобрении принимается автоматически на основе ML-модели. Обычно это занимает меньше секунды.'],
   привет: ['Привет! 👋 Рад вас видеть. Спросите меня что-нибудь о кредитах или скоринге!'],
-  hello: ['Hello! 👋 How can I help you with your credit questions?'],
-  hi: ['Hi there! 😊 Ask me anything about credit scoring!'],
+  hello:  ['Hello! 👋 How can I help you with your credit questions?'],
+  hi:     ['Hi there! 😊 Ask me anything about credit scoring!'],
 }
 
 function getBotReply(text: string): string {
@@ -44,7 +44,7 @@ export default function ChatbotPage() {
   const [messages, setMessages] = useState<Message[]>(() => [
     { id: '0', role: 'bot', text: t.chatbot.welcome, ts: Date.now() },
   ])
-  const [input, setInput] = useState('')
+  const [input, setInput]   = useState('')
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -71,7 +71,6 @@ export default function ChatbotPage() {
     }, 800 + Math.random() * 600)
   }
 
-  // Fallback if translation doesn't have quickReplies
   const quickReplies: string[] = (t.chatbot as any).quickReplies ?? QUICK_REPLIES
 
   return (
@@ -84,11 +83,7 @@ export default function ChatbotPage() {
           <div className={s.botHero__text}>
             <h1 className={s.botHero__title}>{t.chatbot.title}</h1>
             <p className={s.botHero__sub}>{t.chatbot.subtitle}</p>
-            {/* Status pill */}
-            <div className={s.botHero__status}>
-              <span className={s.botHero__statusDot} />
-              <span>Онлайн · отвечает мгновенно</span>
-            </div>
+            {/* статус убран */}
           </div>
         </div>
 
@@ -144,12 +139,11 @@ export default function ChatbotPage() {
   )
 }
 
-// Small bot icon for chat bubbles
 function SmallBotIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
       <rect x="1" y="5" width="16" height="11" rx="3" fill="#1857a8" opacity=".9"/>
-      <circle cx="6.5" cy="10.5" r="1.5" fill="#00c6ff"/>
+      <circle cx="6.5"  cy="10.5" r="1.5" fill="#00c6ff"/>
       <circle cx="11.5" cy="10.5" r="1.5" fill="#00c6ff"/>
       <rect x="7.5" y="1" width="3" height="4" rx="1.5" fill="#1857a8"/>
       <circle cx="9" cy="1.5" r="1" fill="#00c6ff"/>
