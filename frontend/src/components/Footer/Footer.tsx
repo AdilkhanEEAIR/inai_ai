@@ -28,18 +28,6 @@ export default function Footer() {
             <Link to="/chatbot">{t.nav.chatbot}</Link>
             <Link to="/photo">{t.nav.photoAnalysis}</Link>
           </div>
-          <div className={s.footer__col}>
-            <h4>{t.footer.company}</h4>
-            <a href="#">{t.footer.about}</a>
-            <a href="#">{t.footer.team}</a>
-            <a href="#">{t.footer.contacts}</a>
-          </div>
-          <div className={s.footer__col}>
-            <h4>{t.footer.legal}</h4>
-            <a href="#">{t.footer.privacy}</a>
-            <a href="#">{t.footer.terms}</a>
-            <a href="#">{t.footer.licenses}</a>
-          </div>
         </div>
       </div>
 
