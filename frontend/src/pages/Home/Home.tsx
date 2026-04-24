@@ -3,7 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { useLangStore } from '../../store'
 import s from './Home.module.scss'
 
-// ─── Animated Canvas Particle Field ──────────────────────────
+// Импортируем видео (Vite автоматически обработает)
+import heroVideo from '../../videos/video1.mp4'
+import ctaVideo from '../../videos/video2.mp4'
+
+// ─── Animated Canvas Particle Field (оставляем поверх видео) ──
 function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -151,7 +155,22 @@ export default function HomePage() {
 
   return (
     <div className={s.home}>
+      {/* ── Hero секция с видеофоном ── */}
       <section className={s.hero}>
+        {/* Видеофон */}
+        <video
+          className={s.hero__video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster=""
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+        {/* Тёмный оверлей */}
+        <div className={s.hero__overlay} />
+        
         <ParticleCanvas />
         <div className={s.hero__orb1} />
         <div className={s.hero__orb2} />
@@ -175,7 +194,6 @@ export default function HomePage() {
               <span>{t.home.ctaPrimary}</span>
               <ArrowIcon />
             </button>
-            {/* Кнопка "Смотреть демо" удалена */}
           </div>
 
           <div className={s.hero__stats}>
@@ -203,6 +221,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Features ── */}
       <section className={s.features}>
         <div className={s.features__inner}>
           <div className={s.features__header}>
@@ -232,7 +251,21 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── CTA Banner с видеофоном ── */}
       <section className={s.cta_banner}>
+        {/* Видеофон */}
+        <video
+          className={s.cta_banner__video}
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster=""
+        >
+          <source src={ctaVideo} type="video/mp4" />
+        </video>
+        <div className={s.cta_banner__overlay} />
+        
         <div className={s.cta_banner__inner}>
           <div className={s.cta_banner__glow} />
           <h2>Начните прямо сейчас</h2>

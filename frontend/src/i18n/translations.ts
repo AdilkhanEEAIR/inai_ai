@@ -6,6 +6,7 @@ export interface Translations {
     photoAnalysis: string
     scoring: string
     login: string
+    register: string
     logout: string
     profile: string
   }
@@ -75,9 +76,11 @@ export interface Translations {
   }
   auth: {
     loginTitle: string
+    registerTitle: string
     email: string
     password: string
     loginBtn: string
+    registerBtn: string
     noAccount: string
     register: string
     orContinue: string
@@ -96,7 +99,8 @@ const ru: Translations = {
     chatbot: 'Чат-консультант',
     photoAnalysis: 'Анализ по фото',
     scoring: 'Кредитный скоринг',
-    login: 'Войти',
+    login: 'Вход',
+    register: 'Регистрация',
     logout: 'Выйти',
     profile: 'Профиль',
   },
@@ -165,10 +169,12 @@ const ru: Translations = {
     drag: 'Перетащите файл или нажмите для загрузки',
   },
   auth: {
-    loginTitle: 'Добро пожаловать',
+    loginTitle: 'Вход',
+    registerTitle: 'Регистрация',
     email: 'Email',
     password: 'Пароль',
     loginBtn: 'Войти',
+    registerBtn: 'Зарегистрироваться',
     noAccount: 'Нет аккаунта?',
     register: 'Зарегистрироваться',
     orContinue: 'или продолжить как гость',
@@ -188,6 +194,7 @@ const en: Translations = {
     photoAnalysis: 'Photo Analysis',
     scoring: 'Credit Scoring',
     login: 'Sign In',
+    register: 'Sign Up',
     logout: 'Sign Out',
     profile: 'Profile',
   },
@@ -256,10 +263,12 @@ const en: Translations = {
     drag: 'Drag a file or click to upload',
   },
   auth: {
-    loginTitle: 'Welcome back',
+    loginTitle: 'Sign In',
+    registerTitle: 'Sign Up',
     email: 'Email',
     password: 'Password',
     loginBtn: 'Sign In',
+    registerBtn: 'Sign Up',
     noAccount: "Don't have an account?",
     register: 'Register',
     orContinue: 'or continue as guest',
@@ -279,6 +288,7 @@ const ky: Translations = {
     photoAnalysis: 'Сүрөт талдоо',
     scoring: 'Кредит скоринг',
     login: 'Кирүү',
+    register: 'Катталуу',
     logout: 'Чыгуу',
     profile: 'Профиль',
   },
@@ -348,9 +358,11 @@ const ky: Translations = {
   },
   auth: {
     loginTitle: 'Кош келиңиз',
+    registerTitle: 'Катталуу',
     email: 'Email',
     password: 'Сырсөз',
     loginBtn: 'Кирүү',
+    registerBtn: 'Катталуу',
     noAccount: 'Аккаунтуңуз жокпу?',
     register: 'Катталуу',
     orContinue: 'же конок катары улантуу',
@@ -370,6 +382,7 @@ const de: Translations = {
     photoAnalysis: 'Fotoanalyse',
     scoring: 'Kredit-Scoring',
     login: 'Anmelden',
+    register: 'Registrieren',
     logout: 'Abmelden',
     profile: 'Profil',
   },
@@ -439,9 +452,11 @@ const de: Translations = {
   },
   auth: {
     loginTitle: 'Willkommen zurück',
+    registerTitle: 'Registrieren',
     email: 'E-Mail',
     password: 'Passwort',
     loginBtn: 'Anmelden',
+    registerBtn: 'Registrieren',
     noAccount: 'Kein Konto?',
     register: 'Registrieren',
     orContinue: 'oder als Gast fortfahren',
@@ -461,6 +476,7 @@ const fr: Translations = {
     photoAnalysis: 'Analyse Photo',
     scoring: 'Scoring Crédit',
     login: 'Connexion',
+    register: "S'inscrire",
     logout: 'Déconnexion',
     profile: 'Profil',
   },
@@ -530,9 +546,11 @@ const fr: Translations = {
   },
   auth: {
     loginTitle: 'Bon retour',
+    registerTitle: "S'inscrire",
     email: 'Email',
     password: 'Mot de passe',
     loginBtn: 'Se connecter',
+    registerBtn: "S'inscrire",
     noAccount: 'Pas de compte ?',
     register: "S'inscrire",
     orContinue: "ou continuer en tant qu'invité",
@@ -552,6 +570,7 @@ const zh: Translations = {
     photoAnalysis: '照片分析',
     scoring: '信用评分',
     login: '登录',
+    register: '注册',
     logout: '退出',
     profile: '个人资料',
   },
@@ -621,9 +640,11 @@ const zh: Translations = {
   },
   auth: {
     loginTitle: '欢迎回来',
+    registerTitle: '注册',
     email: '邮箱',
     password: '密码',
     loginBtn: '登录',
+    registerBtn: '注册',
     noAccount: '没有账号？',
     register: '注册',
     orContinue: '或以访客身份继续',
@@ -643,6 +664,7 @@ const ar: Translations = {
     photoAnalysis: 'تحليل الصور',
     scoring: 'تسجيل الائتمان',
     login: 'تسجيل الدخول',
+    register: 'تسجيل',
     logout: 'تسجيل الخروج',
     profile: 'الملف الشخصي',
   },
@@ -712,9 +734,11 @@ const ar: Translations = {
   },
   auth: {
     loginTitle: 'مرحباً بعودتك',
+    registerTitle: 'تسجيل',
     email: 'البريد الإلكتروني',
     password: 'كلمة المرور',
     loginBtn: 'تسجيل الدخول',
+    registerBtn: 'تسجيل',
     noAccount: 'ليس لديك حساب؟',
     register: 'التسجيل',
     orContinue: 'أو المتابعة كضيف',

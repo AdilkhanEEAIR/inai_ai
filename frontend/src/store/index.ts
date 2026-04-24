@@ -9,8 +9,22 @@ interface User {
   id: string
   name: string
   email: string
+  phone?: string
+  birthDate?: string
+  monthlyIncome?: number
+  employmentYears?: number
   role: 'employee' | 'client' | 'admin'
   avatar?: string
+}
+
+interface RegisterData {
+  fullName: string
+  email: string
+  password: string
+  phone?: string
+  birthDate?: string
+  monthlyIncome?: number
+  employmentYears?: number
 }
 
 interface AuthState {
@@ -18,6 +32,7 @@ interface AuthState {
   token: string | null
   isLoading: boolean
   login: (email: string, password: string) => Promise<void>
+  register: (data: RegisterData) => Promise<void>
   logout: () => void
   setLoading: (v: boolean) => void
 }
@@ -31,7 +46,6 @@ export const useAuthStore = create<AuthState>()(
 
       login: async (email: string, _password: string) => {
         set({ isLoading: true })
-        // Simulate API call — replace with real endpoint
         await new Promise((r) => setTimeout(r, 900))
         const mockUser: User = {
           id: '1',
@@ -40,6 +54,47 @@ export const useAuthStore = create<AuthState>()(
           role: email.includes('admin') ? 'admin' : email.includes('bank') ? 'employee' : 'client',
         }
         set({ user: mockUser, token: 'mock-jwt-token', isLoading: false })
+      },
+
+      register: async (data: RegisterData) => {
+        set({ isLoading: true })
+        await new Promise((r) => setTimeout(r, 1000))
+        
+        // Проверка на существующего пользователя
+        const savedUsers = localStorage.getItem('registered-users')
+        const users = savedUsers ? JSON.parse(savedUsers) : []
+        if (users.some((u: any) => u.email === data.email)) {
+          set({ isLoading: false })
+          throw new Error('User already exists')
+        }
+        
+        // Сохраняем пользователя
+        const newUser = {
+          id: Date.now().toString(),
+          name: data.fullName.split(' ')[0],
+          fullName: data.fullName,
+          email: data.email,
+          phone: data.phone || '',
+          birthDate: data.birthDate || '',
+          monthlyIncome: data.monthlyIncome || 0,
+          employmentYears: data.employmentYears || 0,
+          role: 'client' as const,
+        }
+        
+        users.push(newUser)
+        localStorage.setItem('registered-users', JSON.stringify(users))
+        
+        // Автоматически логиним после регистрации
+        set({ 
+          user: { 
+            id: newUser.id, 
+            name: newUser.name, 
+            email: newUser.email, 
+            role: newUser.role 
+          }, 
+          token: 'mock-jwt-token', 
+          isLoading: false 
+        })
       },
 
       logout: () => set({ user: null, token: null }),

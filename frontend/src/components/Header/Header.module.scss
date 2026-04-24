@@ -20,6 +20,7 @@
     border-bottom-color: $border-dim;
   }
 
+  // ── Logo ────────────────────────────────────────────────────
   &__logo {
     display: flex;
     align-items: center;
@@ -38,6 +39,7 @@
     }
   }
 
+  // ── Nav ─────────────────────────────────────────────────────
   &__nav {
     display: flex;
     align-items: center;
@@ -80,6 +82,7 @@
     }
   }
 
+  // ── Right container ─────────────────────────────────────────
   &__right {
     display: flex;
     align-items: center;
@@ -87,6 +90,7 @@
     flex-shrink: 0;
   }
 
+  // ── Language picker ─────────────────────────────────────────
   &__lang {
     position: relative;
 
@@ -153,109 +157,137 @@
     }
   }
 
-  &__auth {
-    &-btn {
+  // ── Auth buttons ────────────────────────────────────────────
+  &__auth-buttons {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__auth-login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: linear-gradient(135deg, $navy-500, $navy-400);
+    color: $white;
+    border-radius: $r-full;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: $font-display;
+    transition: transform 0.2s $ease-spring, box-shadow 0.2s ease;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(24,95,165,0.45);
+    }
+    &:active { transform: scale(0.97); }
+  }
+
+  &__auth-register {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid $border-mid;
+    color: $white;
+    border-radius: $r-full;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: $font-display;
+    transition: all 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      border-color: $accent-400;
+      background: rgba(0,198,255,0.08);
+      transform: translateY(-1px);
+    }
+    &:active { transform: scale(0.97); }
+  }
+
+  // ── User avatar dropdown ────────────────────────────────────
+  &__auth-avatar {
+    position: relative;
+    cursor: pointer;
+
+    &-img {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, $navy-500, $navy-300);
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 20px;
-      background: linear-gradient(135deg, $navy-500, $navy-400);
-      color: $white;
-      border-radius: $r-full;
-      font-size: 13px;
+      justify-content: center;
+      font-size: 14px;
       font-weight: 600;
-      font-family: $font-display;
-      transition: transform 0.2s $ease-spring, box-shadow 0.2s ease;
-      border: none;
-      cursor: pointer;
-
-      &:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 24px rgba(24,95,165,0.45);
-      }
-      &:active { transform: scale(0.97); }
+      color: $white;
+      border: 2px solid $border-mid;
+      transition: border-color 0.2s ease;
+      user-select: none;
     }
 
-    &-avatar {
-      position: relative;
-      cursor: pointer;
+    &:hover &-img { border-color: $accent-400; }
 
-      &-img {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, $navy-500, $navy-300);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        font-weight: 600;
-        color: $white;
-        border: 2px solid $border-mid;
-        transition: border-color 0.2s ease;
-        user-select: none;
+    &-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: $navy-800;
+      border: 1px solid $border-mid;
+      border-radius: $r-md;
+      padding: 8px;
+      min-width: 185px;
+      animation: slideDown 0.18s $ease-out forwards;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+      z-index: 200;
+
+      &-header {
+        padding: 8px 10px 10px;
+        border-bottom: 1px solid $border-dim;
+        margin-bottom: 6px;
+
+        .name { font-size: 13px; font-weight: 600; color: $white; }
+        .email {
+          font-size: 11px;
+          color: $text-muted;
+          margin-top: 1px;
+          font-family: $font-mono;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        .role-badge {
+          display: inline-block;
+          margin-top: 6px;
+          font-size: 10px;
+          padding: 2px 8px;
+          border-radius: $r-full;
+          background: rgba(0,198,255,0.12);
+          color: $accent-400;
+          border: 1px solid rgba(0,198,255,0.22);
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+        }
       }
 
-      &:hover &-img { border-color: $accent-400; }
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 10px;
+        border-radius: $r-sm;
+        font-size: 13px;
+        color: $text-muted;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease;
 
-      &-menu {
-        position: absolute;
-        top: calc(100% + 10px);
-        right: 0;
-        background: $navy-800;
-        border: 1px solid $border-mid;
-        border-radius: $r-md;
-        padding: 8px;
-        min-width: 185px;
-        animation: slideDown 0.18s $ease-out forwards;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-        z-index: 200;
-
-        &-header {
-          padding: 8px 10px 10px;
-          border-bottom: 1px solid $border-dim;
-          margin-bottom: 6px;
-
-          .name { font-size: 13px; font-weight: 600; color: $white; }
-          .email {
-            font-size: 11px;
-            color: $text-muted;
-            margin-top: 1px;
-            font-family: $font-mono;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          .role-badge {
-            display: inline-block;
-            margin-top: 6px;
-            font-size: 10px;
-            padding: 2px 8px;
-            border-radius: $r-full;
-            background: rgba(0,198,255,0.12);
-            color: $accent-400;
-            border: 1px solid rgba(0,198,255,0.22);
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-          }
-        }
-
-        &-item {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          padding: 8px 10px;
-          border-radius: $r-sm;
-          font-size: 13px;
-          color: $text-muted;
-          cursor: pointer;
-          transition: background 0.15s ease, color 0.15s ease;
-
-          &:hover { background: rgba(255,255,255,0.06); color: $white; }
-          &.danger {
-            color: #f09595;
-            &:hover { background: rgba(240,149,149,0.08); }
-          }
+        &:hover { background: rgba(255,255,255,0.06); color: $white; }
+        &.danger {
+          color: #f09595;
+          &:hover { background: rgba(240,149,149,0.08); }
         }
       }
     }
@@ -276,9 +308,9 @@
   }
   .header__lang-btn {
     padding: 6px 8px;
-    .code { display: none; } // скрываем код языка, оставляем флаг
+    .code { display: none; }
   }
-  .header__auth-btn {
+  .header__auth-login, .header__auth-register {
     padding: 6px 14px;
     font-size: 12px;
   }
@@ -286,6 +318,12 @@
 
 @media (max-width: 600px) {
   .header__nav a:nth-child(2) {
-    display: none; // скрываем "Анализ по фото" на совсем узких экранах
+    display: none;
+  }
+  .header__auth-register span {
+    display: none;
+  }
+  .header__auth-register {
+    padding: 6px 10px;
   }
 }

@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-// ─── Hero ─────────────────────────────────────────────────────
+// ─── Hero с видеофоном ─────────────────────────────────────────
 .hero {
   position: relative;
   min-height: 100vh;
@@ -15,23 +15,41 @@
   overflow: hidden;
   padding: 0 24px;
 
+  &__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 13, 26, 0.7);
+    z-index: 1;
+  }
+
   &__canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     pointer-events: none;
+    z-index: 2;
   }
 
-  // Gradient mesh background
+  &__orb1, &__orb2 {
+    z-index: 2;
+  }
+
   &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(14,45,90,0.9) 0%, transparent 70%),
-      radial-gradient(ellipse 60% 40% at 20% 20%, rgba(10,32,64,0.6) 0%, transparent 60%);
-    pointer-events: none;
+    display: none; // убираем старый градиент
   }
 
   &__orb1 {
@@ -44,6 +62,7 @@
     border-radius: 50%;
     pointer-events: none;
     animation: float 8s ease-in-out infinite;
+    z-index: 2;
   }
 
   &__orb2 {
@@ -56,11 +75,12 @@
     border-radius: 50%;
     pointer-events: none;
     animation: float 10s ease-in-out infinite reverse;
+    z-index: 2;
   }
 
   &__content {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     text-align: center;
     max-width: 760px;
     opacity: 0;
@@ -191,13 +211,12 @@
     flex-shrink: 0;
   }
 
-  // Scroll indicator
   &__scroll {
     position: absolute;
     bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2;
+    z-index: 3;
   }
 
   &__scroll_mouse {
@@ -224,10 +243,12 @@
   50% { transform: translateY(8px); opacity: 0.3; }
 }
 
-// ─── Features ─────────────────────────────────────────────────
+// ─── Features (без изменений) ─────────────────────────────────
 .features {
   padding: 100px 24px;
   position: relative;
+  z-index: 2;
+  background: $navy-950; // фон для раздела
 
   &::before {
     content: '';
@@ -366,19 +387,43 @@
   }
 }
 
-// ─── CTA Banner ───────────────────────────────────────────────
+// ─── CTA Banner с видеофоном ───────────────────────────────────
 .cta_banner {
+  position: relative;
   padding: 80px 24px;
+  overflow: hidden;
+
+  &__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(2, 13, 26, 0.75);
+    z-index: 1;
+  }
 
   &__inner {
+    position: relative;
+    z-index: 2;
     max-width: 600px;
     margin: 0 auto;
     text-align: center;
-    position: relative;
     padding: 64px 48px;
     border: 1px solid $border-mid;
     border-radius: $r-xl;
     background: rgba(10,32,64,0.4);
+    backdrop-filter: blur(10px);
     overflow: hidden;
   }
 
@@ -408,7 +453,7 @@
   .btn-accent { position: relative; }
 }
 
-// добавить в конец файла после всех основных стилей
+// ─── Адаптивность ─────────────────────────────────────────────
 @media (max-width: 600px) {
   .hero__stats {
     flex-direction: column;
