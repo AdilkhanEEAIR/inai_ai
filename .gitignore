@@ -1,0 +1,42 @@
+# ─── Python виртуальное окружение ────────────────────────────
+backend/venv/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+.env
+.env.local
+.env.production
+backend/.env
+*.key
+secrets.json
+
+# ─── ML модель (большой файл, не нужен в git) ─────────────────
+backend/model.pkl
+*.pkl
+*.joblib
+
+# ─── Node / Frontend ──────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+frontend/.env.local
+dist/
+
+# ─── OS мусор ────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# ─── IDE ──────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.iml

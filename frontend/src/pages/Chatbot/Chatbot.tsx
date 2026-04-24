@@ -3,86 +3,182 @@ import { useLangStore } from '../../store'
 import BotFace from './BotFace'
 import s from './Chatbot.module.scss'
 
+// ─── Types ────────────────────────────────────────────────────
 interface Message {
   id: string
   role: 'user' | 'bot'
   text: string
   ts: number
+  error?: boolean
 }
 
-const BOT_REPLIES: Record<string, string[]> = {
-  default: [
-    'Чтобы ответить точнее, уточните ваш вопрос о кредитном продукте.',
-    'Я могу помочь с вопросами о кредитах, ставках и условиях займов.',
-    'Для расчёта кредитного скоринга перейдите в раздел «Кредитный скоринг».',
-  ],
-  ставк:   ['Процентные ставки зависят от суммы и срока займа. Минимальная ставка — от 8% годовых.'],
-  кредит:  ['Кредит можно оформить на сумму от 50 000 до 5 000 000 сом сроком от 6 до 84 месяцев.'],
-  скоринг: ['Скоринг — это числовая оценка кредитоспособности заёмщика. Чем ниже P(default), тем надёжнее заёмщик.'],
-  дефолт:  ['Дефолт — невозврат кредита. Наша модель предсказывает его вероятность с точностью 78.5% ROC-AUC.'],
-  одобр:   ['Решение об одобрении принимается автоматически на основе ML-модели. Обычно это занимает меньше секунды.'],
-  привет:  ['Привет! 👋 Рад вас видеть. Спросите меня что-нибудь о кредитах или скоринге!'],
-  hello:   ['Hello! 👋 How can I help you with your credit questions?'],
-  hi:      ['Hi there! 😊 Ask me anything about credit scoring!'],
-}
-
-function getBotReply(text: string): string {
-  const lower = text.toLowerCase()
-  for (const [key, replies] of Object.entries(BOT_REPLIES)) {
-    if (key !== 'default' && lower.includes(key)) {
-      return replies[Math.floor(Math.random() * replies.length)]
-    }
-  }
-  return BOT_REPLIES.default[Math.floor(Math.random() * BOT_REPLIES.default.length)]
+// История для отправки на бекенд (последние N сообщений)
+interface ApiMessage {
+  role: 'user' | 'assistant'
+  text: string
 }
 
 const QUICK_REPLIES = [
-  'Каковы ставки?',
-  'Как работает скоринг?',
-  'Условия кредита',
+  'Каковы ставки по кредитам?',
+  'Как улучшить кредитный скоринг?',
   'Что такое дефолт?',
+  'Как рассчитать переплату?',
 ]
 
+const API_URL = '/api/chat'
+const MAX_HISTORY = 10 // последних сообщений отправляем в контекст
+
+// ─── Message text renderer ────────────────────────────────────
+// Парсит простой текст: нумерованные списки, тире-списки, абзацы
+function MessageText({ text }: { text: string }) {
+  const lines = text.split('\n')
+
+  const elements: React.ReactNode[] = []
+  let i = 0
+
+  while (i < lines.length) {
+    const line = lines[i].trim()
+
+    if (!line) {
+      i++
+      continue
+    }
+
+    // Нумерованный список: "1. текст"
+    if (/^\d+\.\s/.test(line)) {
+      const listItems: string[] = []
+      while (i < lines.length && /^\d+\.\s/.test(lines[i].trim())) {
+        listItems.push(lines[i].trim().replace(/^\d+\.\s/, ''))
+        i++
+      }
+      elements.push(
+        <ol key={i} className={s.msgList}>
+          {listItems.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+        </ol>
+      )
+      continue
+    }
+
+    // Тире-список: "- текст" или "• текст"
+    if (/^[-•]\s/.test(line)) {
+      const listItems: string[] = []
+      while (i < lines.length && /^[-•]\s/.test(lines[i].trim())) {
+        listItems.push(lines[i].trim().replace(/^[-•]\s/, ''))
+        i++
+      }
+      elements.push(
+        <ul key={i} className={s.msgList}>
+          {listItems.map((item, idx) => (
+            <li key={idx}>{item}</li>
+          ))}
+        </ul>
+      )
+      continue
+    }
+
+    // Обычный абзац
+    elements.push(
+      <p key={i} className={s.msgPara}>
+        {line}
+      </p>
+    )
+    i++
+  }
+
+  return <div className={s.msgText}>{elements}</div>
+}
+
+// ─── Main component ───────────────────────────────────────────
 export default function ChatbotPage() {
   const { t } = useLangStore()
-  const [messages, setMessages] = useState<Message[]>(() => [
-    { id: '0', role: 'bot', text: t.chatbot.welcome, ts: Date.now() },
+
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '0',
+      role: 'bot',
+      text: 'Здравствуйте! Я финансовый консультант Кredиtоr. Задайте любой вопрос о кредитах, ставках или скоринге — помогу разобраться.',
+      ts: Date.now(),
+    },
   ])
-  const [input,  setInput]  = useState('')
-  const [typing, setTyping] = useState(false)
+  const [input,   setInput]   = useState('')
+  const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, typing])
+  }, [messages, loading])
 
-  const send = (text?: string) => {
+  // Строим историю для API из последних сообщений
+  const buildHistory = (msgs: Message[]): ApiMessage[] => {
+    return msgs
+      .filter((m) => !m.error)
+      .slice(-MAX_HISTORY)
+      .map((m) => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        text: m.text,
+      }))
+  }
+
+  const send = async (text?: string) => {
     const txt = (text ?? input).trim()
-    if (!txt) return
+    if (!txt || loading) return
+
     const userMsg: Message = {
       id: Date.now().toString(),
       role: 'user',
       text: txt,
       ts: Date.now(),
     }
-    setMessages((p) => [...p, userMsg])
+
+    setMessages((prev) => [...prev, userMsg])
     setInput('')
-    setTyping(true)
-    setTimeout(() => {
-      setTyping(false)
-      setMessages((p) => [
-        ...p,
+    setLoading(true)
+
+    try {
+      // Строим историю включая новое сообщение пользователя
+      const history = buildHistory([...messages, userMsg])
+
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: history }),
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}`)
+      }
+
+      const data = await res.json()
+
+      setMessages((prev) => [
+        ...prev,
         {
           id: (Date.now() + 1).toString(),
           role: 'bot',
-          text: getBotReply(txt),
+          text: data.reply,
           ts: Date.now(),
         },
       ])
-    }, 800 + Math.random() * 600)
+    } catch (err) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: (Date.now() + 1).toString(),
+          role: 'bot',
+          text: 'Не удалось получить ответ. Проверьте подключение или попробуйте позже.',
+          ts: Date.now(),
+          error: true,
+        },
+      ])
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const quickReplies: string[] = (t.chatbot as any).quickReplies ?? QUICK_REPLIES
+  const quickReplies: string[] =
+    (t.chatbot as any).quickReplies ?? QUICK_REPLIES
 
   return (
     <div className={`page ${s.page}`}>
@@ -97,24 +193,27 @@ export default function ChatbotPage() {
           </div>
         </div>
 
-        {/* ── Chat block with animated rainbow border ── */}
+        {/* ── Chat block with animated border ── */}
         <div className={s.chatWrap}>
           <div className={s.chat}>
             {messages.map((m) => (
               <div
                 key={m.id}
-                className={`${s.msg} ${m.role === 'user' ? s.user : s.bot}`}
+                className={`${s.msg} ${m.role === 'user' ? s.user : s.bot} ${m.error ? s.msgError : ''}`}
               >
                 {m.role === 'bot' && (
                   <div className={s.msg__avatar}>
                     <SmallBotIcon />
                   </div>
                 )}
-                <div className={s.msg__bubble}>{m.text}</div>
+                <div className={s.msg__bubble}>
+                  <MessageText text={m.text} />
+                </div>
               </div>
             ))}
 
-            {typing && (
+            {/* Typing indicator while loading */}
+            {loading && (
               <div className={`${s.msg} ${s.bot}`}>
                 <div className={s.msg__avatar}><SmallBotIcon /></div>
                 <div className={`${s.msg__bubble} ${s.typing}`}>
@@ -130,27 +229,38 @@ export default function ChatbotPage() {
         {/* ── Quick replies ── */}
         <div className={s.quick}>
           {quickReplies.map((q) => (
-            <button key={q} className={s.quick__btn} onClick={() => send(q)}>
+            <button
+              key={q}
+              className={s.quick__btn}
+              onClick={() => send(q)}
+              disabled={loading}
+            >
               {q}
             </button>
           ))}
         </div>
 
-        {/* ── Input ── */}
+        {/* ── Input row ── */}
         <div className={s.input_row}>
           <input
             className={s.input}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder={t.chatbot.placeholder}
-            onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && send()}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                send()
+              }
+            }}
+            disabled={loading}
           />
           <button
             className={s.send_btn}
             onClick={() => send()}
-            disabled={!input.trim()}
+            disabled={!input.trim() || loading}
           >
-            <SendIcon />
+            {loading ? <SpinnerIcon /> : <SendIcon />}
           </button>
         </div>
 
@@ -159,6 +269,7 @@ export default function ChatbotPage() {
   )
 }
 
+// ─── Icons ────────────────────────────────────────────────────
 function SmallBotIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -181,6 +292,18 @@ function SendIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  )
+}
+
+function SpinnerIcon() {
+  return (
+    <svg
+      width="16" height="16" viewBox="0 0 16 16" fill="none"
+      style={{ animation: 'spin 0.7s linear infinite' }}
+    >
+      <circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.3)" strokeWidth="2"/>
+      <path d="M8 2a6 6 0 0 1 6 6" stroke="white" strokeWidth="2" strokeLinecap="round"/>
     </svg>
   )
 }
