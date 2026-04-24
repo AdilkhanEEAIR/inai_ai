@@ -4,7 +4,7 @@
   overflow: hidden;
 }
 
-// ─── Hero с видеофоном ─────────────────────────────────────────
+// ─── Hero секция с видеофоном ─────────────────────────────────
 .hero {
   position: relative;
   min-height: 100vh;
@@ -31,7 +31,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(2, 13, 26, 0.7);
+    background: rgba(2, 13, 26, 0.65);
     z-index: 1;
   }
 
@@ -48,21 +48,16 @@
     z-index: 2;
   }
 
-  &::before {
-    display: none; // убираем старый градиент
-  }
-
   &__orb1 {
     position: absolute;
     top: 10%;
     left: 8%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(24,95,165,0.18) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(24,95,165,0.2) 0%, transparent 60%);
     border-radius: 50%;
     pointer-events: none;
     animation: float 8s ease-in-out infinite;
-    z-index: 2;
   }
 
   &__orb2 {
@@ -71,11 +66,10 @@
     right: 5%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(0,198,255,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(0,198,255,0.12) 0%, transparent 60%);
     border-radius: 50%;
     pointer-events: none;
     animation: float 10s ease-in-out infinite reverse;
-    z-index: 2;
   }
 
   &__content {
@@ -98,15 +92,15 @@
     align-items: center;
     gap: 8px;
     padding: 6px 16px;
-    background: rgba(0,198,255,0.08);
-    border: 1px solid rgba(0,198,255,0.2);
+    background: rgba(0,198,255,0.12);
+    border: 1px solid rgba(0,198,255,0.25);
     border-radius: $r-full;
     font-size: 12px;
     font-weight: 500;
     color: $accent-300;
     letter-spacing: 0.4px;
     margin-bottom: 28px;
-    animation-delay: 0.1s;
+    backdrop-filter: blur(4px);
   }
 
   &__badge_dot {
@@ -134,6 +128,7 @@
     letter-spacing: -2px;
     margin-bottom: 22px;
     color: $white;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.3);
   }
 
   &__headline_line1 {
@@ -158,16 +153,7 @@
     line-height: 1.7;
     max-width: 540px;
     margin: 0 auto 36px;
-    letter-spacing: 0.1px;
-  }
-
-  &__cta {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin-bottom: 52px;
-    flex-wrap: wrap;
+    text-shadow: 0 1px 10px rgba(0,0,0,0.2);
   }
 
   &__stats {
@@ -175,7 +161,7 @@
     align-items: center;
     gap: 0;
     padding: 16px 28px;
-    background: rgba(10,32,64,0.55);
+    background: rgba(10,32,64,0.6);
     border: 1px solid $border-mid;
     border-radius: $r-xl;
     backdrop-filter: blur(12px);
@@ -194,7 +180,6 @@
     font-size: 22px;
     font-weight: 500;
     color: $white;
-    letter-spacing: -0.5px;
   }
 
   &__stat_label {
@@ -208,7 +193,6 @@
     width: 1px;
     height: 36px;
     background: $border-dim;
-    flex-shrink: 0;
   }
 
   &__scroll {
@@ -222,7 +206,7 @@
   &__scroll_mouse {
     width: 22px;
     height: 36px;
-    border: 1.5px solid rgba(255,255,255,0.2);
+    border: 1.5px solid rgba(255,255,255,0.3);
     border-radius: 12px;
     display: flex;
     justify-content: center;
@@ -243,152 +227,8 @@
   50% { transform: translateY(8px); opacity: 0.3; }
 }
 
-// ─── Features (без изменений) ─────────────────────────────────
-.features {
-  padding: 100px 24px;
-  position: relative;
-  z-index: 2;
-  background: $navy-950; // фон для раздела
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, $border-mid);
-  }
-
-  &__inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 52px;
-
-    h2 {
-      font-size: 14px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.2px;
-      color: $text-hint;
-      white-space: nowrap;
-    }
-  }
-
-  &__line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(to right, $border-mid, transparent);
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-
-    @media (max-width: 900px) {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-
-.feature_card {
-  position: relative;
-  padding: 32px 28px;
-  background: rgba(10,32,64,0.4);
-  border: 1px solid $border-dim;
-  border-radius: $r-xl;
-  cursor: pointer;
-  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s $ease-spring;
-  overflow: hidden;
-  animation: fadeUp 0.6s $ease-out forwards;
-  opacity: 0;
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(var(--feat-r, 34), var(--feat-g, 114), var(--feat-b, 216), 0.12), transparent 70%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    pointer-events: none;
-  }
-
-  &:hover {
-    border-color: $border-mid;
-    background: rgba(10,32,64,0.7);
-    transform: translateY(-5px);
-
-    &::before { opacity: 1; }
-
-    .feature_card__arrow {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .feature_card__icon {
-      transform: scale(1.08);
-    }
-  }
-
-  &__icon {
-    width: 52px;
-    height: 52px;
-    border-radius: $r-md;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid $border-dim;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    color: var(--feat-color, $navy-300);
-    transition: transform 0.25s $ease-spring;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: inherit;
-      border: 1px solid var(--feat-color, $navy-300);
-      opacity: 0.25;
-    }
-  }
-
-  h3 {
-    font-size: 17px;
-    font-weight: 600;
-    color: $white;
-    margin-bottom: 10px;
-    letter-spacing: -0.3px;
-  }
-
-  p {
-    font-size: 13.5px;
-    color: $text-muted;
-    line-height: 1.65;
-  }
-
-  &__arrow {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-    color: $navy-300;
-    opacity: 0;
-    transform: translateX(-6px);
-    transition: opacity 0.2s ease, transform 0.2s $ease-spring;
-  }
-}
-
-// ─── CTA Banner с видеофоном ───────────────────────────────────
-.cta_banner {
+// ─── Объединённый блок (видеофон + карточки + CTA) ───────────
+.mainBlock {
   position: relative;
   padding: 80px 24px;
   overflow: hidden;
@@ -416,49 +256,162 @@
   &__inner {
     position: relative;
     z-index: 2;
-    max-width: 600px;
+    max-width: 1200px;
     margin: 0 auto;
-    text-align: center;
-    padding: 64px 48px;
-    border: 1px solid $border-mid;
-    border-radius: $r-xl;
-    background: rgba(10,32,64,0.4);
-    backdrop-filter: blur(10px);
-    overflow: hidden;
   }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 52px;
+
+    h2 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: $text-hint;
+      white-space: nowrap;
+    }
+  }
+
+  &__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, $border-mid, transparent);
+  }
+}
+
+// Карточки
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 80px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+.card {
+  position: relative;
+  padding: 32px 28px;
+  background: rgba(10,32,64,0.5);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border-mid;
+  border-radius: $r-xl;
+  cursor: pointer;
+  transition: all 0.3s $ease-spring;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(0,198,255,0.08), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    transform: translateY(-8px);
+    border-color: rgba(0,198,255,0.4);
+    background: rgba(10,32,64,0.7);
+
+    &::before { opacity: 1; }
+    .card__arrow { opacity: 1; transform: translateX(0); }
+    .card__icon { transform: scale(1.05); }
+  }
+
+  &__icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    transition: transform 0.3s $ease-spring;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+
+    svg {
+      width: 32px;
+      height: 32px;
+      color: $white;
+    }
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: $white;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+
+  &__desc {
+    font-size: 14px;
+    color: $text-muted;
+    line-height: 1.6;
+  }
+
+  &__arrow {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    color: $accent-400;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.25s $ease-spring;
+  }
+}
+
+// CTA баннер под карточками
+.ctaBanner {
+  position: relative;
+  text-align: center;
+  padding: 48px 32px;
+  background: rgba(10,32,64,0.6);
+  backdrop-filter: blur(12px);
+  border: 1px solid $border-mid;
+  border-radius: $r-xl;
+  overflow: hidden;
 
   &__glow {
     position: absolute;
     inset: -50%;
-    background: radial-gradient(circle at 50% 100%, rgba(0,198,255,0.1) 0%, transparent 50%);
+    background: radial-gradient(circle at 50% 100%, rgba(0,198,255,0.12), transparent 60%);
     pointer-events: none;
   }
 
-  h2 {
-    font-size: 34px;
+  h3 {
+    font-size: 32px;
     font-weight: 700;
     color: $white;
-    letter-spacing: -0.8px;
     margin-bottom: 12px;
-    position: relative;
+    letter-spacing: -0.5px;
   }
 
   p {
-    font-size: 15px;
+    font-size: 16px;
     color: $text-muted;
-    margin-bottom: 32px;
-    position: relative;
+    margin-bottom: 28px;
   }
 
-  .btn-accent { position: relative; }
+  button {
+    margin: 0 auto;
+  }
 }
 
-// ─── Адаптивность ─────────────────────────────────────────────
-@media (max-width: 600px) {
+// Адаптивность
+@media (max-width: 768px) {
   .hero__stats {
     flex-direction: column;
-    padding: 16px;
     gap: 16px;
+    padding: 20px;
   }
   .hero__stat_divider {
     display: none;
@@ -466,23 +419,33 @@
   .hero__stat {
     padding: 0;
     width: 100%;
-    text-align: center;
   }
-  .hero__cta {
-    flex-direction: column;
-    button {
-      width: 100%;
-      justify-content: center;
-    }
+  
+  .mainBlock {
+    padding: 60px 20px;
   }
-  .features {
-    padding: 60px 16px;
-  }
-  .feature_card {
+  
+  .card {
     padding: 24px 20px;
   }
-  .cta_banner__inner {
-    padding: 40px 24px;
-    h2 { font-size: 28px; }
+  
+  .ctaBanner {
+    padding: 36px 24px;
+    
+    h3 {
+      font-size: 26px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .card__title {
+    font-size: 18px;
+  }
+  .ctaBanner h3 {
+    font-size: 22px;
+  }
+  .hero__headline {
+    font-size: 36px;
   }
 }
