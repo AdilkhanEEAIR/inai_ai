@@ -9,11 +9,11 @@ import ScoringPage from './pages/Scoring/Scoring'
 import ChatbotPage from './pages/Chatbot/Chatbot'
 import PhotoAnalysisPage from './pages/PhotoAnalysis/PhotoAnalysis'
 import LoginPage from './pages/Login/Login'
+import ProfilePage from './pages/Profile/Profile'
 
 function AppContent() {
   const { lang } = useLangStore()
 
-  // Apply RTL for Arabic
   useEffect(() => {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
     document.documentElement.lang = lang
@@ -23,11 +23,12 @@ function AppContent() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/"        element={<HomePage />} />
         <Route path="/scoring" element={<ScoringPage />} />
         <Route path="/chatbot" element={<ChatbotPage />} />
-        <Route path="/photo" element={<PhotoAnalysisPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/photo"   element={<PhotoAnalysisPage />} />
+        <Route path="/login"   element={<LoginPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
       <Footer />
     </>

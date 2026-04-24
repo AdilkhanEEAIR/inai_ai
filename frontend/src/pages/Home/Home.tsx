@@ -43,7 +43,6 @@ function ParticleCanvas() {
 
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
-
       for (let i = 0; i < N; i++) {
         for (let j = i + 1; j < N; j++) {
           const dx = particles[i].x - particles[j].x
@@ -69,17 +68,14 @@ function ParticleCanvas() {
           p.vx += (mdx / md) * 0.08
           p.vy += (mdy / md) * 0.08
         }
-
         p.vx *= 0.995
         p.vy *= 0.995
         p.x += p.vx
         p.y += p.vy
-
         if (p.x < 0) p.x = w
         if (p.x > w) p.x = 0
         if (p.y < 0) p.y = h
         if (p.y > h) p.y = 0
-
         const a = p.alpha + Math.sin(p.pulse) * 0.08
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
@@ -100,8 +96,8 @@ function ParticleCanvas() {
   return <canvas ref={canvasRef} className={s.hero__canvas} />
 }
 
-function CountUp({ to, suffix = '' }: { to: string; suffix?: string }) {
-  return <span>{to}{suffix}</span>
+function CountUp({ to }: { to: string }) {
+  return <span>{to}</span>
 }
 
 export default function HomePage() {
@@ -120,22 +116,22 @@ export default function HomePage() {
       title: t.nav.chatbot,
       desc: t.home.feat2desc,
       path: '/chatbot',
-      gradient: 'linear-gradient(135deg, #00c6ff, #2272d8)'
+      gradient: 'linear-gradient(135deg, #00c6ff, #2272d8)',
     },
     {
       icon: <PhotoIcon />,
       title: t.nav.photoAnalysis,
       desc: t.home.feat3desc,
       path: '/photo',
-      gradient: 'linear-gradient(135deg, #5499e8, #1857a8)'
+      gradient: 'linear-gradient(135deg, #5499e8, #1857a8)',
     },
     {
       icon: <ScoringIcon />,
       title: t.nav.scoring,
       desc: t.home.feat1desc,
       path: '/scoring',
-      gradient: 'linear-gradient(135deg, #2272d8, #134080)'
-    }
+      gradient: 'linear-gradient(135deg, #2272d8, #134080)',
+    },
   ]
 
   return (
@@ -145,16 +141,13 @@ export default function HomePage() {
           <source src={heroVideo} type="video/mp4" />
         </video>
         <div className={s.hero__overlay} />
-        
+
         <ParticleCanvas />
         <div className={s.hero__orb1} />
         <div className={s.hero__orb2} />
 
         <div className={`${s.hero__content} ${visible ? s.visible : ''}`}>
-          <div className={s.hero__badge}>
-            <span className={s.hero__badge_dot} />
-            {t.home.badge}
-          </div>
+          {/* badge убран */}
 
           <h1 className={s.hero__headline}>
             <span className={s.hero__headline_line1}>{t.home.headline1}</span>
@@ -214,9 +207,7 @@ export default function HomePage() {
                 </div>
                 <h3 className={s.card__title}>{f.title}</h3>
                 <p className={s.card__desc}>{f.desc}</p>
-                <div className={s.card__arrow}>
-                  <ArrowIcon />
-                </div>
+                <div className={s.card__arrow}><ArrowIcon /></div>
               </div>
             ))}
           </div>
@@ -246,7 +237,6 @@ function ChatIcon() {
     </svg>
   )
 }
-
 function PhotoIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -256,7 +246,6 @@ function PhotoIcon() {
     </svg>
   )
 }
-
 function ScoringIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
@@ -266,7 +255,6 @@ function ScoringIcon() {
     </svg>
   )
 }
-
 function ArrowIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

@@ -6,18 +6,28 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
+  padding-top: 88px;
   background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,45,90,0.5) 0%, transparent 60%);
 }
 
 .card {
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   background: rgba(10,32,64,0.5);
   border: 1px solid $border-mid;
   border-radius: $r-xl;
-  padding: 32px 28px;
+  padding: 36px 32px;
   backdrop-filter: blur(20px);
   animation: fadeUp 0.5s $ease-out forwards;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: $white;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
 }
 
 .logo {
@@ -25,86 +35,86 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: $white;
-  margin-bottom: 24px;
+  margin-bottom: 22px;
+  letter-spacing: -0.3px;
 
-  strong { color: $accent-400; }
-
-  &__icon {
-    width: 36px;
-    height: 72px;
-    border-radius: 9px;
-    background: linear-gradient(135deg, $navy-500, $navy-300);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 800;
+  &__img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px;
   }
 }
 
-// Tabs styles
 .tabs {
   display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid $border-dim;
-  padding-bottom: 12px;
+  gap: 0;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $border-dim;
+  border-radius: $r-md;
+  padding: 3px;
+  margin-bottom: 20px;
 }
 
 .tab {
   flex: 1;
-  padding: 10px 0;
-  background: transparent;
-  border: none;
+  padding: 9px;
+  border-radius: calc(#{$r-md} - 3px);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: $font-display;
   color: $text-muted;
-  font-size: 15px;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-radius: $r-sm;
-  font-family: $font-display;
-
-  &:hover {
-    color: $white;
-    background: rgba(255,255,255,0.04);
-  }
+  border: none;
+  background: transparent;
 
   &.active {
-    color: $accent-400;
-    background: rgba(0,198,255,0.08);
+    background: $navy-700;
+    color: $white;
+    border: 1px solid $navy-500;
   }
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  margin-bottom: 20px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .formGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
 
   label {
-    font-size: 11px;
+    font-size: 11.5px;
     color: $text-muted;
     font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
   }
 
-  input {
-    padding: 10px 12px;
+  input, select {
+    padding: 10px 13px;
     background: rgba(255,255,255,0.04);
     border: 1px solid $border-dim;
     border-radius: $r-sm;
@@ -113,21 +123,123 @@
     font-family: $font-display;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
-    &::placeholder { color: $text-hint; font-size: 12px; }
+    &::placeholder { color: $text-hint; }
     &:focus {
       border-color: $navy-400;
       box-shadow: 0 0 0 3px rgba(34,114,216,0.15);
       outline: none;
     }
+
+    option { background: $navy-800; color: $white; }
   }
 }
 
+.fullWidth {
+  grid-column: 1 / -1;
+}
+
+// ─── Phone input ──────────────────────────────────────────────
+.phoneWrap {
+  display: flex;
+  gap: 8px;
+  position: relative;
+}
+
+.countryBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $border-dim;
+  border-radius: $r-sm;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  &:hover {
+    border-color: $border-mid;
+    background: rgba(255,255,255,0.07);
+  }
+}
+
+.countryFlag { font-size: 16px; line-height: 1; }
+
+.countryCode {
+  font-family: $font-mono;
+  font-size: 12px;
+  color: $navy-200;
+}
+
+.countryDrop {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: $navy-800;
+  border: 1px solid $border-mid;
+  border-radius: $r-md;
+  padding: 6px;
+  min-width: 220px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 200;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  animation: slideDown 0.15s $ease-out forwards;
+}
+
+.countryItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: $r-sm;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  font-size: 13px;
+  color: $text-muted;
+
+  &:hover { background: rgba(255,255,255,0.06); color: $white; }
+
+  &.selected {
+    background: rgba(24,87,168,0.2);
+    color: $white;
+  }
+}
+
+.countryName { flex: 1; }
+.countryPrefix {
+  font-family: $font-mono;
+  font-size: 11px;
+  color: $navy-300;
+}
+
+.phoneInput {
+  flex: 1;
+  padding: 10px 13px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $border-dim;
+  border-radius: $r-sm;
+  color: $white;
+  font-size: 13px;
+  font-family: $font-display;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &::placeholder { color: $text-hint; }
+  &:focus {
+    border-color: $navy-400;
+    box-shadow: 0 0 0 3px rgba(34,114,216,0.15);
+    outline: none;
+  }
+}
+
+// ─── Error / divider / misc ───────────────────────────────────
 .error {
   padding: 9px 12px;
   background: rgba(240,149,149,0.1);
   border: 1px solid rgba(240,149,149,0.2);
   border-radius: $r-sm;
-  font-size: 12px;
+  font-size: 12.5px;
   color: #f09595;
   text-align: center;
 }
@@ -135,7 +247,7 @@
 .divider {
   position: relative;
   text-align: center;
-  margin: 24px 0 20px;
+  margin: 18px 0;
 
   &::before {
     content: '';
@@ -162,31 +274,14 @@
   border-top-color: $white;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
-  display: inline-block;
-  margin-right: 8px;
 }
 
-// Адаптивность
-@media (max-width: 550px) {
-  .card {
-    padding: 24px 20px;
-  }
-  .formGrid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .tabs {
-    margin-bottom: 20px;
-  }
-  .tab {
-    font-size: 14px;
-    padding: 8px 0;
-  }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.logo__img {
-  height: 72px;
-  width: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  flex-shrink: 0;
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
