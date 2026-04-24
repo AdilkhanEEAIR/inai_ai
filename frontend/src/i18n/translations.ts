@@ -30,23 +30,6 @@ export interface Translations {
   scoring: {
     title: string
     subtitle: string
-    tabEmployee: string
-    tabClient: string
-    fields: {
-      age: string
-      income: string
-      employment: string
-      loanAmount: string
-      loanTerm: string
-      interestRate: string
-      pastDue: string
-      inquiries: string
-      fullName: string
-      phone: string
-      email: string
-      purpose: string
-    }
-    purposeOptions: string[]
     submit: string
     loading: string
     resultTitle: string
@@ -66,6 +49,40 @@ export interface Translations {
     lowRiskDesc: string
     mediumRiskDesc: string
     highRiskDesc: string
+    // Новые поля для формы
+    personalData: string
+    firstName: string
+    firstNamePlaceholder: string
+    lastName: string
+    lastNamePlaceholder: string
+    patronymic: string
+    patronymicPlaceholder: string
+    birthDate: string
+    inn: string
+    innPlaceholder: string
+    innInvalid: string
+    ageInvalid: string
+    workInfo: string
+    workPlace: string
+    workPlacePlaceholder: string
+    position: string
+    positionPlaceholder: string
+    workExperience: string
+    years: string
+    netIncome: string
+    loanInfo: string
+    downPayment: string
+    loanAmount: string
+    loanDate: string
+    maxLoanAmount: string
+    recommendedRate: string
+    perYear: string
+    fillRequiredFields: string
+    loanTooHigh: string
+    factorWorkExperience: string
+    factorNetIncome: string
+    factorLoanAmount: string
+    factorDownPayment: string
   }
   chatbot: {
     title: string
@@ -121,15 +138,7 @@ export interface Translations {
   footer: {
     tagline: string
     product: string
-    company: string
-    legal: string
     rights: string
-    about: string
-    team: string
-    contacts: string
-    privacy: string
-    terms: string
-    licenses: string
   }
   common: {
     startNow: string
@@ -173,24 +182,7 @@ const ru: Translations = {
   },
   scoring: {
     title: 'Кредитный скоринг',
-    subtitle: 'Выберите режим заполнения анкеты',
-    tabEmployee: 'Режим сотрудника',
-    tabClient: 'Режим клиента',
-    fields: {
-      age: 'Возраст',
-      income: 'Ежемесячный доход (₸)',
-      employment: 'Стаж работы (лет)',
-      loanAmount: 'Сумма займа (₸)',
-      loanTerm: 'Срок займа (мес)',
-      interestRate: 'Процентная ставка (%)',
-      pastDue: 'Просрочки 30+ дней',
-      inquiries: 'Запросов в бюро (6 мес)',
-      fullName: 'ФИО заявителя',
-      phone: 'Телефон',
-      email: 'Email',
-      purpose: 'Цель займа',
-    },
-    purposeOptions: ['Потребительский', 'Автокредит', 'Ипотека', 'Бизнес', 'Рефинансирование', 'Образование', 'Другое'],
+    subtitle: 'Оцените свою кредитоспособность',
     submit: 'Рассчитать скоринг',
     loading: 'Анализирую данные...',
     resultTitle: 'Результат скоринга',
@@ -210,6 +202,39 @@ const ru: Translations = {
     lowRiskDesc: '✓ Низкий риск невозврата. Профиль заёмщика надёжный.',
     mediumRiskDesc: '⚠ Умеренный риск. Рекомендуется дополнительная проверка.',
     highRiskDesc: '✕ Высокий риск дефолта. Рекомендован отказ или снижение суммы.',
+    personalData: 'Личные данные',
+    firstName: 'Имя',
+    firstNamePlaceholder: 'Иван',
+    lastName: 'Фамилия',
+    lastNamePlaceholder: 'Иванов',
+    patronymic: 'Отчество',
+    patronymicPlaceholder: 'Иванович',
+    birthDate: 'Дата рождения',
+    inn: 'ИНН',
+    innPlaceholder: '123456789012',
+    innInvalid: 'ИНН должен содержать 10-14 цифр',
+    ageInvalid: 'Возраст должен быть от 18 до 75 лет',
+    workInfo: 'Информация о работе',
+    workPlace: 'Место работы',
+    workPlacePlaceholder: 'ТОО «Компания»',
+    position: 'Должность',
+    positionPlaceholder: 'Менеджер',
+    workExperience: 'Стаж на последнем месте',
+    years: 'лет',
+    netIncome: 'Нетто доход (₸/мес)',
+    loanInfo: 'Информация о кредите',
+    downPayment: 'Первоначальный взнос (₸)',
+    loanAmount: 'Сумма кредита (₸)',
+    loanDate: 'Дата оформления',
+    maxLoanAmount: 'Максимальная сумма',
+    recommendedRate: 'Рекомендуемая ставка',
+    perYear: 'годовых',
+    fillRequiredFields: 'Заполните все обязательные поля',
+    loanTooHigh: 'Сумма кредита не может превышать 36 месячных доходов',
+    factorWorkExperience: 'Стаж работы',
+    factorNetIncome: 'Ежемесячный доход',
+    factorLoanAmount: 'Сумма кредита',
+    factorDownPayment: 'Первоначальный взнос',
   },
   chatbot: {
     title: 'Чат-консультант',
@@ -265,15 +290,7 @@ const ru: Translations = {
   footer: {
     tagline: 'Интеллектуальный кредитный скоринг',
     product: 'Продукт',
-    company: 'Компания',
-    legal: 'Правовая информация',
     rights: '© 2025 CreditScore AI. Все права защищены.',
-    about: 'О нас',
-    team: 'Команда',
-    contacts: 'Контакты',
-    privacy: 'Конфиденциальность',
-    terms: 'Условия',
-    licenses: 'Лицензии',
   },
   common: {
     startNow: 'Начните прямо сейчас',
@@ -317,24 +334,7 @@ const en: Translations = {
   },
   scoring: {
     title: 'Credit Scoring',
-    subtitle: 'Choose form mode',
-    tabEmployee: 'Employee Mode',
-    tabClient: 'Client Mode',
-    fields: {
-      age: 'Age',
-      income: 'Monthly Income',
-      employment: 'Employment Years',
-      loanAmount: 'Loan Amount',
-      loanTerm: 'Loan Term (months)',
-      interestRate: 'Interest Rate (%)',
-      pastDue: 'Past Due 30+ days',
-      inquiries: 'Bureau Inquiries (6m)',
-      fullName: 'Full Name',
-      phone: 'Phone',
-      email: 'Email',
-      purpose: 'Loan Purpose',
-    },
-    purposeOptions: ['Consumer', 'Auto Loan', 'Mortgage', 'Business', 'Refinancing', 'Education', 'Other'],
+    subtitle: 'Assess your creditworthiness',
     submit: 'Calculate Score',
     loading: 'Analyzing data...',
     resultTitle: 'Scoring Result',
@@ -354,6 +354,39 @@ const en: Translations = {
     lowRiskDesc: '✓ Low default risk. Borrower profile is reliable.',
     mediumRiskDesc: '⚠ Moderate risk. Additional verification recommended.',
     highRiskDesc: '✕ High default risk. Rejection or amount reduction recommended.',
+    personalData: 'Personal Information',
+    firstName: 'First Name',
+    firstNamePlaceholder: 'Ivan',
+    lastName: 'Last Name',
+    lastNamePlaceholder: 'Ivanov',
+    patronymic: 'Patronymic',
+    patronymicPlaceholder: 'Ivanovich',
+    birthDate: 'Date of Birth',
+    inn: 'Tax ID (INN)',
+    innPlaceholder: '123456789012',
+    innInvalid: 'Tax ID must contain 10-14 digits',
+    ageInvalid: 'Age must be between 18 and 75 years',
+    workInfo: 'Employment Information',
+    workPlace: 'Company',
+    workPlacePlaceholder: 'LLC "Company"',
+    position: 'Position',
+    positionPlaceholder: 'Manager',
+    workExperience: 'Work Experience',
+    years: 'years',
+    netIncome: 'Net Income (₸/month)',
+    loanInfo: 'Loan Information',
+    downPayment: 'Down Payment (₸)',
+    loanAmount: 'Loan Amount (₸)',
+    loanDate: 'Application Date',
+    maxLoanAmount: 'Maximum Amount',
+    recommendedRate: 'Recommended Rate',
+    perYear: 'per year',
+    fillRequiredFields: 'Please fill all required fields',
+    loanTooHigh: 'Loan amount cannot exceed 36 months of income',
+    factorWorkExperience: 'Work Experience',
+    factorNetIncome: 'Monthly Income',
+    factorLoanAmount: 'Loan Amount',
+    factorDownPayment: 'Down Payment',
   },
   chatbot: {
     title: 'Chat Advisor',
@@ -409,15 +442,7 @@ const en: Translations = {
   footer: {
     tagline: 'Intelligent credit scoring',
     product: 'Product',
-    company: 'Company',
-    legal: 'Legal',
     rights: '© 2025 CreditScore AI. All rights reserved.',
-    about: 'About Us',
-    team: 'Team',
-    contacts: 'Contacts',
-    privacy: 'Privacy',
-    terms: 'Terms',
-    licenses: 'Licenses',
   },
   common: {
     startNow: 'Start Now',
@@ -432,7 +457,7 @@ const en: Translations = {
   },
 }
 
-// Кыргызча (ky) - добавляем недостающие поля
+// Кыргызча (ky)
 const ky: Translations = {
   nav: {
     chatbot: 'Чат-кеңешчи',
@@ -462,24 +487,7 @@ const ky: Translations = {
   },
   scoring: {
     title: 'Кредит скоринг',
-    subtitle: 'Форма режимин тандаңыз',
-    tabEmployee: 'Кызматкер режими',
-    tabClient: 'Кардар режими',
-    fields: {
-      age: 'Жашы',
-      income: 'Айлык киреше',
-      employment: 'Иш стажы (жыл)',
-      loanAmount: 'Кредит суммасы',
-      loanTerm: 'Кредит мөөнөтү (ай)',
-      interestRate: 'Пайыз ставкасы (%)',
-      pastDue: 'Мерзими өткөн 30+ күн',
-      inquiries: 'Бюро суроо-талаптары (6 ай)',
-      fullName: 'Толук аты',
-      phone: 'Телефон',
-      email: 'Email',
-      purpose: 'Кредиттин максаты',
-    },
-    purposeOptions: ['Керектөө', 'Автокредит', 'Ипотека', 'Бизнес', 'Кайра каржылоо', 'Билим алуу', 'Башка'],
+    subtitle: 'Кредиттик жөндөмдүүлүгүңүздү баалаңыз',
     submit: 'Скорингди эсептөө',
     loading: 'Маалыматтарды талдоо...',
     resultTitle: 'Скоринг натыйжасы',
@@ -499,6 +507,39 @@ const ky: Translations = {
     lowRiskDesc: '✓ Төмөн тобокелдик. Кардардын профили ишенимдүү.',
     mediumRiskDesc: '⚠ Орточо тобокелдик. Кошумча текшерүү сунушталат.',
     highRiskDesc: '✕ Жогорку тобокелдик. Баш тартуу же сумманы азайтуу сунушталат.',
+    personalData: 'Жеке маалыматтар',
+    firstName: 'Аты',
+    firstNamePlaceholder: 'Иван',
+    lastName: 'Фамилиясы',
+    lastNamePlaceholder: 'Иванов',
+    patronymic: 'Атасынын аты',
+    patronymicPlaceholder: 'Иванович',
+    birthDate: 'Туулган күнү',
+    inn: 'ИНН',
+    innPlaceholder: '123456789012',
+    innInvalid: 'ИНН 10-14 цифрадан турушу керек',
+    ageInvalid: 'Жашы 18-75 аралыгында болушу керек',
+    workInfo: 'Жумуш тууралуу маалымат',
+    workPlace: 'Жумуш орду',
+    workPlacePlaceholder: '«Компания» ЖЧК',
+    position: 'Кызматы',
+    positionPlaceholder: 'Менеджер',
+    workExperience: 'Акыркы жердеги стажы',
+    years: 'жыл',
+    netIncome: 'Таза киреше (₸/ай)',
+    loanInfo: 'Кредит тууралуу маалымат',
+    downPayment: 'Баштапкы төлөм (₸)',
+    loanAmount: 'Кредит суммасы (₸)',
+    loanDate: 'Расмийлөө күнү',
+    maxLoanAmount: 'Максималдуу сумма',
+    recommendedRate: 'Сунушталган ставка',
+    perYear: 'жылдык',
+    fillRequiredFields: 'Бардык милдеттүү талааларды толтуруңуз',
+    loanTooHigh: 'Кредит суммасы 36 айлык кирешеден ашпашы керек',
+    factorWorkExperience: 'Жумуш стажы',
+    factorNetIncome: 'Айлык киреше',
+    factorLoanAmount: 'Кредит суммасы',
+    factorDownPayment: 'Баштапкы төлөм',
   },
   chatbot: {
     title: 'Чат-кеңешчи',
@@ -554,15 +595,7 @@ const ky: Translations = {
   footer: {
     tagline: 'Акылдуу кредиттик скоринг',
     product: 'Продукт',
-    company: 'Компания',
-    legal: 'Укуктук маалымат',
     rights: '© 2025 CreditScore AI. Бардык укуктар корголгон.',
-    about: 'Биз жөнүндө',
-    team: 'Команда',
-    contacts: 'Байланыш',
-    privacy: 'Купуялык',
-    terms: 'Шарттар',
-    licenses: 'Лицензиялар',
   },
   common: {
     startNow: 'Азыр баштоо',
@@ -577,9 +610,8 @@ const ky: Translations = {
   },
 }
 
-// Немецкий (de) - кратко, добавляем недостающие поля
+// Немецкий (de) - краткая версия с новыми полями
 const de: Translations = {
-  ...JSON.parse(JSON.stringify(en)), // Берём за основу en
   nav: {
     chatbot: 'Chat-Berater',
     photoAnalysis: 'Fotoanalyse',
@@ -602,30 +634,13 @@ const de: Translations = {
     stat3val: '7',
     stat3label: 'Sprachen',
     featuresTitle: 'Alles an einem Ort',
-    feat1desc: 'Zwei Modi: vollständiger Mitarbeiterfragebogen und vereinfachte Kundeneingabe.',
-    feat2desc: 'KI beantwortet Fragen zu Krediten in 7 Sprachen.',
-    feat3desc: 'Laden Sie ein Foto hoch — das System extrahiert Daten automatisch.',
+    feat1desc: 'Zwei Modi: Mitarbeiter und Kunde.',
+    feat2desc: 'KI beantwortet Fragen in 7 Sprachen.',
+    feat3desc: 'Laden Sie ein Foto hoch — automatische Datenextraktion.',
   },
   scoring: {
     title: 'Kredit-Scoring',
-    subtitle: 'Formularmodus auswählen',
-    tabEmployee: 'Mitarbeitermodus',
-    tabClient: 'Kundenmodus',
-    fields: {
-      age: 'Alter',
-      income: 'Monatliches Einkommen',
-      employment: 'Beschäftigungsjahre',
-      loanAmount: 'Kreditbetrag',
-      loanTerm: 'Kreditlaufzeit (Monate)',
-      interestRate: 'Zinssatz (%)',
-      pastDue: 'Überfällig 30+ Tage',
-      inquiries: 'Kreditanfragen (6 Mon)',
-      fullName: 'Vollständiger Name',
-      phone: 'Telefon',
-      email: 'E-Mail',
-      purpose: 'Kreditzweck',
-    },
-    purposeOptions: ['Verbraucher', 'Autokredit', 'Hypothek', 'Geschäft', 'Refinanzierung', 'Bildung', 'Andere'],
+    subtitle: 'Bewerten Sie Ihre Kreditwürdigkeit',
     submit: 'Score berechnen',
     loading: 'Daten werden analysiert...',
     resultTitle: 'Scoring-Ergebnis',
@@ -643,8 +658,41 @@ const de: Translations = {
     mediumRisk: 'Mittel',
     highRisk: 'Hoch',
     lowRiskDesc: '✓ Niedriges Ausfallrisiko. Kreditnehmerprofil ist zuverlässig.',
-    mediumRiskDesc: '⚠ Moderatrisiko. Zusätzliche Überprüfung empfohlen.',
+    mediumRiskDesc: '⚠ Moderates Risiko. Zusätzliche Überprüfung empfohlen.',
     highRiskDesc: '✕ Hohes Ausfallrisiko. Ablehnung oder Reduzierung empfohlen.',
+    personalData: 'Persönliche Daten',
+    firstName: 'Vorname',
+    firstNamePlaceholder: 'Ivan',
+    lastName: 'Nachname',
+    lastNamePlaceholder: 'Ivanov',
+    patronymic: 'Vatersname',
+    patronymicPlaceholder: 'Ivanovich',
+    birthDate: 'Geburtsdatum',
+    inn: 'Steuer-ID',
+    innPlaceholder: '123456789012',
+    innInvalid: 'Steuer-ID muss 10-14 Ziffern enthalten',
+    ageInvalid: 'Alter muss zwischen 18 und 75 Jahren liegen',
+    workInfo: 'Berufliche Informationen',
+    workPlace: 'Arbeitsstelle',
+    workPlacePlaceholder: 'Firma GmbH',
+    position: 'Position',
+    positionPlaceholder: 'Manager',
+    workExperience: 'Berufserfahrung',
+    years: 'Jahre',
+    netIncome: 'Nettoeinkommen (₸/Monat)',
+    loanInfo: 'Kreditinformationen',
+    downPayment: 'Anzahlung (₸)',
+    loanAmount: 'Kreditbetrag (₸)',
+    loanDate: 'Antragsdatum',
+    maxLoanAmount: 'Maximaler Betrag',
+    recommendedRate: 'Empfohlener Zinssatz',
+    perYear: 'pro Jahr',
+    fillRequiredFields: 'Bitte füllen Sie alle Pflichtfelder aus',
+    loanTooHigh: 'Kreditbetrag darf 36 Monatseinkommen nicht überschreiten',
+    factorWorkExperience: 'Berufserfahrung',
+    factorNetIncome: 'Monatseinkommen',
+    factorLoanAmount: 'Kreditbetrag',
+    factorDownPayment: 'Anzahlung',
   },
   chatbot: {
     title: 'Chat-Berater',
@@ -700,15 +748,7 @@ const de: Translations = {
   footer: {
     tagline: 'Intelligentes Kredit-Scoring',
     product: 'Produkt',
-    company: 'Unternehmen',
-    legal: 'Rechtliches',
     rights: '© 2025 CreditScore AI. Alle Rechte vorbehalten.',
-    about: 'Über uns',
-    team: 'Team',
-    contacts: 'Kontakte',
-    privacy: 'Datenschutz',
-    terms: 'AGB',
-    licenses: 'Lizenzen',
   },
   common: {
     startNow: 'Jetzt starten',
@@ -723,9 +763,8 @@ const de: Translations = {
   },
 }
 
-// Французский (fr)
+// Французский (fr) - краткая версия с новыми полями
 const fr: Translations = {
-  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: 'Conseiller Chat',
     photoAnalysis: 'Analyse Photo',
@@ -754,24 +793,7 @@ const fr: Translations = {
   },
   scoring: {
     title: 'Scoring Crédit',
-    subtitle: 'Choisissez le mode',
-    tabEmployee: 'Mode Employé',
-    tabClient: 'Mode Client',
-    fields: {
-      age: 'Âge',
-      income: 'Revenu mensuel',
-      employment: "Années d'expérience",
-      loanAmount: 'Montant du prêt',
-      loanTerm: 'Durée (mois)',
-      interestRate: "Taux (%)",
-      pastDue: 'Retards 30+ jours',
-      inquiries: 'Demandes (6 mois)',
-      fullName: 'Nom complet',
-      phone: 'Téléphone',
-      email: 'Email',
-      purpose: 'Objet du prêt',
-    },
-    purposeOptions: ['Consommation', 'Auto', 'Hypothèque', 'Entreprise', 'Refinancement', 'Éducation', 'Autre'],
+    subtitle: 'Évaluez votre solvabilité',
     submit: 'Calculer',
     loading: 'Analyse...',
     resultTitle: 'Résultat',
@@ -791,6 +813,39 @@ const fr: Translations = {
     lowRiskDesc: '✓ Risque faible. Profil fiable.',
     mediumRiskDesc: '⚠ Risque modéré. Vérification supplémentaire.',
     highRiskDesc: '✕ Risque élevé. Refus recommandé.',
+    personalData: 'Données personnelles',
+    firstName: 'Prénom',
+    firstNamePlaceholder: 'Ivan',
+    lastName: 'Nom',
+    lastNamePlaceholder: 'Ivanov',
+    patronymic: 'Patronyme',
+    patronymicPlaceholder: 'Ivanovich',
+    birthDate: 'Date naissance',
+    inn: 'N° fiscal',
+    innPlaceholder: '123456789012',
+    innInvalid: 'Le N° fiscal doit contenir 10-14 chiffres',
+    ageInvalid: 'Âge doit être entre 18 et 75 ans',
+    workInfo: 'Informations professionnelles',
+    workPlace: 'Entreprise',
+    workPlacePlaceholder: 'SARL "Entreprise"',
+    position: 'Poste',
+    positionPlaceholder: 'Manager',
+    workExperience: 'Expérience',
+    years: 'ans',
+    netIncome: 'Revenu net (₸/mois)',
+    loanInfo: 'Informations crédit',
+    downPayment: 'Apport personnel (₸)',
+    loanAmount: 'Montant crédit (₸)',
+    loanDate: 'Date demande',
+    maxLoanAmount: 'Montant maximum',
+    recommendedRate: 'Taux recommandé',
+    perYear: 'par an',
+    fillRequiredFields: 'Veuillez remplir tous les champs obligatoires',
+    loanTooHigh: 'Le montant du crédit ne peut pas dépasser 36 mois de revenus',
+    factorWorkExperience: 'Expérience',
+    factorNetIncome: 'Revenu mensuel',
+    factorLoanAmount: 'Montant crédit',
+    factorDownPayment: 'Apport personnel',
   },
   chatbot: {
     title: 'Conseiller Chat',
@@ -846,15 +901,7 @@ const fr: Translations = {
   footer: {
     tagline: 'Scoring crédit intelligent',
     product: 'Produit',
-    company: 'Entreprise',
-    legal: 'Mentions légales',
     rights: '© 2025 CreditScore AI.',
-    about: 'À propos',
-    team: 'Équipe',
-    contacts: 'Contacts',
-    privacy: 'Confidentialité',
-    terms: 'Conditions',
-    licenses: 'Licences',
   },
   common: {
     startNow: 'Commencer',
@@ -869,9 +916,8 @@ const fr: Translations = {
   },
 }
 
-// Китайский (zh)
+// Китайский (zh) - краткая версия с новыми полями
 const zh: Translations = {
-  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: '智能客服',
     photoAnalysis: '照片分析',
@@ -900,24 +946,7 @@ const zh: Translations = {
   },
   scoring: {
     title: '信用评分',
-    subtitle: '选择表单模式',
-    tabEmployee: '员工模式',
-    tabClient: '客户模式',
-    fields: {
-      age: '年龄',
-      income: '月收入',
-      employment: '工作年限',
-      loanAmount: '贷款金额',
-      loanTerm: '贷款期限（月）',
-      interestRate: '利率（%）',
-      pastDue: '逾期30+天',
-      inquiries: '征信查询（6月）',
-      fullName: '姓名',
-      phone: '电话',
-      email: '邮箱',
-      purpose: '贷款用途',
-    },
-    purposeOptions: ['消费', '车贷', '房贷', '商业', '再融资', '教育', '其他'],
+    subtitle: '评估您的信用状况',
     submit: '计算评分',
     loading: '分析数据中...',
     resultTitle: '评分结果',
@@ -927,7 +956,7 @@ const zh: Translations = {
     probability: '违约概率',
     riskLabel: '风险等级',
     factorsTitle: '关键因素',
-    fillForm: '填写表格并点击“计算”',
+    fillForm: '填写表格并点击"计算"',
     pDefault: 'P(违约)',
     riskFactors: '风险因素',
     metrics: '指标',
@@ -937,6 +966,39 @@ const zh: Translations = {
     lowRiskDesc: '✓ 违约风险低。借款人可靠。',
     mediumRiskDesc: '⚠ 中等风险。建议额外审核。',
     highRiskDesc: '✕ 违约风险高。建议拒绝或降低额度。',
+    personalData: '个人信息',
+    firstName: '名',
+    firstNamePlaceholder: ' Ivan',
+    lastName: '姓',
+    lastNamePlaceholder: ' Ivanov',
+    patronymic: '父名',
+    patronymicPlaceholder: ' Ivanovich',
+    birthDate: '出生日期',
+    inn: '税号',
+    innPlaceholder: '123456789012',
+    innInvalid: '税号必须包含10-14位数字',
+    ageInvalid: '年龄必须在18-75岁之间',
+    workInfo: '工作信息',
+    workPlace: '工作单位',
+    workPlacePlaceholder: '公司',
+    position: '职位',
+    positionPlaceholder: '经理',
+    workExperience: '工作经验',
+    years: '年',
+    netIncome: '净收入 (₸/月)',
+    loanInfo: '贷款信息',
+    downPayment: '首付 (₸)',
+    loanAmount: '贷款金额 (₸)',
+    loanDate: '申请日期',
+    maxLoanAmount: '最高金额',
+    recommendedRate: '推荐利率',
+    perYear: '每年',
+    fillRequiredFields: '请填写所有必填字段',
+    loanTooHigh: '贷款金额不能超过36个月的收入',
+    factorWorkExperience: '工作经验',
+    factorNetIncome: '月收入',
+    factorLoanAmount: '贷款金额',
+    factorDownPayment: '首付',
   },
   chatbot: {
     title: '智能客服',
@@ -992,15 +1054,7 @@ const zh: Translations = {
   footer: {
     tagline: '智能信用评分',
     product: '产品',
-    company: '公司',
-    legal: '法律信息',
     rights: '© 2025 CreditScore AI.',
-    about: '关于我们',
-    team: '团队',
-    contacts: '联系方式',
-    privacy: '隐私政策',
-    terms: '服务条款',
-    licenses: '许可证',
   },
   common: {
     startNow: '立即开始',
@@ -1015,9 +1069,8 @@ const zh: Translations = {
   },
 }
 
-// Арабский (ar)
+// Арабский (ar) - краткая версия с новыми полями
 const ar: Translations = {
-  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: 'مستشار الدردشة',
     photoAnalysis: 'تحليل الصور',
@@ -1046,24 +1099,7 @@ const ar: Translations = {
   },
   scoring: {
     title: 'تسجيل الائتمان',
-    subtitle: 'اختر وضع النموذج',
-    tabEmployee: 'وضع الموظف',
-    tabClient: 'وضع العميل',
-    fields: {
-      age: 'العمر',
-      income: 'الدخل الشهري',
-      employment: 'سنوات الخبرة',
-      loanAmount: 'مبلغ القرض',
-      loanTerm: 'مدة القرض (أشهر)',
-      interestRate: 'معدل الفائدة (%)',
-      pastDue: 'متأخرات 30+ يوم',
-      inquiries: 'استعلامات (6 أشهر)',
-      fullName: 'الاسم الكامل',
-      phone: 'الهاتف',
-      email: 'البريد الإلكتروني',
-      purpose: 'الغرض من القرض',
-    },
-    purposeOptions: ['استهلاكي', 'سيارة', 'رهن عقاري', 'تجاري', 'إعادة تمويل', 'تعليمي', 'أخرى'],
+    subtitle: 'تقييم الجدارة الائتمانية الخاصة بك',
     submit: 'احسب',
     loading: 'جاري التحليل...',
     resultTitle: 'النتيجة',
@@ -1083,6 +1119,39 @@ const ar: Translations = {
     lowRiskDesc: '✓ مخاطرة منخفضة. ملف العميل موثوق.',
     mediumRiskDesc: '⚠ مخاطرة متوسطة. يوصى بتحقق إضافي.',
     highRiskDesc: '✕ مخاطرة عالية. يوصى بالرفض أو تخفيض المبلغ.',
+    personalData: 'البيانات الشخصية',
+    firstName: 'الاسم الأول',
+    firstNamePlaceholder: 'Ivan',
+    lastName: 'اسم العائلة',
+    lastNamePlaceholder: 'Ivanov',
+    patronymic: 'اسم الأب',
+    patronymicPlaceholder: 'Ivanovich',
+    birthDate: 'تاريخ الميلاد',
+    inn: 'الرقم الضريبي',
+    innPlaceholder: '123456789012',
+    innInvalid: 'يجب أن يحتوي الرقم الضريبي على 10-14 رقماً',
+    ageInvalid: 'يجب أن يكون العمر بين 18 و 75 سنة',
+    workInfo: 'معلومات العمل',
+    workPlace: 'جهة العمل',
+    workPlacePlaceholder: 'شركة',
+    position: 'المنصب',
+    positionPlaceholder: 'مدير',
+    workExperience: 'الخبرة العملية',
+    years: 'سنوات',
+    netIncome: 'صافي الدخل (₸/شهر)',
+    loanInfo: 'معلومات القرض',
+    downPayment: 'الدفعة المقدمة (₸)',
+    loanAmount: 'مبلغ القرض (₸)',
+    loanDate: 'تاريخ التقديم',
+    maxLoanAmount: 'الحد الأقصى للمبلغ',
+    recommendedRate: 'سعر الفائدة الموصى به',
+    perYear: 'سنوياً',
+    fillRequiredFields: 'يرجى ملء جميع الحقول المطلوبة',
+    loanTooHigh: 'لا يمكن أن يتجاوز مبلغ القرض 36 شهراً من الدخل',
+    factorWorkExperience: 'الخبرة العملية',
+    factorNetIncome: 'الدخل الشهري',
+    factorLoanAmount: 'مبلغ القرض',
+    factorDownPayment: 'الدفعة المقدمة',
   },
   chatbot: {
     title: 'مستشار الدردشة',
@@ -1138,15 +1207,7 @@ const ar: Translations = {
   footer: {
     tagline: 'تسجيل ائتماني ذكي',
     product: 'المنتج',
-    company: 'الشركة',
-    legal: 'قانوني',
     rights: '© 2025 CreditScore AI.',
-    about: 'معلومات عنا',
-    team: 'الفريق',
-    contacts: 'جهات الاتصال',
-    privacy: 'الخصوصية',
-    terms: 'الشروط',
-    licenses: 'التراخيص',
   },
   common: {
     startNow: 'ابدأ الآن',

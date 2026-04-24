@@ -3,71 +3,57 @@ import { useLangStore } from '../../store'
 import type { Translations } from '../../i18n/translations'
 import s from './Scoring.module.scss'
 
-type Tab = 'employee' | 'client'
 type RiskLevel = 'low' | 'medium' | 'high' | null
 
 interface FormData {
-  age: string
-  monthly_income: string
-  employment_years: string
-  loan_amount: string
-  loan_term_months: string
-  interest_rate: string
-  past_due_30d: string
-  inquiries_6m: string
-  fullName: string
-  phone: string
-  email: string
-  purpose: string
+  firstName: string
+  lastName: string
+  patronymic: string
+  birthDate: string
+  inn: string
+  workPlace: string
+  position: string
+  workExperience: string
+  netIncome: string
+  downPayment: string
+  loanAmount: string
+  loanDate: string
 }
 
 interface ScoringResult {
   p_default: number
   risk_level: RiskLevel
   decision_ru: string
+  maxLoanAmount: number
+  recommendedRate: number
   top_factors: { name: string; contribution: number }[]
   metrics: { roc_auc: number; pr_auc: number; accuracy: number }
 }
 
 const DEFAULT_FORM: FormData = {
-  age: '', monthly_income: '', employment_years: '',
-  loan_amount: '', loan_term_months: '', interest_rate: '',
-  past_due_30d: '', inquiries_6m: '',
-  fullName: '', phone: '', email: '', purpose: '',
+  firstName: '',
+  lastName: '',
+  patronymic: '',
+  birthDate: '',
+  inn: '',
+  workPlace: '',
+  position: '',
+  workExperience: '',
+  netIncome: '',
+  downPayment: '',
+  loanAmount: '',
+  loanDate: '',
 }
 
-function SliderField({ label, name, min, max, step = 1, value, onChange, unit }: {
-  label: string; name: string; min: number; max: number; step?: number;
-  value: string; onChange: (n: string, v: string) => void; unit?: string
-}) {
-  const num = parseFloat(value) || min
-  const pct = ((num - min) / (max - min)) * 100
-
-  return (
-    <div className={s.field}>
-      <div className={s.field__label}>
-        <span>{label}</span>
-        <span className={s.field__val}>{value || min} {unit}</span>
-      </div>
-      <div className={s.slider_wrap}>
-        <div className={s.slider_fill} style={{ width: `${Math.min(pct, 100)}%` }} />
-        <input
-          type="range" min={min} max={max} step={step}
-          value={num}
-          onChange={(e) => onChange(name, e.target.value)}
-        />
-      </div>
-    </div>
-  )
-}
-
-function InputField({ label, name, type = 'text', placeholder, value, onChange }: {
+function InputField({ label, name, type = 'text', placeholder, value, onChange, required = false }: {
   label: string; name: string; type?: string; placeholder?: string; value: string;
-  onChange: (n: string, v: string) => void
+  onChange: (n: string, v: string) => void; required?: boolean
 }) {
   return (
     <div className={s.field}>
-      <label className={s.field__label}><span>{label}</span></label>
+      <label className={s.field__label}>
+        <span>{label}{required && <span className={s.required}>*</span>}</span>
+      </label>
       <input
         className={s.input}
         type={type}
@@ -79,17 +65,33 @@ function InputField({ label, name, type = 'text', placeholder, value, onChange }
   )
 }
 
-function SelectField({ label, name, options, value, onChange, placeholderText }: {
-  label: string; name: string; options: string[]; value: string;
-  onChange: (n: string, v: string) => void; placeholderText: string
+function SliderField({ label, name, min, max, step = 1000, value, onChange, unit, required = false }: {
+  label: string; name: string; min: number; max: number; step?: number;
+  value: string; onChange: (n: string, v: string) => void; unit?: string; required?: boolean
 }) {
+  const num = parseFloat(value) || min
+  const pct = ((num - min) / (max - min)) * 100
+
+  const formatValue = (val: number) => {
+    if (val >= 1000000) return `${(val / 1000000).toFixed(1)} млн`
+    if (val >= 1000) return `${(val / 1000).toFixed(0)} тыс`
+    return val.toString()
+  }
+
   return (
     <div className={s.field}>
-      <label className={s.field__label}><span>{label}</span></label>
-      <select className={s.input} value={value} onChange={(e) => onChange(name, e.target.value)}>
-        <option value="">{placeholderText}</option>
-        {options.map((o) => <option key={o} value={o}>{o}</option>)}
-      </select>
+      <div className={s.field__label}>
+        <span>{label}{required && <span className={s.required}>*</span>}</span>
+        <span className={s.field__val}>{formatValue(num)} {unit}</span>
+      </div>
+      <div className={s.slider_wrap}>
+        <div className={s.slider_fill} style={{ width: `${Math.min(pct, 100)}%` }} />
+        <input
+          type="range" min={min} max={max} step={step}
+          value={num}
+          onChange={(e) => onChange(name, e.target.value)}
+        />
+      </div>
     </div>
   )
 }
@@ -104,6 +106,12 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
   const decisionColor = result.risk_level === 'low' ? '#5DCAA5' : result.risk_level === 'high' ? '#f09595' : '#FAC775'
 
   const riskDesc = result.risk_level === 'low' ? t.scoring.lowRiskDesc : result.risk_level === 'medium' ? t.scoring.mediumRiskDesc : t.scoring.highRiskDesc
+
+  const formatMoney = (amount: number) => {
+    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)} млн ₸`
+    if (amount >= 1000) return `${(amount / 1000).toFixed(0)} тыс ₸`
+    return `${amount} ₸`
+  }
 
   return (
     <div className={s.result}>
@@ -129,6 +137,17 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
         <span>{t.scoring.lowRisk}</span>
         <span>{t.scoring.mediumRisk}</span>
         <span>{t.scoring.highRisk}</span>
+      </div>
+
+      <div className={s.result__info}>
+        <div className={s.infoRow}>
+          <span className={s.infoLabel}>{t.scoring.maxLoanAmount}:</span>
+          <span className={s.infoValue}>{formatMoney(result.maxLoanAmount)}</span>
+        </div>
+        <div className={s.infoRow}>
+          <span className={s.infoLabel}>{t.scoring.recommendedRate}:</span>
+          <span className={s.infoValue}>{result.recommendedRate}% {t.scoring.perYear}</span>
+        </div>
       </div>
 
       <div className={s.result__explain}>
@@ -166,7 +185,6 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
 // ─── Main ─────────────────────────────────────────────────────
 export default function ScoringPage() {
   const { t } = useLangStore()
-  const [tab, setTab] = useState<Tab>('client')
   const [form, setForm] = useState<FormData>(DEFAULT_FORM)
   const [result, setResult] = useState<ScoringResult | null>(null)
   const [loading, setLoading] = useState(false)
@@ -176,20 +194,58 @@ export default function ScoringPage() {
     setForm((p) => ({ ...p, [name]: value }))
   }
 
+  const validateForm = (): boolean => {
+    const required = ['firstName', 'lastName', 'birthDate', 'inn', 'workPlace', 'position', 'workExperience', 'netIncome', 'loanAmount']
+    for (const field of required) {
+      if (!form[field as keyof FormData]) {
+        setError(t.scoring.fillRequiredFields)
+        return false
+      }
+    }
+    if (form.inn.length < 10 || form.inn.length > 14) {
+      setError(t.scoring.innInvalid)
+      return false
+    }
+    const age = new Date().getFullYear() - new Date(form.birthDate).getFullYear()
+    if (age < 18 || age > 75) {
+      setError(t.scoring.ageInvalid)
+      return false
+    }
+    const netIncome = parseFloat(form.netIncome) || 0
+    const loanAmount = parseFloat(form.loanAmount) || 0
+    if (loanAmount > netIncome * 36) {
+      setError(t.scoring.loanTooHigh)
+      return false
+    }
+    return true
+  }
+
   const handleSubmit = async () => {
+    if (!validateForm()) return
+    
     setLoading(true)
     setError(null)
+    
+    // Выносим переменные ДО try-catch
+    const age = new Date().getFullYear() - new Date(form.birthDate).getFullYear()
+    const netIncome = parseFloat(form.netIncome) || 0
+    const loanAmount = parseFloat(form.loanAmount) || 0
+    const downPayment = parseFloat(form.downPayment) || 0
+    const workExperience = parseFloat(form.workExperience) || 0
+    
     try {
       const payload = {
-        age: parseFloat(form.age) || 30,
-        monthly_income: parseFloat(form.monthly_income) || 50000,
-        employment_years: parseFloat(form.employment_years) || 3,
-        loan_amount: parseFloat(form.loan_amount) || 300000,
-        loan_term_months: parseFloat(form.loan_term_months) || 24,
-        interest_rate: parseFloat(form.interest_rate) || 25,
-        past_due_30d: parseFloat(form.past_due_30d) || 0,
-        inquiries_6m: parseFloat(form.inquiries_6m) || 1,
+        age,
+        monthly_income: netIncome,
+        employment_years: workExperience,
+        loan_amount: loanAmount,
+        down_payment: downPayment,
+        loan_term_months: 24,
+        interest_rate: 25,
+        past_due_30d: 0,
+        inquiries_6m: 1,
       }
+      
       const res = await fetch('/api/predict', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -199,16 +255,21 @@ export default function ScoringPage() {
       const data = await res.json()
       setResult(data)
     } catch (e) {
+      // Теперь netIncome и loanAmount доступны здесь
       const mockP = Math.random() * 0.6 + 0.1
+      const maxLoan = Math.round(netIncome * 24 * (1 - mockP))
+      const rate = 8 + mockP * 25
       setResult({
         p_default: mockP,
         risk_level: mockP < 0.3 ? 'low' : mockP < 0.55 ? 'medium' : 'high',
         decision_ru: mockP < 0.5 ? t.scoring.approved : t.scoring.rejected,
+        maxLoanAmount: maxLoan,
+        recommendedRate: Math.round(rate * 10) / 10,
         top_factors: [
-          { name: t.scoring.fields.pastDue, contribution: 0.28 * mockP },
-          { name: t.scoring.fields.income, contribution: -0.19 * (1 - mockP) },
-          { name: t.scoring.fields.interestRate, contribution: 0.14 * mockP },
-          { name: t.scoring.fields.employment, contribution: -0.11 * (1 - mockP) },
+          { name: t.scoring.factorWorkExperience, contribution: 0.28 * mockP },
+          { name: t.scoring.factorNetIncome, contribution: -0.19 * (1 - mockP) },
+          { name: t.scoring.factorLoanAmount, contribution: 0.14 * mockP },
+          { name: t.scoring.factorDownPayment, contribution: -0.11 * (1 - mockP) },
         ],
         metrics: { roc_auc: 0.785, pr_auc: 0.607, accuracy: 0.73 },
       })
@@ -216,9 +277,6 @@ export default function ScoringPage() {
       setLoading(false)
     }
   }
-
-  const purposes = t.scoring.purposeOptions || ['Потребительский', 'Автокредит', 'Ипотека', 'Бизнес', 'Рефинансирование', 'Образование', 'Другое']
-  const selectPlaceholder = t.scoring.fields.purpose ? 'Выбрать...' : 'Select...'
 
   return (
     <div className={`page ${s.scoring_page}`}>
@@ -228,49 +286,126 @@ export default function ScoringPage() {
           <p>{t.scoring.subtitle}</p>
         </div>
 
-        <div className={s.tabs}>
-          <button
-            className={`${s.tab} ${tab === 'client' ? s.active : ''}`}
-            onClick={() => setTab('client')}
-          >
-            <UserIcon /> {t.scoring.tabClient}
-          </button>
-          <button
-            className={`${s.tab} ${tab === 'employee' ? s.active : ''}`}
-            onClick={() => setTab('employee')}
-          >
-            <BadgeIcon /> {t.scoring.tabEmployee}
-          </button>
-        </div>
-
         <div className={s.content}>
           <div className={s.form_panel}>
             <div className={s.form_grid}>
-              {tab === 'employee' && (
-                <>
-                  <InputField label={t.scoring.fields.fullName} name="fullName" placeholder="Иванов Иван Иванович" value={form.fullName} onChange={handleChange} />
-                  <InputField label={t.scoring.fields.phone} name="phone" type="tel" placeholder="+996 700 000 000" value={form.phone} onChange={handleChange} />
-                  <InputField label={t.scoring.fields.email} name="email" type="email" placeholder="example@mail.com" value={form.email} onChange={handleChange} />
-                  <SelectField 
-                    label={t.scoring.fields.purpose} 
-                    name="purpose" 
-                    options={purposes} 
-                    value={form.purpose} 
-                    onChange={handleChange} 
-                    placeholderText={selectPlaceholder}
-                  />
-                  <div className={s.divider} />
-                </>
-              )}
+              {/* Личные данные */}
+              <div className={s.sectionTitle}>{t.scoring.personalData}</div>
+              
+              <InputField 
+                label={t.scoring.firstName}
+                name="firstName" 
+                placeholder={t.scoring.firstNamePlaceholder}
+                value={form.firstName} 
+                onChange={handleChange} 
+                required 
+              />
+              <InputField 
+                label={t.scoring.lastName}
+                name="lastName" 
+                placeholder={t.scoring.lastNamePlaceholder}
+                value={form.lastName} 
+                onChange={handleChange} 
+                required 
+              />
+              <InputField 
+                label={t.scoring.patronymic}
+                name="patronymic" 
+                placeholder={t.scoring.patronymicPlaceholder}
+                value={form.patronymic} 
+                onChange={handleChange} 
+              />
+              <InputField 
+                label={t.scoring.birthDate}
+                name="birthDate" 
+                type="date" 
+                value={form.birthDate} 
+                onChange={handleChange} 
+                required 
+              />
+              <InputField 
+                label={t.scoring.inn}
+                name="inn" 
+                type="text" 
+                placeholder={t.scoring.innPlaceholder}
+                value={form.inn} 
+                onChange={handleChange} 
+                required 
+              />
 
-              <SliderField label={t.scoring.fields.age} name="age" min={18} max={75} value={form.age} onChange={handleChange} unit={t.scoring.fields.age === 'Age' ? 'years' : 'лет'} />
-              <InputField label={t.scoring.fields.income} name="monthly_income" type="number" placeholder="80000" value={form.monthly_income} onChange={handleChange} />
-              <SliderField label={t.scoring.fields.employment} name="employment_years" min={0} max={40} step={0.5} value={form.employment_years} onChange={handleChange} unit={t.scoring.fields.employment === 'Employment Years' ? 'years' : 'лет'} />
-              <InputField label={t.scoring.fields.loanAmount} name="loan_amount" type="number" placeholder="500000" value={form.loan_amount} onChange={handleChange} />
-              <SliderField label={t.scoring.fields.loanTerm} name="loan_term_months" min={6} max={84} step={6} value={form.loan_term_months} onChange={handleChange} unit={t.scoring.fields.loanTerm === 'Loan Term (months)' ? 'months' : 'мес'} />
-              <SliderField label={t.scoring.fields.interestRate} name="interest_rate" min={8} max={50} step={0.5} value={form.interest_rate} onChange={handleChange} unit="%" />
-              <SliderField label={t.scoring.fields.pastDue} name="past_due_30d" min={0} max={10} value={form.past_due_30d} onChange={handleChange} unit={t.scoring.fields.pastDue === 'Past Due 30+ days' ? 'times' : 'раз'} />
-              <SliderField label={t.scoring.fields.inquiries} name="inquiries_6m" min={0} max={15} value={form.inquiries_6m} onChange={handleChange} unit={t.scoring.fields.inquiries === 'Bureau Inquiries (6m)' ? 'times' : 'раз'} />
+              {/* Работа */}
+              <div className={s.sectionTitle}>{t.scoring.workInfo}</div>
+              
+              <InputField 
+                label={t.scoring.workPlace}
+                name="workPlace" 
+                placeholder={t.scoring.workPlacePlaceholder}
+                value={form.workPlace} 
+                onChange={handleChange} 
+                required 
+              />
+              <InputField 
+                label={t.scoring.position}
+                name="position" 
+                placeholder={t.scoring.positionPlaceholder}
+                value={form.position} 
+                onChange={handleChange} 
+                required 
+              />
+              <SliderField 
+                label={t.scoring.workExperience}
+                name="workExperience" 
+                min={0} 
+                max={40} 
+                step={0.5} 
+                value={form.workExperience} 
+                onChange={handleChange} 
+                unit={t.scoring.years}
+                required 
+              />
+              <SliderField 
+                label={t.scoring.netIncome}
+                name="netIncome" 
+                min={50000} 
+                max={2000000} 
+                step={10000} 
+                value={form.netIncome} 
+                onChange={handleChange} 
+                unit="₸" 
+                required 
+              />
+
+              {/* Кредит */}
+              <div className={s.sectionTitle}>{t.scoring.loanInfo}</div>
+              
+              <SliderField 
+                label={t.scoring.downPayment}
+                name="downPayment" 
+                min={0} 
+                max={10000000} 
+                step={50000} 
+                value={form.downPayment} 
+                onChange={handleChange} 
+                unit="₸" 
+              />
+              <SliderField 
+                label={t.scoring.loanAmount}
+                name="loanAmount" 
+                min={50000} 
+                max={50000000} 
+                step={50000} 
+                value={form.loanAmount} 
+                onChange={handleChange} 
+                unit="₸" 
+                required 
+              />
+              <InputField 
+                label={t.scoring.loanDate}
+                name="loanDate" 
+                type="date" 
+                value={form.loanDate} 
+                onChange={handleChange} 
+              />
             </div>
 
             {error && <div className={s.error}>{error}</div>}
@@ -312,12 +447,7 @@ export default function ScoringPage() {
 function ArrowIcon() {
   return <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3.5l3.5 3.5L8 10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
 }
-function UserIcon() {
-  return <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.3"/><path d="M2 12c0-2.76 2.24-5 5-5s5 2.24 5 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
-}
-function BadgeIcon() {
-  return <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="2" stroke="currentColor" strokeWidth="1.3"/><path d="M4 5.5h6M4 8h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
-}
+
 function RadarIcon() {
   return <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="13" stroke="#185fa5" strokeWidth="1.5"/><circle cx="16" cy="16" r="8" stroke="#185fa5" strokeWidth="1.5" opacity=".5"/><circle cx="16" cy="16" r="3" fill="#185fa5"/><path d="M16 16L24 8" stroke="#00c6ff" strokeWidth="1.8" strokeLinecap="round"/></svg>
 }
