@@ -147,8 +147,6 @@ export default function HomePage() {
         <div className={s.hero__orb2} />
 
         <div className={`${s.hero__content} ${visible ? s.visible : ''}`}>
-          {/* badge убран */}
-
           <h1 className={s.hero__headline}>
             <span className={s.hero__headline_line1}>{t.home.headline1}</span>
             <br />
@@ -183,6 +181,7 @@ export default function HomePage() {
       </section>
 
       <section className={s.mainBlock}>
+        {/* Видеофон для всего блока */}
         <video className={s.mainBlock__video} autoPlay loop muted playsInline>
           <source src={ctaVideo} type="video/mp4" />
         </video>
@@ -212,6 +211,7 @@ export default function HomePage() {
             ))}
           </div>
 
+          {/* CTA баннер без дополнительного фона, только полупрозрачный */}
           <div className={s.ctaBanner}>
             <div className={s.ctaBanner__glow} />
             <h3>{t.common.startNow}</h3>

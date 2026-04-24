@@ -5,7 +5,7 @@ import { translations } from '../i18n/translations'
 import type { Translations } from '../i18n/translations'
 
 // ─── Auth Store ───────────────────────────────────────────────
-export interface User {
+interface User {
   id: string
   name: string
   fullName?: string
@@ -48,36 +48,52 @@ export const useAuthStore = create<AuthState>()(
       login: async (email: string, _password: string) => {
         set({ isLoading: true })
         await new Promise((r) => setTimeout(r, 900))
-
+        
         // Проверяем зарегистрированных пользователей
-        const saved = localStorage.getItem('registered-users')
-        const users: User[] = saved ? JSON.parse(saved) : []
-        const existing = users.find((u: any) => u.email === email)
-
-        const mockUser: User = existing ?? {
-          id: '1',
-          name: email.split('@')[0],
-          fullName: email.split('@')[0],
-          email,
-          role: email.includes('admin') ? 'admin' : email.includes('bank') ? 'employee' : 'client',
+        const savedUsers = localStorage.getItem('registered-users')
+        const users = savedUsers ? JSON.parse(savedUsers) : []
+        const existingUser = users.find((u: any) => u.email === email)
+        
+        if (existingUser) {
+          set({ 
+            user: { 
+              id: existingUser.id, 
+              name: existingUser.fullName?.split(' ')[0] || existingUser.name,
+              fullName: existingUser.fullName,
+              email: existingUser.email, 
+              phone: existingUser.phone,
+              birthDate: existingUser.birthDate,
+              monthlyIncome: existingUser.monthlyIncome,
+              employmentYears: existingUser.employmentYears,
+              role: existingUser.role || 'client'
+            }, 
+            token: 'mock-jwt-token', 
+            isLoading: false 
+          })
+        } else {
+          const mockUser: User = {
+            id: '1',
+            name: email.split('@')[0],
+            fullName: email.split('@')[0],
+            email,
+            role: email.includes('admin') ? 'admin' : email.includes('bank') ? 'employee' : 'client',
+          }
+          set({ user: mockUser, token: 'mock-jwt-token', isLoading: false })
         }
-
-        set({ user: mockUser, token: 'mock-jwt-token', isLoading: false })
       },
 
       register: async (data: RegisterData) => {
         set({ isLoading: true })
-        await new Promise((r) => setTimeout(r, 900))
-
-        const saved = localStorage.getItem('registered-users')
-        const users: any[] = saved ? JSON.parse(saved) : []
-
-        if (users.some((u) => u.email === data.email)) {
+        await new Promise((r) => setTimeout(r, 1000))
+        
+        const savedUsers = localStorage.getItem('registered-users')
+        const users = savedUsers ? JSON.parse(savedUsers) : []
+        if (users.some((u: any) => u.email === data.email)) {
           set({ isLoading: false })
           throw new Error('User already exists')
         }
-
-        const newUser: User = {
+        
+        const newUser = {
           id: Date.now().toString(),
           name: data.fullName.split(' ')[0],
           fullName: data.fullName,
@@ -86,22 +102,34 @@ export const useAuthStore = create<AuthState>()(
           birthDate: data.birthDate || '',
           monthlyIncome: data.monthlyIncome || 0,
           employmentYears: data.employmentYears || 0,
-          role: 'client',
+          role: 'client' as const,
         }
-
+        
         users.push(newUser)
         localStorage.setItem('registered-users', JSON.stringify(users))
-
-        set({ user: newUser, token: 'mock-jwt-token', isLoading: false })
+        
+        set({ 
+          user: { 
+            id: newUser.id, 
+            name: newUser.name,
+            fullName: newUser.fullName,
+            email: newUser.email, 
+            phone: newUser.phone,
+            birthDate: newUser.birthDate,
+            monthlyIncome: newUser.monthlyIncome,
+            employmentYears: newUser.employmentYears,
+            role: newUser.role 
+          }, 
+          token: 'mock-jwt-token', 
+          isLoading: false 
+        })
       },
 
       logout: () => set({ user: null, token: null }),
+
       setLoading: (v) => set({ isLoading: v }),
     }),
-    {
-      name: 'auth-storage',
-      partialize: (s) => ({ user: s.user, token: s.token }),
-    }
+    { name: 'auth-storage', partialize: (s) => ({ user: s.user, token: s.token }) }
   )
 )
 
@@ -118,14 +146,12 @@ export const useLangStore = create<LangState>()(
       lang: 'ru',
       t: translations['ru'],
       setLang: (code: LangCode) => {
-        document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr'
+        const isRtl = code === 'ar'
+        document.documentElement.dir = isRtl ? 'rtl' : 'ltr'
         document.documentElement.lang = code
         set({ lang: code, t: translations[code] })
       },
     }),
-    {
-      name: 'lang-storage',
-      partialize: (s) => ({ lang: s.lang }),
-    }
+    { name: 'lang-storage', partialize: (s) => ({ lang: s.lang }) }
   )
 )

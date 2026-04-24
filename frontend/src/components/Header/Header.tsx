@@ -33,18 +33,16 @@ export default function Header() {
   }, [])
 
   const currentLang = LANGUAGES.find((l: (typeof LANGUAGES)[0]) => l.code === lang)!
-  const initials    = user ? user.name.slice(0, 2).toUpperCase() : ''
+  const initials    = user ? (user.fullName?.slice(0, 2).toUpperCase() || user.name.slice(0, 2).toUpperCase()) : ''
 
   return (
     <header className={`${s.header} ${scrolled ? s.scrolled : ''}`}>
 
-      {/* ── Logo ── */}
       <NavLink to="/" className={s.header__logo}>
         <img src={logo} alt="Кredиtоr logo" className={s.header__logo_img} />
         <span className={s['header__logo-text']}>Кredиtоr</span>
       </NavLink>
 
-      {/* ── Nav ── */}
       <nav className={s.header__nav}>
         <NavLink to="/chatbot" className={({ isActive }) => isActive ? s.active : ''}>
           {t.nav.chatbot}
@@ -57,10 +55,8 @@ export default function Header() {
         </NavLink>
       </nav>
 
-      {/* ── Right: lang + auth ── */}
       <div className={s.header__right}>
 
-        {/* Language picker */}
         <div className={s.header__lang} ref={langRef}>
           <button
             className={`${s['header__lang-btn']} ${langOpen ? s.open : ''}`}
@@ -97,7 +93,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* Auth */}
         {user ? (
           <div className={s['header__auth-avatar']} ref={avatarRef}>
             <div
@@ -108,11 +103,6 @@ export default function Header() {
             </div>
             {avatarOpen && (
               <div className={s['header__auth-avatar-menu']}>
-                <div className={s['header__auth-avatar-menu-header']}>
-                  <div className="name">{user.name}</div>
-                  <div className="email">{user.email}</div>
-                  <div className="role-badge">{user.role}</div>
-                </div>
                 <div
                   className={s['header__auth-avatar-menu-item']}
                   onClick={() => { navigate('/profile'); setAvatarOpen(false) }}

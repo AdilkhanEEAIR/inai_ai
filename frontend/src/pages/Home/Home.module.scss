@@ -87,40 +87,6 @@
     }
   }
 
-  &__badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 16px;
-    background: rgba(0,198,255,0.12);
-    border: 1px solid rgba(0,198,255,0.25);
-    border-radius: $r-full;
-    font-size: 12px;
-    font-weight: 500;
-    color: $accent-300;
-    letter-spacing: 0.4px;
-    margin-bottom: 28px;
-    backdrop-filter: blur(4px);
-  }
-
-  &__badge_dot {
-    width: 7px;
-    height: 7px;
-    background: $accent-400;
-    border-radius: 50%;
-    position: relative;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      background: $accent-400;
-      border-radius: 50%;
-      opacity: 0.4;
-      animation: pulse-ring 2s ease-out infinite;
-    }
-  }
-
   &__headline {
     font-size: clamp(44px, 7vw, 76px);
     font-weight: 800;
@@ -227,7 +193,7 @@
   50% { transform: translateY(8px); opacity: 0.3; }
 }
 
-// ─── Объединённый блок (видеофон + карточки + CTA) ───────────
+// ─── Объединённый блок с видеофоном ───────────
 .mainBlock {
   position: relative;
   padding: 80px 24px;
@@ -369,21 +335,21 @@
   }
 }
 
-// CTA баннер под карточками
+// CTA баннер (полупрозрачный, без лишнего фона)
 .ctaBanner {
   position: relative;
   text-align: center;
   padding: 48px 32px;
-  background: rgba(10,32,64,0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid $border-mid;
+  // background: rgba(10,32,64,0.6);
+  // backdrop-filter: blur(12px);
+  // border: 1px solid $border-mid;
   border-radius: $r-xl;
   overflow: hidden;
 
   &__glow {
     position: absolute;
     inset: -50%;
-    background: radial-gradient(circle at 50% 100%, rgba(0,198,255,0.12), transparent 60%);
+    // background: radial-gradient(circle at 50% 100%, rgba(0,198,255,0.12), transparent 60%);
     pointer-events: none;
   }
 
