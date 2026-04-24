@@ -1,20 +1,10 @@
 import { useState, useRef } from 'react'
+import { useLangStore } from '../../store'
 import s from './PhotoAnalysis.module.scss'
 
-const mockLangStore = {
-  t: {
-    photo: {
-      title: 'Анализ документов',
-      subtitle: 'Загрузите фото документа для распознавания',
-      drag: 'Перетащите документ сюда или нажмите для выбора',
-      analyze: 'Анализировать'
-    }
-  }
-}
-
 export default function PhotoAnalysisPage() {
-  const { t } = mockLangStore
-  const [_file, setFile] = useState<File | null>(null)
+  const { t } = useLangStore()
+  const [file, setFile] = useState<File | null>(null)
   const [preview, setPreview] = useState<string | null>(null)
   const [analyzing, setAnalyzing] = useState(false)
   const [done, setDone] = useState(false)
@@ -44,12 +34,14 @@ export default function PhotoAnalysisPage() {
   }
 
   const mockFields = [
-    { label: 'ФИО', value: 'Иванов Иван Иванович', conf: 98 },
-    { label: 'Дата рождения', value: '15.03.1991', conf: 96 },
-    { label: 'Серия/Номер', value: 'AB 1234567', conf: 99 },
-    { label: 'ИНН', value: '12345678901234', conf: 94 },
-    { label: 'Адрес', value: 'г. Бишкек, ул. Центральная, 1', conf: 89 },
+    { label: t.photo.docFields.fullName, value: 'Иванов Иван Иванович', conf: 98 },
+    { label: t.photo.docFields.birthDate, value: '15.03.1991', conf: 96 },
+    { label: t.photo.docFields.documentNumber, value: 'AB 1234567', conf: 99 },
+    { label: t.photo.docFields.inn, value: '12345678901234', conf: 94 },
+    { label: t.photo.docFields.address, value: 'г. Бишкек, ул. Центральная, 1', conf: 89 },
   ]
+
+  const documentTypes = t.photo.documentTypes || ['Паспорт', 'Справка о доходах', 'ИНН', 'СНИЛС']
 
   return (
     <div className={`page ${s.page}`}>
@@ -60,7 +52,6 @@ export default function PhotoAnalysisPage() {
         </div>
 
         <div className={s.content}>
-          {/* Upload zone */}
           <div
             className={`${s.dropzone} ${dragging ? s.dragging : ''} ${preview ? s.has_file : ''}`}
             onDragOver={(e) => { e.preventDefault(); setDragging(true) }}
@@ -94,14 +85,13 @@ export default function PhotoAnalysisPage() {
             )}
           </div>
 
-          {/* Result */}
           <div className={s.result_col}>
             {!done && !analyzing && (
               <div className={s.result_placeholder}>
                 <DocScanIcon />
-                <p>Загрузите документ для распознавания</p>
+                <p>{t.photo.upload}</p>
                 <div className={s.supported}>
-                  {['Паспорт', 'Справка о доходах', 'ИНН', 'СНИЛС'].map((d) => (
+                  {documentTypes.map((d) => (
                     <span key={d}>{d}</span>
                   ))}
                 </div>
@@ -114,7 +104,7 @@ export default function PhotoAnalysisPage() {
                   <div className={s.scan_line} />
                   <DocScanIcon />
                 </div>
-                <p>Распознаю документ...</p>
+                <p>{t.photo.analyzing}</p>
                 <div className={s.progress_bar}>
                   <div className={s.progress_fill} />
                 </div>
@@ -125,7 +115,7 @@ export default function PhotoAnalysisPage() {
               <div className={s.extracted}>
                 <div className={s.extracted__header}>
                   <CheckIcon />
-                  <span>Данные извлечены</span>
+                  <span>{t.photo.extracted}</span>
                 </div>
                 {mockFields.map((f) => (
                   <div key={f.label} className={s.extracted__row}>
@@ -138,7 +128,7 @@ export default function PhotoAnalysisPage() {
                   </div>
                 ))}
                 <button className="btn-primary" style={{ width: '100%', marginTop: 16, justifyContent: 'center' }}>
-                  <span>Перенести в форму скоринга</span>
+                  <span>{t.photo.transfer}</span>
                 </button>
               </div>
             )}
@@ -152,7 +142,7 @@ export default function PhotoAnalysisPage() {
             disabled={analyzing}
           >
             {analyzing ? (
-              <><span className={s.spin} /> <span>Анализирую...</span></>
+              <><span className={s.spin} /> <span>{t.common.analyzing}</span></>
             ) : (
               <><span>{t.photo.analyze}</span> <ScanIcon /></>
             )}

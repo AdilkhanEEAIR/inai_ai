@@ -60,7 +60,7 @@ export default function ChatbotPage() {
     }, 800 + Math.random() * 600)
   }
 
-  const quickReplies = ['Каковы ставки?', 'Как работает скоринг?', 'Условия кредита', 'Что такое дефолт?']
+  const quickReplies = t.chatbot.quickReplies || ['Каковы ставки?', 'Как работает скоринг?', 'Условия кредита', 'Что такое дефолт?']
 
   return (
     <div className={`page ${s.page}`}>
@@ -94,7 +94,6 @@ export default function ChatbotPage() {
           <div ref={bottomRef} />
         </div>
 
-        {/* Quick replies */}
         <div className={s.quick}>
           {quickReplies.map((q) => (
             <button key={q} className={s.quick__btn} onClick={() => { setInput(q); }}>
@@ -103,7 +102,6 @@ export default function ChatbotPage() {
           ))}
         </div>
 
-        {/* Input */}
         <div className={s.input_row}>
           <input
             className={s.input}
@@ -132,6 +130,7 @@ function BotIcon() {
     </svg>
   )
 }
+
 function SendIcon() {
   return <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 2L1 7l5 2M14 2l-4 12-4-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
 }

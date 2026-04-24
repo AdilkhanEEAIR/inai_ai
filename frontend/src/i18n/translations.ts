@@ -16,7 +16,6 @@ export interface Translations {
     headline2: string
     subline: string
     ctaPrimary: string
-    ctaSecondary: string
     stat1val: string
     stat1label: string
     stat2val: string
@@ -24,11 +23,8 @@ export interface Translations {
     stat3val: string
     stat3label: string
     featuresTitle: string
-    feat1title: string
     feat1desc: string
-    feat2title: string
     feat2desc: string
-    feat3title: string
     feat3desc: string
   }
   scoring: {
@@ -50,6 +46,7 @@ export interface Translations {
       email: string
       purpose: string
     }
+    purposeOptions: string[]
     submit: string
     loading: string
     resultTitle: string
@@ -59,6 +56,16 @@ export interface Translations {
     probability: string
     riskLabel: string
     factorsTitle: string
+    fillForm: string
+    pDefault: string
+    riskFactors: string
+    metrics: string
+    lowRisk: string
+    mediumRisk: string
+    highRisk: string
+    lowRiskDesc: string
+    mediumRiskDesc: string
+    highRiskDesc: string
   }
   chatbot: {
     title: string
@@ -66,6 +73,7 @@ export interface Translations {
     placeholder: string
     send: string
     welcome: string
+    quickReplies: string[]
   }
   photo: {
     title: string
@@ -73,6 +81,18 @@ export interface Translations {
     upload: string
     analyze: string
     drag: string
+    analyzing: string
+    extracting: string
+    extracted: string
+    documentTypes: string[]
+    docFields: {
+      fullName: string
+      birthDate: string
+      documentNumber: string
+      inn: string
+      address: string
+    }
+    transfer: string
   }
   auth: {
     loginTitle: string
@@ -84,6 +104,19 @@ export interface Translations {
     noAccount: string
     register: string
     orContinue: string
+    loginSubtitle: string
+    registerSubtitle: string
+    confirmPassword: string
+    fullName: string
+    phone: string
+    birthDate: string
+    monthlyIncome: string
+    employmentYears: string
+    requiredFields: string
+    passwordMismatch: string
+    passwordTooShort: string
+    loginError: string
+    registerError: string
   }
   footer: {
     tagline: string
@@ -91,6 +124,23 @@ export interface Translations {
     company: string
     legal: string
     rights: string
+    about: string
+    team: string
+    contacts: string
+    privacy: string
+    terms: string
+    licenses: string
+  }
+  common: {
+    startNow: string
+    freeDemo: string
+    continueAsGuest: string
+    enter: string
+    registering: string
+    calculate: string
+    analyzing: string
+    send: string
+    typeMessage: string
   }
 }
 
@@ -110,7 +160,6 @@ const ru: Translations = {
     headline2: 'кредитных рисков',
     subline: 'Мгновенная оценка заёмщика за секунды. Ансамблевые ML-модели, объяснимый ИИ и понятный интерфейс для специалистов и клиентов.',
     ctaPrimary: 'Начать оценку',
-    ctaSecondary: 'Смотреть демо',
     stat1val: '99.2%',
     stat1label: 'Точность модели',
     stat2val: '<1с',
@@ -118,11 +167,8 @@ const ru: Translations = {
     stat3val: '7',
     stat3label: 'Языков интерфейса',
     featuresTitle: 'Всё необходимое в одном месте',
-    feat1title: 'Скоринг по форме',
     feat1desc: 'Два режима: для банковского сотрудника с полной анкетой и для клиента с упрощённым вводом.',
-    feat2title: 'Чат-консультант',
     feat2desc: 'ИИ отвечает на вопросы о кредитах, ставках и условиях на любом из 7 языков.',
-    feat3title: 'Анализ документов',
     feat3desc: 'Загрузите фото паспорта или справки — система автоматически извлечёт данные.',
   },
   scoring: {
@@ -132,11 +178,11 @@ const ru: Translations = {
     tabClient: 'Режим клиента',
     fields: {
       age: 'Возраст',
-      income: 'Ежемесячный доход',
+      income: 'Ежемесячный доход (₸)',
       employment: 'Стаж работы (лет)',
-      loanAmount: 'Сумма займа',
+      loanAmount: 'Сумма займа (₸)',
       loanTerm: 'Срок займа (мес)',
-      interestRate: 'Процентная ставка',
+      interestRate: 'Процентная ставка (%)',
       pastDue: 'Просрочки 30+ дней',
       inquiries: 'Запросов в бюро (6 мес)',
       fullName: 'ФИО заявителя',
@@ -144,6 +190,7 @@ const ru: Translations = {
       email: 'Email',
       purpose: 'Цель займа',
     },
+    purposeOptions: ['Потребительский', 'Автокредит', 'Ипотека', 'Бизнес', 'Рефинансирование', 'Образование', 'Другое'],
     submit: 'Рассчитать скоринг',
     loading: 'Анализирую данные...',
     resultTitle: 'Результат скоринга',
@@ -153,6 +200,16 @@ const ru: Translations = {
     probability: 'Вероятность дефолта',
     riskLabel: 'Уровень риска',
     factorsTitle: 'Ключевые факторы',
+    fillForm: 'Заполните анкету и нажмите «Рассчитать»',
+    pDefault: 'P(default)',
+    riskFactors: 'Факторы риска',
+    metrics: 'Метрики',
+    lowRisk: 'Низкий',
+    mediumRisk: 'Средний',
+    highRisk: 'Высокий',
+    lowRiskDesc: '✓ Низкий риск невозврата. Профиль заёмщика надёжный.',
+    mediumRiskDesc: '⚠ Умеренный риск. Рекомендуется дополнительная проверка.',
+    highRiskDesc: '✕ Высокий риск дефолта. Рекомендован отказ или снижение суммы.',
   },
   chatbot: {
     title: 'Чат-консультант',
@@ -160,6 +217,7 @@ const ru: Translations = {
     placeholder: 'Напишите сообщение...',
     send: 'Отправить',
     welcome: 'Здравствуйте! Я ваш ИИ-консультант. Чем могу помочь?',
+    quickReplies: ['Каковы ставки?', 'Как работает скоринг?', 'Условия кредита', 'Что такое дефолт?'],
   },
   photo: {
     title: 'Анализ по фото',
@@ -167,6 +225,18 @@ const ru: Translations = {
     upload: 'Загрузить фото',
     analyze: 'Анализировать',
     drag: 'Перетащите файл или нажмите для загрузки',
+    analyzing: 'Распознаю документ...',
+    extracting: 'Извлекаю данные...',
+    extracted: 'Данные извлечены',
+    documentTypes: ['Паспорт', 'Справка о доходах', 'ИНН', 'СНИЛС'],
+    docFields: {
+      fullName: 'ФИО',
+      birthDate: 'Дата рождения',
+      documentNumber: 'Серия/Номер',
+      inn: 'ИНН',
+      address: 'Адрес',
+    },
+    transfer: 'Перенести в форму скоринга',
   },
   auth: {
     loginTitle: 'Вход',
@@ -178,6 +248,19 @@ const ru: Translations = {
     noAccount: 'Нет аккаунта?',
     register: 'Зарегистрироваться',
     orContinue: 'или продолжить как гость',
+    loginSubtitle: 'Войдите для доступа к полному функционалу',
+    registerSubtitle: 'Создайте аккаунт для персонализированного скоринга',
+    confirmPassword: 'Подтверждение пароля',
+    fullName: 'ФИО',
+    phone: 'Телефон',
+    birthDate: 'Дата рождения',
+    monthlyIncome: 'Ежемесячный доход (₸)',
+    employmentYears: 'Стаж работы (лет)',
+    requiredFields: 'Заполните все поля',
+    passwordMismatch: 'Пароли не совпадают',
+    passwordTooShort: 'Пароль должен содержать минимум 6 символов',
+    loginError: 'Неверный email или пароль',
+    registerError: 'Ошибка регистрации. Попробуйте другой email.',
   },
   footer: {
     tagline: 'Интеллектуальный кредитный скоринг',
@@ -185,6 +268,23 @@ const ru: Translations = {
     company: 'Компания',
     legal: 'Правовая информация',
     rights: '© 2025 CreditScore AI. Все права защищены.',
+    about: 'О нас',
+    team: 'Команда',
+    contacts: 'Контакты',
+    privacy: 'Конфиденциальность',
+    terms: 'Условия',
+    licenses: 'Лицензии',
+  },
+  common: {
+    startNow: 'Начните прямо сейчас',
+    freeDemo: 'Бесплатная демонстрация. Никакой регистрации.',
+    continueAsGuest: 'Продолжить без входа',
+    enter: 'Вход',
+    registering: 'Регистрация',
+    calculate: 'Рассчитать',
+    analyzing: 'Анализирую...',
+    send: 'Отправить',
+    typeMessage: 'Введите сообщение...',
   },
 }
 
@@ -204,7 +304,6 @@ const en: Translations = {
     headline2: 'of credit risks',
     subline: 'Instant borrower assessment in seconds. Ensemble ML models, explainable AI and a clear interface for specialists and clients.',
     ctaPrimary: 'Start Assessment',
-    ctaSecondary: 'Watch Demo',
     stat1val: '99.2%',
     stat1label: 'Model Accuracy',
     stat2val: '<1s',
@@ -212,11 +311,8 @@ const en: Translations = {
     stat3val: '7',
     stat3label: 'Languages',
     featuresTitle: 'Everything you need in one place',
-    feat1title: 'Form-based Scoring',
     feat1desc: 'Two modes: full employee questionnaire and simplified client input.',
-    feat2title: 'Chat Advisor',
     feat2desc: 'AI answers questions about loans, rates and terms in any of 7 languages.',
-    feat3title: 'Document Analysis',
     feat3desc: 'Upload a passport or certificate photo — the system extracts data automatically.',
   },
   scoring: {
@@ -230,7 +326,7 @@ const en: Translations = {
       employment: 'Employment Years',
       loanAmount: 'Loan Amount',
       loanTerm: 'Loan Term (months)',
-      interestRate: 'Interest Rate',
+      interestRate: 'Interest Rate (%)',
       pastDue: 'Past Due 30+ days',
       inquiries: 'Bureau Inquiries (6m)',
       fullName: 'Full Name',
@@ -238,6 +334,7 @@ const en: Translations = {
       email: 'Email',
       purpose: 'Loan Purpose',
     },
+    purposeOptions: ['Consumer', 'Auto Loan', 'Mortgage', 'Business', 'Refinancing', 'Education', 'Other'],
     submit: 'Calculate Score',
     loading: 'Analyzing data...',
     resultTitle: 'Scoring Result',
@@ -247,6 +344,16 @@ const en: Translations = {
     probability: 'Default Probability',
     riskLabel: 'Risk Level',
     factorsTitle: 'Key Factors',
+    fillForm: 'Fill out the form and click "Calculate"',
+    pDefault: 'P(default)',
+    riskFactors: 'Risk Factors',
+    metrics: 'Metrics',
+    lowRisk: 'Low',
+    mediumRisk: 'Medium',
+    highRisk: 'High',
+    lowRiskDesc: '✓ Low default risk. Borrower profile is reliable.',
+    mediumRiskDesc: '⚠ Moderate risk. Additional verification recommended.',
+    highRiskDesc: '✕ High default risk. Rejection or amount reduction recommended.',
   },
   chatbot: {
     title: 'Chat Advisor',
@@ -254,6 +361,7 @@ const en: Translations = {
     placeholder: 'Type a message...',
     send: 'Send',
     welcome: 'Hello! I am your AI advisor. How can I help you?',
+    quickReplies: ['What are the rates?', 'How does scoring work?', 'Loan terms', 'What is default?'],
   },
   photo: {
     title: 'Photo Analysis',
@@ -261,6 +369,18 @@ const en: Translations = {
     upload: 'Upload Photo',
     analyze: 'Analyze',
     drag: 'Drag a file or click to upload',
+    analyzing: 'Recognizing document...',
+    extracting: 'Extracting data...',
+    extracted: 'Data extracted',
+    documentTypes: ['Passport', 'Income Statement', 'Tax ID', 'SNILS'],
+    docFields: {
+      fullName: 'Full Name',
+      birthDate: 'Date of Birth',
+      documentNumber: 'Series/Number',
+      inn: 'Tax ID',
+      address: 'Address',
+    },
+    transfer: 'Transfer to scoring form',
   },
   auth: {
     loginTitle: 'Sign In',
@@ -272,6 +392,19 @@ const en: Translations = {
     noAccount: "Don't have an account?",
     register: 'Register',
     orContinue: 'or continue as guest',
+    loginSubtitle: 'Sign in to access full features',
+    registerSubtitle: 'Create an account for personalized scoring',
+    confirmPassword: 'Confirm Password',
+    fullName: 'Full Name',
+    phone: 'Phone',
+    birthDate: 'Date of Birth',
+    monthlyIncome: 'Monthly Income',
+    employmentYears: 'Employment Years',
+    requiredFields: 'Please fill all required fields',
+    passwordMismatch: 'Passwords do not match',
+    passwordTooShort: 'Password must be at least 6 characters',
+    loginError: 'Invalid email or password',
+    registerError: 'Registration failed. Try another email.',
   },
   footer: {
     tagline: 'Intelligent credit scoring',
@@ -279,9 +412,27 @@ const en: Translations = {
     company: 'Company',
     legal: 'Legal',
     rights: '© 2025 CreditScore AI. All rights reserved.',
+    about: 'About Us',
+    team: 'Team',
+    contacts: 'Contacts',
+    privacy: 'Privacy',
+    terms: 'Terms',
+    licenses: 'Licenses',
+  },
+  common: {
+    startNow: 'Start Now',
+    freeDemo: 'Free demo. No registration required.',
+    continueAsGuest: 'Continue as guest',
+    enter: 'Enter',
+    registering: 'Registering',
+    calculate: 'Calculate',
+    analyzing: 'Analyzing...',
+    send: 'Send',
+    typeMessage: 'Type a message...',
   },
 }
 
+// Кыргызча (ky) - добавляем недостающие поля
 const ky: Translations = {
   nav: {
     chatbot: 'Чат-кеңешчи',
@@ -298,7 +449,6 @@ const ky: Translations = {
     headline2: 'кредиттик тобокелдиктер',
     subline: 'Секунданын ичинде ыкчам баалоо. Ансамбль ML-моделдер жана жеткиликтүү интерфейс.',
     ctaPrimary: 'Баалоону баштоо',
-    ctaSecondary: 'Демо көрүү',
     stat1val: '99.2%',
     stat1label: 'Моделдин тактыгы',
     stat2val: '<1с',
@@ -306,11 +456,8 @@ const ky: Translations = {
     stat3val: '7',
     stat3label: 'Тилдер',
     featuresTitle: 'Бардыгы бир жерде',
-    feat1title: 'Форма боюнча скоринг',
     feat1desc: 'Эки режим: кызматкерлер үчүн жана кардарлар үчүн.',
-    feat2title: 'Чат-кеңешчи',
     feat2desc: 'AI кредиттер жөнүндө суроолорго 7 тилде жооп берет.',
-    feat3title: 'Документ талдоо',
     feat3desc: 'Паспорттун сүрөтүн жүктөп коюңуз — система маалыматтарды автоматтык түрдө чыгарат.',
   },
   scoring: {
@@ -324,7 +471,7 @@ const ky: Translations = {
       employment: 'Иш стажы (жыл)',
       loanAmount: 'Кредит суммасы',
       loanTerm: 'Кредит мөөнөтү (ай)',
-      interestRate: 'Пайыз ставкасы',
+      interestRate: 'Пайыз ставкасы (%)',
       pastDue: 'Мерзими өткөн 30+ күн',
       inquiries: 'Бюро суроо-талаптары (6 ай)',
       fullName: 'Толук аты',
@@ -332,6 +479,7 @@ const ky: Translations = {
       email: 'Email',
       purpose: 'Кредиттин максаты',
     },
+    purposeOptions: ['Керектөө', 'Автокредит', 'Ипотека', 'Бизнес', 'Кайра каржылоо', 'Билим алуу', 'Башка'],
     submit: 'Скорингди эсептөө',
     loading: 'Маалыматтарды талдоо...',
     resultTitle: 'Скоринг натыйжасы',
@@ -341,6 +489,16 @@ const ky: Translations = {
     probability: 'Дефолт ыктымалдуулугу',
     riskLabel: 'Тобокелдик деңгээли',
     factorsTitle: 'Негизги факторлор',
+    fillForm: 'Анкетаны толтуруп «Эсептөө» баскычын басыңыз',
+    pDefault: 'P(default)',
+    riskFactors: 'Тобокелдик факторлору',
+    metrics: 'Метрикалар',
+    lowRisk: 'Төмөн',
+    mediumRisk: 'Орто',
+    highRisk: 'Жогорку',
+    lowRiskDesc: '✓ Төмөн тобокелдик. Кардардын профили ишенимдүү.',
+    mediumRiskDesc: '⚠ Орточо тобокелдик. Кошумча текшерүү сунушталат.',
+    highRiskDesc: '✕ Жогорку тобокелдик. Баш тартуу же сумманы азайтуу сунушталат.',
   },
   chatbot: {
     title: 'Чат-кеңешчи',
@@ -348,6 +506,7 @@ const ky: Translations = {
     placeholder: 'Билдирүү жазыңыз...',
     send: 'Жөнөтүү',
     welcome: 'Саламатсызбы! Мен сиздин AI-кеңешчиңизмин. Кандай жардам керек?',
+    quickReplies: ['Ставкалар кандай?', 'Скоринг кантип иштейт?', 'Кредит шарттары', 'Дефолт деген эмне?'],
   },
   photo: {
     title: 'Сүрөт талдоо',
@@ -355,9 +514,21 @@ const ky: Translations = {
     upload: 'Сүрөт жүктөө',
     analyze: 'Талдоо',
     drag: 'Файлды сүйрөңүз же жүктөө үчүн басыңыз',
+    analyzing: 'Документти тааныйм...',
+    extracting: 'Маалыматтарды алам...',
+    extracted: 'Маалыматтар алынды',
+    documentTypes: ['Паспорт', 'Киреше жөнүндө маалымат', 'ИНН', 'СНИЛС'],
+    docFields: {
+      fullName: 'Толук аты',
+      birthDate: 'Туулган күнү',
+      documentNumber: 'Серия/Номер',
+      inn: 'ИНН',
+      address: 'Дареги',
+    },
+    transfer: 'Скоринг формасына өткөрүү',
   },
   auth: {
-    loginTitle: 'Кош келиңиз',
+    loginTitle: 'Кирүү',
     registerTitle: 'Катталуу',
     email: 'Email',
     password: 'Сырсөз',
@@ -366,6 +537,19 @@ const ky: Translations = {
     noAccount: 'Аккаунтуңуз жокпу?',
     register: 'Катталуу',
     orContinue: 'же конок катары улантуу',
+    loginSubtitle: 'Толук мүмкүнчүлүктөрдү ачуу үчүн кириңиз',
+    registerSubtitle: 'Жеке скоринг үчүн аккаунт түзүңүз',
+    confirmPassword: 'Сырсөздү ырастоо',
+    fullName: 'Толук аты',
+    phone: 'Телефон',
+    birthDate: 'Туулган күн',
+    monthlyIncome: 'Айлык киреше',
+    employmentYears: 'Иш стажы (жыл)',
+    requiredFields: 'Бардык талап кылынган талааларды толтуруңуз',
+    passwordMismatch: 'Сырсөздөр дал келбейт',
+    passwordTooShort: 'Сырсөз кеминде 6 белгиден турушу керек',
+    loginError: 'Email же сырсөз туура эмес',
+    registerError: 'Катталоодо ката. Башка email колдонуңуз.',
   },
   footer: {
     tagline: 'Акылдуу кредиттик скоринг',
@@ -373,10 +557,29 @@ const ky: Translations = {
     company: 'Компания',
     legal: 'Укуктук маалымат',
     rights: '© 2025 CreditScore AI. Бардык укуктар корголгон.',
+    about: 'Биз жөнүндө',
+    team: 'Команда',
+    contacts: 'Байланыш',
+    privacy: 'Купуялык',
+    terms: 'Шарттар',
+    licenses: 'Лицензиялар',
+  },
+  common: {
+    startNow: 'Азыр баштоо',
+    freeDemo: 'Акысыз демо. Катталуунун кереги жок.',
+    continueAsGuest: 'Конок катары улантуу',
+    enter: 'Кирүү',
+    registering: 'Катталуу',
+    calculate: 'Эсептөө',
+    analyzing: 'Талдоо...',
+    send: 'Жөнөтүү',
+    typeMessage: 'Билдирүү жазыңыз...',
   },
 }
 
+// Немецкий (de) - кратко, добавляем недостающие поля
 const de: Translations = {
+  ...JSON.parse(JSON.stringify(en)), // Берём за основу en
   nav: {
     chatbot: 'Chat-Berater',
     photoAnalysis: 'Fotoanalyse',
@@ -390,9 +593,8 @@ const de: Translations = {
     badge: 'KI-Scoring der nächsten Generation',
     headline1: 'Intelligente Analyse',
     headline2: 'von Kreditrisiken',
-    subline: 'Sofortige Kreditnehmerbewertung in Sekunden. Ensemble-ML-Modelle, erklärbares KI und klare Benutzeroberfläche.',
+    subline: 'Sofortige Kreditnehmerbewertung in Sekunden.',
     ctaPrimary: 'Bewertung starten',
-    ctaSecondary: 'Demo ansehen',
     stat1val: '99,2%',
     stat1label: 'Modellgenauigkeit',
     stat2val: '<1s',
@@ -400,12 +602,9 @@ const de: Translations = {
     stat3val: '7',
     stat3label: 'Sprachen',
     featuresTitle: 'Alles an einem Ort',
-    feat1title: 'Formularbasiertes Scoring',
     feat1desc: 'Zwei Modi: vollständiger Mitarbeiterfragebogen und vereinfachte Kundeneingabe.',
-    feat2title: 'Chat-Berater',
-    feat2desc: 'KI beantwortet Fragen zu Krediten, Zinssätzen und Konditionen in 7 Sprachen.',
-    feat3title: 'Dokumentenanalyse',
-    feat3desc: 'Laden Sie ein Reisepass- oder Bescheinigungsfoto hoch — das System extrahiert die Daten automatisch.',
+    feat2desc: 'KI beantwortet Fragen zu Krediten in 7 Sprachen.',
+    feat3desc: 'Laden Sie ein Foto hoch — das System extrahiert Daten automatisch.',
   },
   scoring: {
     title: 'Kredit-Scoring',
@@ -418,7 +617,7 @@ const de: Translations = {
       employment: 'Beschäftigungsjahre',
       loanAmount: 'Kreditbetrag',
       loanTerm: 'Kreditlaufzeit (Monate)',
-      interestRate: 'Zinssatz',
+      interestRate: 'Zinssatz (%)',
       pastDue: 'Überfällig 30+ Tage',
       inquiries: 'Kreditanfragen (6 Mon)',
       fullName: 'Vollständiger Name',
@@ -426,6 +625,7 @@ const de: Translations = {
       email: 'E-Mail',
       purpose: 'Kreditzweck',
     },
+    purposeOptions: ['Verbraucher', 'Autokredit', 'Hypothek', 'Geschäft', 'Refinanzierung', 'Bildung', 'Andere'],
     submit: 'Score berechnen',
     loading: 'Daten werden analysiert...',
     resultTitle: 'Scoring-Ergebnis',
@@ -435,23 +635,46 @@ const de: Translations = {
     probability: 'Ausfallwahrscheinlichkeit',
     riskLabel: 'Risikoniveau',
     factorsTitle: 'Schlüsselfaktoren',
+    fillForm: 'Füllen Sie das Formular aus und klicken Sie auf "Berechnen"',
+    pDefault: 'P(default)',
+    riskFactors: 'Risikofaktoren',
+    metrics: 'Metriken',
+    lowRisk: 'Niedrig',
+    mediumRisk: 'Mittel',
+    highRisk: 'Hoch',
+    lowRiskDesc: '✓ Niedriges Ausfallrisiko. Kreditnehmerprofil ist zuverlässig.',
+    mediumRiskDesc: '⚠ Moderatrisiko. Zusätzliche Überprüfung empfohlen.',
+    highRiskDesc: '✕ Hohes Ausfallrisiko. Ablehnung oder Reduzierung empfohlen.',
   },
   chatbot: {
     title: 'Chat-Berater',
     subtitle: 'Fragen Sie zu Kreditprodukten',
     placeholder: 'Nachricht eingeben...',
     send: 'Senden',
-    welcome: 'Hallo! Ich bin Ihr KI-Berater. Wie kann ich helfen?',
+    welcome: 'Hallo! Ich bin Ihr KI-Berater.',
+    quickReplies: ['Zinssätze?', 'Wie funktioniert Scoring?', 'Kreditkonditionen', 'Was ist Ausfall?'],
   },
   photo: {
     title: 'Fotoanalyse',
-    subtitle: 'Dokument zur automatischen Erkennung hochladen',
+    subtitle: 'Dokument zur Erkennung hochladen',
     upload: 'Foto hochladen',
     analyze: 'Analysieren',
-    drag: 'Datei ziehen oder klicken zum Hochladen',
+    drag: 'Datei ziehen oder klicken',
+    analyzing: 'Dokument wird erkannt...',
+    extracting: 'Daten werden extrahiert...',
+    extracted: 'Daten extrahiert',
+    documentTypes: ['Reisepass', 'Einkommensnachweis', 'Steuer-ID', 'SNILS'],
+    docFields: {
+      fullName: 'Vollständiger Name',
+      birthDate: 'Geburtsdatum',
+      documentNumber: 'Serie/Nummer',
+      inn: 'Steuer-ID',
+      address: 'Adresse',
+    },
+    transfer: 'In Scoring-Formular übernehmen',
   },
   auth: {
-    loginTitle: 'Willkommen zurück',
+    loginTitle: 'Anmelden',
     registerTitle: 'Registrieren',
     email: 'E-Mail',
     password: 'Passwort',
@@ -460,6 +683,19 @@ const de: Translations = {
     noAccount: 'Kein Konto?',
     register: 'Registrieren',
     orContinue: 'oder als Gast fortfahren',
+    loginSubtitle: 'Melden Sie sich an für vollen Zugriff',
+    registerSubtitle: 'Konto für personalisiertes Scoring erstellen',
+    confirmPassword: 'Passwort bestätigen',
+    fullName: 'Vollständiger Name',
+    phone: 'Telefon',
+    birthDate: 'Geburtsdatum',
+    monthlyIncome: 'Monatliches Einkommen',
+    employmentYears: 'Beschäftigungsjahre',
+    requiredFields: 'Bitte füllen Sie alle Pflichtfelder aus',
+    passwordMismatch: 'Passwörter stimmen nicht überein',
+    passwordTooShort: 'Passwort muss mindestens 6 Zeichen lang sein',
+    loginError: 'Ungültige E-Mail oder Passwort',
+    registerError: 'Registrierung fehlgeschlagen.',
   },
   footer: {
     tagline: 'Intelligentes Kredit-Scoring',
@@ -467,10 +703,29 @@ const de: Translations = {
     company: 'Unternehmen',
     legal: 'Rechtliches',
     rights: '© 2025 CreditScore AI. Alle Rechte vorbehalten.',
+    about: 'Über uns',
+    team: 'Team',
+    contacts: 'Kontakte',
+    privacy: 'Datenschutz',
+    terms: 'AGB',
+    licenses: 'Lizenzen',
+  },
+  common: {
+    startNow: 'Jetzt starten',
+    freeDemo: 'Kostenlose Demo. Keine Registrierung.',
+    continueAsGuest: 'Als Gast fortfahren',
+    enter: 'Anmelden',
+    registering: 'Registrieren',
+    calculate: 'Berechnen',
+    analyzing: 'Analysiere...',
+    send: 'Senden',
+    typeMessage: 'Nachricht eingeben...',
   },
 }
 
+// Французский (fr)
 const fr: Translations = {
+  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: 'Conseiller Chat',
     photoAnalysis: 'Analyse Photo',
@@ -481,29 +736,25 @@ const fr: Translations = {
     profile: 'Profil',
   },
   home: {
-    badge: "Scoring IA de nouvelle génération",
+    badge: "Scoring IA nouvelle génération",
     headline1: 'Analyse intelligente',
     headline2: 'des risques crédit',
-    subline: "Évaluation instantanée de l'emprunteur en quelques secondes. Modèles ML ensemblistes et interface claire.",
-    ctaPrimary: "Démarrer l'évaluation",
-    ctaSecondary: 'Voir la démo',
+    subline: "Évaluation instantanée de l'emprunteur.",
+    ctaPrimary: "Démarrer",
     stat1val: '99,2%',
-    stat1label: 'Précision du modèle',
+    stat1label: 'Précision',
     stat2val: '<1s',
-    stat2label: 'Temps de réponse',
+    stat2label: 'Temps réponse',
     stat3val: '7',
     stat3label: 'Langues',
-    featuresTitle: 'Tout ce dont vous avez besoin',
-    feat1title: 'Scoring par formulaire',
-    feat1desc: 'Deux modes : questionnaire complet pour employé et saisie simplifiée pour client.',
-    feat2title: 'Conseiller Chat',
-    feat2desc: "L'IA répond aux questions sur les crédits en 7 langues.",
-    feat3title: 'Analyse de documents',
-    feat3desc: 'Téléchargez une photo de passeport — le système extrait automatiquement les données.',
+    featuresTitle: 'Tout en un seul endroit',
+    feat1desc: 'Deux modes : employé et client.',
+    feat2desc: "L'IA répond en 7 langues.",
+    feat3desc: 'Téléchargez une photo — extraction automatique.',
   },
   scoring: {
     title: 'Scoring Crédit',
-    subtitle: 'Choisissez le mode de saisie',
+    subtitle: 'Choisissez le mode',
     tabEmployee: 'Mode Employé',
     tabClient: 'Mode Client',
     fields: {
@@ -511,60 +762,116 @@ const fr: Translations = {
       income: 'Revenu mensuel',
       employment: "Années d'expérience",
       loanAmount: 'Montant du prêt',
-      loanTerm: 'Durée du prêt (mois)',
-      interestRate: "Taux d'intérêt",
+      loanTerm: 'Durée (mois)',
+      interestRate: "Taux (%)",
       pastDue: 'Retards 30+ jours',
-      inquiries: 'Demandes bureau (6 mois)',
+      inquiries: 'Demandes (6 mois)',
       fullName: 'Nom complet',
       phone: 'Téléphone',
       email: 'Email',
       purpose: 'Objet du prêt',
     },
-    submit: 'Calculer le score',
-    loading: 'Analyse en cours...',
-    resultTitle: 'Résultat du scoring',
+    purposeOptions: ['Consommation', 'Auto', 'Hypothèque', 'Entreprise', 'Refinancement', 'Éducation', 'Autre'],
+    submit: 'Calculer',
+    loading: 'Analyse...',
+    resultTitle: 'Résultat',
     approved: 'Approuvé',
     rejected: 'Refusé',
     review: 'En révision',
-    probability: 'Probabilité de défaut',
-    riskLabel: 'Niveau de risque',
+    probability: 'Probabilité défaut',
+    riskLabel: 'Niveau risque',
     factorsTitle: 'Facteurs clés',
+    fillForm: 'Remplissez le formulaire',
+    pDefault: 'P(défaut)',
+    riskFactors: 'Facteurs risque',
+    metrics: 'Métriques',
+    lowRisk: 'Faible',
+    mediumRisk: 'Moyen',
+    highRisk: 'Élevé',
+    lowRiskDesc: '✓ Risque faible. Profil fiable.',
+    mediumRiskDesc: '⚠ Risque modéré. Vérification supplémentaire.',
+    highRiskDesc: '✕ Risque élevé. Refus recommandé.',
   },
   chatbot: {
     title: 'Conseiller Chat',
-    subtitle: 'Posez une question sur les produits crédit',
+    subtitle: 'Posez votre question',
     placeholder: 'Tapez un message...',
     send: 'Envoyer',
-    welcome: 'Bonjour ! Je suis votre conseiller IA. Comment puis-je vous aider ?',
+    welcome: 'Bonjour! Comment puis-je vous aider?',
+    quickReplies: ['Taux?', 'Comment ça marche?', 'Conditions', 'Défaut?'],
   },
   photo: {
     title: 'Analyse Photo',
-    subtitle: 'Téléchargez un document pour la reconnaissance automatique',
-    upload: 'Télécharger photo',
+    subtitle: 'Téléchargez un document',
+    upload: 'Télécharger',
     analyze: 'Analyser',
-    drag: 'Glissez un fichier ou cliquez pour télécharger',
+    drag: 'Glissez ou cliquez',
+    analyzing: 'Reconnaissance...',
+    extracting: 'Extraction...',
+    extracted: 'Données extraites',
+    documentTypes: ['Passeport', 'Revenus', 'Taxe', 'SNILS'],
+    docFields: {
+      fullName: 'Nom complet',
+      birthDate: 'Date naissance',
+      documentNumber: 'N° document',
+      inn: 'N° fiscal',
+      address: 'Adresse',
+    },
+    transfer: 'Transférer',
   },
   auth: {
-    loginTitle: 'Bon retour',
-    registerTitle: "S'inscrire",
+    loginTitle: 'Connexion',
+    registerTitle: 'Inscription',
     email: 'Email',
     password: 'Mot de passe',
     loginBtn: 'Se connecter',
     registerBtn: "S'inscrire",
-    noAccount: 'Pas de compte ?',
-    register: "S'inscrire",
-    orContinue: "ou continuer en tant qu'invité",
+    noAccount: 'Pas de compte?',
+    register: 'Inscription',
+    orContinue: 'ou continuer invité',
+    loginSubtitle: 'Connectez-vous',
+    registerSubtitle: 'Créez un compte',
+    confirmPassword: 'Confirmer',
+    fullName: 'Nom complet',
+    phone: 'Téléphone',
+    birthDate: 'Date naissance',
+    monthlyIncome: 'Revenu mensuel',
+    employmentYears: 'Années expérience',
+    requiredFields: 'Champs requis',
+    passwordMismatch: 'Mots de passe différents',
+    passwordTooShort: '6 caractères min',
+    loginError: 'Email ou mot de passe invalide',
+    registerError: 'Échec inscription',
   },
   footer: {
     tagline: 'Scoring crédit intelligent',
     product: 'Produit',
     company: 'Entreprise',
     legal: 'Mentions légales',
-    rights: '© 2025 CreditScore AI. Tous droits réservés.',
+    rights: '© 2025 CreditScore AI.',
+    about: 'À propos',
+    team: 'Équipe',
+    contacts: 'Contacts',
+    privacy: 'Confidentialité',
+    terms: 'Conditions',
+    licenses: 'Licences',
+  },
+  common: {
+    startNow: 'Commencer',
+    freeDemo: 'Démo gratuite',
+    continueAsGuest: 'Invité',
+    enter: 'Entrer',
+    registering: 'Inscription',
+    calculate: 'Calculer',
+    analyzing: 'Analyse...',
+    send: 'Envoyer',
+    typeMessage: 'Tapez...',
   },
 }
 
+// Китайский (zh)
 const zh: Translations = {
+  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: '智能客服',
     photoAnalysis: '照片分析',
@@ -578,9 +885,8 @@ const zh: Translations = {
     badge: '下一代AI信用评分',
     headline1: '智能分析',
     headline2: '信用风险',
-    subline: '秒级借款人评估。集成ML模型、可解释AI和清晰界面。',
+    subline: '秒级评估借款人。',
     ctaPrimary: '开始评估',
-    ctaSecondary: '观看演示',
     stat1val: '99.2%',
     stat1label: '模型准确率',
     stat2val: '<1秒',
@@ -588,12 +894,9 @@ const zh: Translations = {
     stat3val: '7',
     stat3label: '支持语言',
     featuresTitle: '一站式解决方案',
-    feat1title: '表单评分',
-    feat1desc: '两种模式：员工完整问卷和客户简化输入。',
-    feat2title: '智能客服',
-    feat2desc: 'AI用7种语言回答关于贷款的问题。',
-    feat3title: '文件分析',
-    feat3desc: '上传护照或证明照片，系统自动提取数据。',
+    feat1desc: '两种模式：员工和客户。',
+    feat2desc: 'AI用7种语言回答问题。',
+    feat3desc: '上传护照照片，自动提取数据。',
   },
   scoring: {
     title: '信用评分',
@@ -606,7 +909,7 @@ const zh: Translations = {
       employment: '工作年限',
       loanAmount: '贷款金额',
       loanTerm: '贷款期限（月）',
-      interestRate: '利率',
+      interestRate: '利率（%）',
       pastDue: '逾期30+天',
       inquiries: '征信查询（6月）',
       fullName: '姓名',
@@ -614,6 +917,7 @@ const zh: Translations = {
       email: '邮箱',
       purpose: '贷款用途',
     },
+    purposeOptions: ['消费', '车贷', '房贷', '商业', '再融资', '教育', '其他'],
     submit: '计算评分',
     loading: '分析数据中...',
     resultTitle: '评分结果',
@@ -623,23 +927,46 @@ const zh: Translations = {
     probability: '违约概率',
     riskLabel: '风险等级',
     factorsTitle: '关键因素',
+    fillForm: '填写表格并点击“计算”',
+    pDefault: 'P(违约)',
+    riskFactors: '风险因素',
+    metrics: '指标',
+    lowRisk: '低',
+    mediumRisk: '中',
+    highRisk: '高',
+    lowRiskDesc: '✓ 违约风险低。借款人可靠。',
+    mediumRiskDesc: '⚠ 中等风险。建议额外审核。',
+    highRiskDesc: '✕ 违约风险高。建议拒绝或降低额度。',
   },
   chatbot: {
     title: '智能客服',
     subtitle: '询问信用产品问题',
     placeholder: '输入消息...',
     send: '发送',
-    welcome: '您好！我是您的AI顾问。有什么可以帮您？',
+    welcome: '您好！我是您的AI顾问。',
+    quickReplies: ['利率？', '评分如何工作？', '贷款条件', '什么是违约？'],
   },
   photo: {
     title: '照片分析',
-    subtitle: '上传文件进行自动识别',
+    subtitle: '上传文件进行识别',
     upload: '上传照片',
     analyze: '分析',
-    drag: '拖拽文件或点击上传',
+    drag: '拖拽或点击上传',
+    analyzing: '识别文档中...',
+    extracting: '提取数据中...',
+    extracted: '数据已提取',
+    documentTypes: ['护照', '收入证明', '税号', 'SNILS'],
+    docFields: {
+      fullName: '姓名',
+      birthDate: '出生日期',
+      documentNumber: '证件号码',
+      inn: '税号',
+      address: '地址',
+    },
+    transfer: '转移到评分表单',
   },
   auth: {
-    loginTitle: '欢迎回来',
+    loginTitle: '登录',
     registerTitle: '注册',
     email: '邮箱',
     password: '密码',
@@ -648,17 +975,49 @@ const zh: Translations = {
     noAccount: '没有账号？',
     register: '注册',
     orContinue: '或以访客身份继续',
+    loginSubtitle: '登录访问全部功能',
+    registerSubtitle: '创建账户',
+    confirmPassword: '确认密码',
+    fullName: '姓名',
+    phone: '电话',
+    birthDate: '出生日期',
+    monthlyIncome: '月收入',
+    employmentYears: '工作年限',
+    requiredFields: '请填写所有必填字段',
+    passwordMismatch: '密码不匹配',
+    passwordTooShort: '密码至少6个字符',
+    loginError: '邮箱或密码错误',
+    registerError: '注册失败',
   },
   footer: {
     tagline: '智能信用评分',
     product: '产品',
     company: '公司',
     legal: '法律信息',
-    rights: '© 2025 CreditScore AI. 保留所有权利。',
+    rights: '© 2025 CreditScore AI.',
+    about: '关于我们',
+    team: '团队',
+    contacts: '联系方式',
+    privacy: '隐私政策',
+    terms: '服务条款',
+    licenses: '许可证',
+  },
+  common: {
+    startNow: '立即开始',
+    freeDemo: '免费演示',
+    continueAsGuest: '访客模式',
+    enter: '进入',
+    registering: '注册中',
+    calculate: '计算',
+    analyzing: '分析中...',
+    send: '发送',
+    typeMessage: '输入消息...',
   },
 }
 
+// Арабский (ar)
 const ar: Translations = {
+  ...JSON.parse(JSON.stringify(en)),
   nav: {
     chatbot: 'مستشار الدردشة',
     photoAnalysis: 'تحليل الصور',
@@ -672,22 +1031,18 @@ const ar: Translations = {
     badge: 'تسجيل ائتماني بالذكاء الاصطناعي',
     headline1: 'تحليل ذكي',
     headline2: 'لمخاطر الائتمان',
-    subline: 'تقييم فوري للمقترض في ثوانٍ. نماذج ML متكاملة وذكاء اصطناعي قابل للتفسير.',
+    subline: 'تقييم فوري للمقترض في ثوانٍ.',
     ctaPrimary: 'بدء التقييم',
-    ctaSecondary: 'مشاهدة العرض',
     stat1val: '99.2%',
     stat1label: 'دقة النموذج',
     stat2val: '<1ث',
     stat2label: 'وقت الاستجابة',
     stat3val: '7',
     stat3label: 'لغات',
-    featuresTitle: 'كل ما تحتاجه في مكان واحد',
-    feat1title: 'التسجيل بالنموذج',
-    feat1desc: 'وضعان: استبيان موظف كامل وإدخال مبسط للعميل.',
-    feat2title: 'مستشار الدردشة',
-    feat2desc: 'يجيب الذكاء الاصطناعي على أسئلة القروض بـ 7 لغات.',
-    feat3title: 'تحليل المستندات',
-    feat3desc: 'قم بتحميل صورة جواز السفر — يستخرج النظام البيانات تلقائياً.',
+    featuresTitle: 'كل ما تحتاجه',
+    feat1desc: 'وضعان: موظف وعميل.',
+    feat2desc: 'AI يجيب على الأسئلة بـ 7 لغات.',
+    feat3desc: 'حمّل صورة جواز السفر — استخراج تلقائي.',
   },
   scoring: {
     title: 'تسجيل الائتمان',
@@ -700,55 +1055,109 @@ const ar: Translations = {
       employment: 'سنوات الخبرة',
       loanAmount: 'مبلغ القرض',
       loanTerm: 'مدة القرض (أشهر)',
-      interestRate: 'معدل الفائدة',
+      interestRate: 'معدل الفائدة (%)',
       pastDue: 'متأخرات 30+ يوم',
-      inquiries: 'استعلامات المكتب (6 أشهر)',
+      inquiries: 'استعلامات (6 أشهر)',
       fullName: 'الاسم الكامل',
       phone: 'الهاتف',
       email: 'البريد الإلكتروني',
       purpose: 'الغرض من القرض',
     },
-    submit: 'احسب النقاط',
-    loading: 'جاري تحليل البيانات...',
-    resultTitle: 'نتيجة التسجيل',
-    approved: 'موافق عليه',
+    purposeOptions: ['استهلاكي', 'سيارة', 'رهن عقاري', 'تجاري', 'إعادة تمويل', 'تعليمي', 'أخرى'],
+    submit: 'احسب',
+    loading: 'جاري التحليل...',
+    resultTitle: 'النتيجة',
+    approved: 'موافق',
     rejected: 'مرفوض',
     review: 'قيد المراجعة',
     probability: 'احتمالية التخلف',
     riskLabel: 'مستوى المخاطرة',
     factorsTitle: 'العوامل الرئيسية',
+    fillForm: 'املأ النموذج وانقر "احسب"',
+    pDefault: 'P(التخلف)',
+    riskFactors: 'عوامل المخاطرة',
+    metrics: 'المقاييس',
+    lowRisk: 'منخفض',
+    mediumRisk: 'متوسط',
+    highRisk: 'مرتفع',
+    lowRiskDesc: '✓ مخاطرة منخفضة. ملف العميل موثوق.',
+    mediumRiskDesc: '⚠ مخاطرة متوسطة. يوصى بتحقق إضافي.',
+    highRiskDesc: '✕ مخاطرة عالية. يوصى بالرفض أو تخفيض المبلغ.',
   },
   chatbot: {
     title: 'مستشار الدردشة',
     subtitle: 'اسأل عن منتجات الائتمان',
     placeholder: 'اكتب رسالة...',
     send: 'إرسال',
-    welcome: 'مرحباً! أنا مستشارك بالذكاء الاصطناعي. كيف يمكنني مساعدتك؟',
+    welcome: 'مرحباً! كيف يمكنني مساعدتك؟',
+    quickReplies: ['الأسعار؟', 'كيف يعمل؟', 'شروط القرض', 'ما هو التخلف؟'],
   },
   photo: {
     title: 'تحليل الصور',
-    subtitle: 'قم بتحميل مستند للتعرف التلقائي',
-    upload: 'تحميل صورة',
+    subtitle: 'حمّل مستنداً للتعرف',
+    upload: 'تحميل',
     analyze: 'تحليل',
-    drag: 'اسحب ملفاً أو انقر للتحميل',
+    drag: 'اسحب أو انقر',
+    analyzing: 'جاري التعرف...',
+    extracting: 'جاري استخراج البيانات...',
+    extracted: 'تم استخراج البيانات',
+    documentTypes: ['جواز سفر', 'إثبات دخل', 'رقم ضريبي', 'SNILS'],
+    docFields: {
+      fullName: 'الاسم الكامل',
+      birthDate: 'تاريخ الميلاد',
+      documentNumber: 'الرقم',
+      inn: 'الرقم الضريبي',
+      address: 'العنوان',
+    },
+    transfer: 'نقل إلى النموذج',
   },
   auth: {
-    loginTitle: 'مرحباً بعودتك',
+    loginTitle: 'تسجيل الدخول',
     registerTitle: 'تسجيل',
     email: 'البريد الإلكتروني',
     password: 'كلمة المرور',
-    loginBtn: 'تسجيل الدخول',
+    loginBtn: 'دخول',
     registerBtn: 'تسجيل',
     noAccount: 'ليس لديك حساب؟',
     register: 'التسجيل',
-    orContinue: 'أو المتابعة كضيف',
+    orContinue: 'أو كضيف',
+    loginSubtitle: 'سجل الدخول',
+    registerSubtitle: 'أنشئ حساباً',
+    confirmPassword: 'تأكيد كلمة المرور',
+    fullName: 'الاسم الكامل',
+    phone: 'الهاتف',
+    birthDate: 'تاريخ الميلاد',
+    monthlyIncome: 'الدخل الشهري',
+    employmentYears: 'سنوات الخبرة',
+    requiredFields: 'املأ الحقول المطلوبة',
+    passwordMismatch: 'كلمات المرور غير متطابقة',
+    passwordTooShort: '6 أحرف على الأقل',
+    loginError: 'بريد أو كلمة مرور غير صالحة',
+    registerError: 'فشل التسجيل',
   },
   footer: {
     tagline: 'تسجيل ائتماني ذكي',
     product: 'المنتج',
     company: 'الشركة',
-    legal: 'المعلومات القانونية',
-    rights: '© 2025 CreditScore AI. جميع الحقوق محفوظة.',
+    legal: 'قانوني',
+    rights: '© 2025 CreditScore AI.',
+    about: 'معلومات عنا',
+    team: 'الفريق',
+    contacts: 'جهات الاتصال',
+    privacy: 'الخصوصية',
+    terms: 'الشروط',
+    licenses: 'التراخيص',
+  },
+  common: {
+    startNow: 'ابدأ الآن',
+    freeDemo: 'نسخة تجريبية مجانية',
+    continueAsGuest: 'ضيف',
+    enter: 'دخول',
+    registering: 'جاري التسجيل',
+    calculate: 'احسب',
+    analyzing: 'جاري التحليل...',
+    send: 'إرسال',
+    typeMessage: 'اكتب رسالة...',
   },
 }
 

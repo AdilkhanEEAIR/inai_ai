@@ -79,15 +79,15 @@ function InputField({ label, name, type = 'text', placeholder, value, onChange }
   )
 }
 
-function SelectField({ label, name, options, value, onChange }: {
+function SelectField({ label, name, options, value, onChange, placeholderText }: {
   label: string; name: string; options: string[]; value: string;
-  onChange: (n: string, v: string) => void
+  onChange: (n: string, v: string) => void; placeholderText: string
 }) {
   return (
     <div className={s.field}>
       <label className={s.field__label}><span>{label}</span></label>
       <select className={s.input} value={value} onChange={(e) => onChange(name, e.target.value)}>
-        <option value="">Выбрать...</option>
+        <option value="">{placeholderText}</option>
         {options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>
     </div>
@@ -103,6 +103,8 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
   const riskColor = result.risk_level === 'low' ? '#5DCAA5' : result.risk_level === 'medium' ? '#FAC775' : '#f09595'
   const decisionColor = result.risk_level === 'low' ? '#5DCAA5' : result.risk_level === 'high' ? '#f09595' : '#FAC775'
 
+  const riskDesc = result.risk_level === 'low' ? t.scoring.lowRiskDesc : result.risk_level === 'medium' ? t.scoring.mediumRiskDesc : t.scoring.highRiskDesc
+
   return (
     <div className={s.result}>
       <div className={s.result__header}>
@@ -112,7 +114,6 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
         </span>
       </div>
 
-      {/* Probability */}
       <div className={s.result__prob}>
         <span className={s.result__prob_num} style={{ color: riskColor }}>
           {pct}<span style={{ fontSize: '0.55em', opacity: 0.7 }}>%</span>
@@ -120,23 +121,20 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
         <span className={s.result__prob_label}>{t.scoring.probability}</span>
       </div>
 
-      {/* Gauge bar */}
       <div className={s.gauge}>
         <div className={s.gauge__spectrum} />
         <div className={s.gauge__cursor} style={{ left: `calc(${Math.min(pct, 99)}% - 1.5px)` }} />
       </div>
       <div className={s.gauge__labels}>
-        <span>Низкий</span><span>Средний</span><span>Высокий</span>
+        <span>{t.scoring.lowRisk}</span>
+        <span>{t.scoring.mediumRisk}</span>
+        <span>{t.scoring.highRisk}</span>
       </div>
 
-      {/* Human text */}
       <div className={s.result__explain}>
-        {result.risk_level === 'low' && '✓ Низкий риск невозврата. Профиль заёмщика надёжный.'}
-        {result.risk_level === 'medium' && '⚠ Умеренный риск. Рекомендуется дополнительная проверка.'}
-        {result.risk_level === 'high' && '✕ Высокий риск дефолта. Рекомендован отказ или снижение суммы.'}
+        {riskDesc}
       </div>
 
-      {/* Factors */}
       <div className={s.result__factors_title}>{t.scoring.factorsTitle}</div>
       {result.top_factors.slice(0, 4).map((f) => {
         const barW = Math.min((Math.abs(f.contribution) / maxAbs) * 100, 100)
@@ -156,11 +154,10 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
         )
       })}
 
-      {/* Metrics */}
       <div className={s.result__metrics}>
         <div className={s.metric}><span className={s.metric__val}>{result.metrics.roc_auc}</span><span className={s.metric__name}>ROC-AUC</span></div>
         <div className={s.metric}><span className={s.metric__val}>{result.metrics.pr_auc}</span><span className={s.metric__name}>PR-AUC</span></div>
-        <div className={s.metric}><span className={s.metric__val}>{Math.round(result.metrics.accuracy * 100)}%</span><span className={s.metric__name}>Accuracy</span></div>
+        <div className={s.metric}><span className={s.metric__val}>{Math.round(result.metrics.accuracy * 100)}%</span><span className={s.metric__name}>{t.scoring.metrics}</span></div>
       </div>
     </div>
   )
@@ -202,7 +199,6 @@ export default function ScoringPage() {
       const data = await res.json()
       setResult(data)
     } catch (e) {
-      // Mock result for demo when backend is offline
       const mockP = Math.random() * 0.6 + 0.1
       setResult({
         p_default: mockP,
@@ -221,18 +217,17 @@ export default function ScoringPage() {
     }
   }
 
-  const purposes = ['Потребительский', 'Автокредит', 'Ипотека', 'Бизнес', 'Рефинансирование', 'Образование', 'Другое']
+  const purposes = t.scoring.purposeOptions || ['Потребительский', 'Автокредит', 'Ипотека', 'Бизнес', 'Рефинансирование', 'Образование', 'Другое']
+  const selectPlaceholder = t.scoring.fields.purpose ? 'Выбрать...' : 'Select...'
 
   return (
     <div className={`page ${s.scoring_page}`}>
       <div className={s.scoring_page__inner}>
-        {/* Header */}
         <div className={s.page_header}>
           <h1>{t.scoring.title}</h1>
           <p>{t.scoring.subtitle}</p>
         </div>
 
-        {/* Tabs */}
         <div className={s.tabs}>
           <button
             className={`${s.tab} ${tab === 'client' ? s.active : ''}`}
@@ -249,7 +244,6 @@ export default function ScoringPage() {
         </div>
 
         <div className={s.content}>
-          {/* Form */}
           <div className={s.form_panel}>
             <div className={s.form_grid}>
               {tab === 'employee' && (
@@ -257,19 +251,26 @@ export default function ScoringPage() {
                   <InputField label={t.scoring.fields.fullName} name="fullName" placeholder="Иванов Иван Иванович" value={form.fullName} onChange={handleChange} />
                   <InputField label={t.scoring.fields.phone} name="phone" type="tel" placeholder="+996 700 000 000" value={form.phone} onChange={handleChange} />
                   <InputField label={t.scoring.fields.email} name="email" type="email" placeholder="example@mail.com" value={form.email} onChange={handleChange} />
-                  <SelectField label={t.scoring.fields.purpose} name="purpose" options={purposes} value={form.purpose} onChange={handleChange} />
+                  <SelectField 
+                    label={t.scoring.fields.purpose} 
+                    name="purpose" 
+                    options={purposes} 
+                    value={form.purpose} 
+                    onChange={handleChange} 
+                    placeholderText={selectPlaceholder}
+                  />
                   <div className={s.divider} />
                 </>
               )}
 
-              <SliderField label={t.scoring.fields.age} name="age" min={18} max={75} value={form.age} onChange={handleChange} unit="лет" />
+              <SliderField label={t.scoring.fields.age} name="age" min={18} max={75} value={form.age} onChange={handleChange} unit={t.scoring.fields.age === 'Age' ? 'years' : 'лет'} />
               <InputField label={t.scoring.fields.income} name="monthly_income" type="number" placeholder="80000" value={form.monthly_income} onChange={handleChange} />
-              <SliderField label={t.scoring.fields.employment} name="employment_years" min={0} max={40} step={0.5} value={form.employment_years} onChange={handleChange} unit="лет" />
+              <SliderField label={t.scoring.fields.employment} name="employment_years" min={0} max={40} step={0.5} value={form.employment_years} onChange={handleChange} unit={t.scoring.fields.employment === 'Employment Years' ? 'years' : 'лет'} />
               <InputField label={t.scoring.fields.loanAmount} name="loan_amount" type="number" placeholder="500000" value={form.loan_amount} onChange={handleChange} />
-              <SliderField label={t.scoring.fields.loanTerm} name="loan_term_months" min={6} max={84} step={6} value={form.loan_term_months} onChange={handleChange} unit="мес" />
+              <SliderField label={t.scoring.fields.loanTerm} name="loan_term_months" min={6} max={84} step={6} value={form.loan_term_months} onChange={handleChange} unit={t.scoring.fields.loanTerm === 'Loan Term (months)' ? 'months' : 'мес'} />
               <SliderField label={t.scoring.fields.interestRate} name="interest_rate" min={8} max={50} step={0.5} value={form.interest_rate} onChange={handleChange} unit="%" />
-              <SliderField label={t.scoring.fields.pastDue} name="past_due_30d" min={0} max={10} value={form.past_due_30d} onChange={handleChange} unit="раз" />
-              <SliderField label={t.scoring.fields.inquiries} name="inquiries_6m" min={0} max={15} value={form.inquiries_6m} onChange={handleChange} unit="раз" />
+              <SliderField label={t.scoring.fields.pastDue} name="past_due_30d" min={0} max={10} value={form.past_due_30d} onChange={handleChange} unit={t.scoring.fields.pastDue === 'Past Due 30+ days' ? 'times' : 'раз'} />
+              <SliderField label={t.scoring.fields.inquiries} name="inquiries_6m" min={0} max={15} value={form.inquiries_6m} onChange={handleChange} unit={t.scoring.fields.inquiries === 'Bureau Inquiries (6m)' ? 'times' : 'раз'} />
             </div>
 
             {error && <div className={s.error}>{error}</div>}
@@ -287,16 +288,17 @@ export default function ScoringPage() {
             </button>
           </div>
 
-          {/* Result */}
           <div className={s.result_panel}>
             {result ? (
               <ResultPanel result={result} t={t} />
             ) : (
               <div className={s.placeholder}>
                 <div className={s.placeholder__icon}><RadarIcon /></div>
-                <p>Заполните анкету и нажмите «Рассчитать»</p>
+                <p>{t.scoring.fillForm}</p>
                 <div className={s.placeholder__tags}>
-                  <span>P(default)</span><span>Факторы риска</span><span>Метрики</span>
+                  <span>{t.scoring.pDefault}</span>
+                  <span>{t.scoring.riskFactors}</span>
+                  <span>{t.scoring.metrics}</span>
                 </div>
               </div>
             )}

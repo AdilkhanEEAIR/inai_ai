@@ -3,11 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useLangStore } from '../../store'
 import s from './Home.module.scss'
 
-// Импортируем видео
 import heroVideo from '../../videos/video1.mp4'
 import ctaVideo from '../../videos/video2.mp4'
 
-// ─── Animated Canvas Particle Field ──
 function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -120,21 +118,21 @@ export default function HomePage() {
     {
       icon: <ChatIcon />,
       title: t.nav.chatbot,
-      desc: 'ИИ отвечает на вопросы о кредитах, ставках и условиях на любом из 7 языков.',
+      desc: t.home.feat2desc,
       path: '/chatbot',
       gradient: 'linear-gradient(135deg, #00c6ff, #2272d8)'
     },
     {
       icon: <PhotoIcon />,
       title: t.nav.photoAnalysis,
-      desc: 'Загрузите фото паспорта или справки — система автоматически извлечёт данные.',
+      desc: t.home.feat3desc,
       path: '/photo',
       gradient: 'linear-gradient(135deg, #5499e8, #1857a8)'
     },
     {
       icon: <ScoringIcon />,
       title: t.nav.scoring,
-      desc: 'Два режима: для банковского сотрудника с полной анкетой и для клиента с упрощённым вводом.',
+      desc: t.home.feat1desc,
       path: '/scoring',
       gradient: 'linear-gradient(135deg, #2272d8, #134080)'
     }
@@ -142,16 +140,8 @@ export default function HomePage() {
 
   return (
     <div className={s.home}>
-      {/* ─── Hero секция с видеофоном video1 ── */}
       <section className={s.hero}>
-        {/* Видеофон */}
-        <video
-          className={s.hero__video}
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
+        <video className={s.hero__video} autoPlay loop muted playsInline>
           <source src={heroVideo} type="video/mp4" />
         </video>
         <div className={s.hero__overlay} />
@@ -199,28 +189,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ─── Объединённый блок: Features + CTA с видеофоном video2 ── */}
       <section className={s.mainBlock}>
-        {/* Видеофон */}
-        <video
-          className={s.mainBlock__video}
-          autoPlay
-          loop
-          muted
-          playsInline
-        >
+        <video className={s.mainBlock__video} autoPlay loop muted playsInline>
           <source src={ctaVideo} type="video/mp4" />
         </video>
         <div className={s.mainBlock__overlay} />
 
         <div className={s.mainBlock__inner}>
-          {/* Заголовок секции */}
           <div className={s.mainBlock__header}>
             <h2>{t.home.featuresTitle}</h2>
             <div className={s.mainBlock__line} />
           </div>
 
-          {/* Карточки */}
           <div className={s.cardsGrid}>
             {features.map((f, i) => (
               <div
@@ -241,13 +221,12 @@ export default function HomePage() {
             ))}
           </div>
 
-          {/* CTA Баннер под карточками */}
           <div className={s.ctaBanner}>
             <div className={s.ctaBanner__glow} />
-            <h3>Начните прямо сейчас</h3>
-            <p>Бесплатная демонстрация. Никакой регистрации.</p>
+            <h3>{t.common.startNow}</h3>
+            <p>{t.common.freeDemo}</p>
             <button className="btn-accent" onClick={() => navigate('/scoring')}>
-              <span>Начать оценку</span>
+              <span>{t.home.ctaPrimary}</span>
               <ArrowIcon />
             </button>
           </div>
@@ -257,7 +236,6 @@ export default function HomePage() {
   )
 }
 
-// Иконки
 function ChatIcon() {
   return (
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
