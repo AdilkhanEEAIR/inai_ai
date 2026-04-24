@@ -108,9 +108,9 @@ function ResultPanel({ result, t }: { result: ScoringResult; t: Translations }) 
   const riskDesc = result.risk_level === 'low' ? t.scoring.lowRiskDesc : result.risk_level === 'medium' ? t.scoring.mediumRiskDesc : t.scoring.highRiskDesc
 
   const formatMoney = (amount: number) => {
-    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)} млн ₸`
-    if (amount >= 1000) return `${(amount / 1000).toFixed(0)} тыс ₸`
-    return `${amount} ₸`
+    if (amount >= 1000000) return `${(amount / 1000000).toFixed(1)} млн сом`
+    if (amount >= 1000) return `${(amount / 1000).toFixed(0)} тыс сом`
+    return `${amount} сом`
   }
 
   return (
@@ -226,7 +226,6 @@ export default function ScoringPage() {
     setLoading(true)
     setError(null)
     
-    // Выносим переменные ДО try-catch
     const age = new Date().getFullYear() - new Date(form.birthDate).getFullYear()
     const netIncome = parseFloat(form.netIncome) || 0
     const loanAmount = parseFloat(form.loanAmount) || 0
@@ -255,7 +254,6 @@ export default function ScoringPage() {
       const data = await res.json()
       setResult(data)
     } catch (e) {
-      // Теперь netIncome и loanAmount доступны здесь
       const mockP = Math.random() * 0.6 + 0.1
       const maxLoan = Math.round(netIncome * 24 * (1 - mockP))
       const rate = 8 + mockP * 25
@@ -289,7 +287,6 @@ export default function ScoringPage() {
         <div className={s.content}>
           <div className={s.form_panel}>
             <div className={s.form_grid}>
-              {/* Личные данные */}
               <div className={s.sectionTitle}>{t.scoring.personalData}</div>
               
               <InputField 
@@ -333,7 +330,6 @@ export default function ScoringPage() {
                 required 
               />
 
-              {/* Работа */}
               <div className={s.sectionTitle}>{t.scoring.workInfo}</div>
               
               <InputField 
@@ -371,11 +367,10 @@ export default function ScoringPage() {
                 step={10000} 
                 value={form.netIncome} 
                 onChange={handleChange} 
-                unit="₸" 
+                unit="сом" 
                 required 
               />
 
-              {/* Кредит */}
               <div className={s.sectionTitle}>{t.scoring.loanInfo}</div>
               
               <SliderField 
@@ -386,7 +381,7 @@ export default function ScoringPage() {
                 step={50000} 
                 value={form.downPayment} 
                 onChange={handleChange} 
-                unit="₸" 
+                unit="сом" 
               />
               <SliderField 
                 label={t.scoring.loanAmount}
@@ -396,7 +391,7 @@ export default function ScoringPage() {
                 step={50000} 
                 value={form.loanAmount} 
                 onChange={handleChange} 
-                unit="₸" 
+                unit="сом" 
                 required 
               />
               <InputField 
