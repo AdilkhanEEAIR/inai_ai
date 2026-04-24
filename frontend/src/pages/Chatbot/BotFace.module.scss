@@ -1,0 +1,355 @@
+@use '../../styles/variables.scss' as *;
+
+// ─── Wrapper ──────────────────────────────────────────────────
+.botFace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0 20px;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+// ─── Glow behind ─────────────────────────────────────────────
+.glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(
+    circle,
+    rgba(0, 198, 255, 0.16) 0%,
+    rgba(24, 87, 168, 0.10) 45%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.14); }
+}
+
+// ─── Float animation ──────────────────────────────────────────
+.floater {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: botFloat 3.8s ease-in-out infinite;
+}
+
+@keyframes botFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25%       { transform: translateY(-10px) rotate(0.5deg); }
+  75%       { transform: translateY(-6px) rotate(-0.5deg); }
+}
+
+.hovered .floater {
+  animation: botHover 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes botHover {
+  from { transform: translateY(-4px) scale(1.02); }
+  to   { transform: translateY(-11px) scale(1.04); }
+}
+
+// ─── Antenna ─────────────────────────────────────────────────
+.antenna {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -2px;
+  position: relative;
+  z-index: 2;
+  transform-origin: bottom center;
+
+  &.wiggle {
+    animation: antennaWiggle 0.55s ease-in-out;
+  }
+}
+
+@keyframes antennaWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  20%       { transform: rotate(-16deg); }
+  50%       { transform: rotate(13deg); }
+  75%       { transform: rotate(-8deg); }
+}
+
+.antenna__stem {
+  width: 6px;
+  height: 22px;
+  background: linear-gradient(to bottom, #5499e8, #1857a8);
+  border-radius: 3px;
+}
+
+.antenna__ball {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #5bc8ff, #1857a8);
+  box-shadow:
+    0 0 12px rgba(0, 198, 255, 0.9),
+    0 0 28px rgba(0, 198, 255, 0.4),
+    inset 0 1px 2px rgba(255,255,255,0.4);
+  position: absolute;
+  top: -8px;
+  animation: antennaBallPulse 2s ease-in-out infinite;
+}
+
+@keyframes antennaBallPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,198,255,0.8), 0 0 24px rgba(0,198,255,0.3); }
+  50%       { box-shadow: 0 0 18px rgba(0,198,255,1),   0 0 40px rgba(0,198,255,0.6); }
+}
+
+// ─── Head ────────────────────────────────────────────────────
+.head {
+  position: relative;
+  width: 180px;
+  height: 160px;
+}
+
+// ─── Ears ────────────────────────────────────────────────────
+.ear {
+  position: absolute;
+  top: 34px;
+  width: 28px;
+  height: 44px;
+  background: linear-gradient(135deg, #7b7bcc, #4a4aaa);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+
+  &.left  { left: -14px; }
+  &.right { right: -14px; }
+}
+
+.ear__inner {
+  width: 14px;
+  height: 28px;
+  border-radius: 5px;
+  background: radial-gradient(circle at 50% 40%, rgba(0,198,255,0.35), rgba(100,100,200,0.1));
+  border: 1px solid rgba(0,198,255,0.3);
+}
+
+// ─── Face (screen) ────────────────────────────────────────────
+.face {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, #1a1a2e 0%, #0d0d1a 100%);
+  border-radius: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 5px #f0f0ff,
+    0 0 0 8px rgba(91, 91, 200, 0.4),
+    0 16px 48px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+// Screen glare
+.face__glare {
+  position: absolute;
+  top: 10px;
+  left: 14px;
+  width: 60%;
+  height: 26px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, transparent 100%);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+// ─── Eyes row ────────────────────────────────────────────────
+.eyes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+}
+
+.eye {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.eye__outer {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #2a2a4a, #111128);
+  border: 1.5px solid rgba(91, 91, 200, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 12px rgba(0,198,255,0.22),
+    inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+// Eyelid slides down to cover eye on blink
+.eye__lid {
+  position: absolute;
+  top: -110%;
+  left: 0;
+  width: 100%;
+  height: 110%;
+  background: linear-gradient(to bottom, #2a2a4a, #1a1a3a);
+  border-radius: 0 0 50% 50%;
+  transition: top 0.07s ease;
+  z-index: 10;
+
+  &.blink {
+    top: 0;
+    transition: top 0.055s ease;
+  }
+}
+
+.eye__pupil {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #00e5ff, #006fa8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  // Smooth tracking — short duration feels responsive but not jittery
+  transition: transform 0.07s linear;
+  box-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
+}
+
+.eye__iris {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(0,198,255,0.55),
+    rgba(0,120,200,0.15),
+    rgba(0,198,255,0.55)
+  );
+  animation: irisRotate 4s linear infinite;
+}
+
+@keyframes irisRotate {
+  to { transform: rotate(360deg); }
+}
+
+.eye__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #00ffff, #0080cc);
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 0 8px rgba(0,255,255,0.9);
+}
+
+.eye__shine {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 7px;
+  height: 7px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50%;
+  z-index: 3;
+}
+
+// ─── Mouth ───────────────────────────────────────────────────
+.mouth {
+  width: 60px;
+  height: 28px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  position: relative;
+}
+
+.mouth__curve {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+// Normal smile — medium arc
+.mouth_smile {
+  .mouth__curve {
+    width: 38px;
+    height: 18px;
+    border-bottom: 3px solid #00c6ff;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-radius: 0 0 38px 38px;
+    background: transparent;
+    box-shadow: 0 5px 12px rgba(0,198,255,0.35);
+  }
+}
+
+// Big grin — wider, taller arc
+.mouth_grin {
+  .mouth__curve {
+    width: 52px;
+    height: 24px;
+    border-bottom: 3.5px solid #00e5ff;
+    border-left: 3.5px solid transparent;
+    border-right: 3.5px solid transparent;
+    border-radius: 0 0 52px 52px;
+    background: transparent;
+    box-shadow: 0 6px 18px rgba(0,198,255,0.55);
+    animation: grinPop 0.35s $ease-spring both;
+  }
+}
+
+@keyframes grinPop {
+  from { transform: translateX(-50%) scaleX(0.5) scaleY(0.4); opacity: 0; }
+  to   { transform: translateX(-50%) scaleX(1) scaleY(1); opacity: 1; }
+}
+
+// Neutral — straight horizontal line
+.mouth_neutral {
+  .mouth__curve {
+    width: 32px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, rgba(0,198,255,0.65), transparent);
+    border-radius: 2px;
+    bottom: 8px;
+    box-shadow: none;
+  }
+}
+
+// ─── Shadow under bot ─────────────────────────────────────────
+.shadow {
+  width: 120px;
+  height: 14px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.32) 0%, transparent 70%);
+  border-radius: 50%;
+  margin-top: 10px;
+  animation: shadowBreath 3.8s ease-in-out infinite;
+}
+
+@keyframes shadowBreath {
+  0%, 100% { transform: scaleX(1);    opacity: 0.32; }
+  25%       { transform: scaleX(0.72); opacity: 0.18; }
+  75%       { transform: scaleX(0.82); opacity: 0.22; }
+}

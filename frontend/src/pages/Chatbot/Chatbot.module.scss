@@ -1,95 +1,138 @@
 @use '../../styles/variables.scss' as *;
+
 .page {
   display: flex;
   justify-content: center;
-  padding-top: 88px;
+  padding-top: 68px; // header height
   padding-bottom: 40px;
   min-height: 100vh;
 }
 
 .inner {
   width: 100%;
-  max-width: 700px;
+  max-width: 720px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
 }
 
-.header {
+// ─── Bot Hero Section ─────────────────────────────────────────
+.botHero {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  padding: 24px 0 20px;
+  padding: 32px 0 8px;
+  position: relative;
 
-  &__avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: $navy-800;
-    border: 1px solid $border-mid;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  &__online {
+  // Subtle separator below
+  &::after {
+    content: '';
     position: absolute;
-    bottom: 2px;
-    right: 2px;
-    width: 10px;
-    height: 10px;
-    background: #5DCAA5;
-    border-radius: 50%;
-    border: 2px solid $navy-950;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(to right, transparent, $border-mid, transparent);
   }
 
-  h1 {
-    font-size: 22px;
+  &__text {
+    text-align: center;
+    margin-top: 4px;
+  }
+
+  &__title {
+    font-size: 26px;
     font-weight: 700;
     color: $white;
-    letter-spacing: -0.4px;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
   }
 
-  p {
-    font-size: 12px;
+  &__sub {
+    font-size: 13.5px;
     color: $text-muted;
-    margin-top: 2px;
+    margin-bottom: 12px;
+  }
+
+  &__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 4px 14px;
+    background: rgba(93, 202, 165, 0.1);
+    border: 1px solid rgba(93, 202, 165, 0.2);
+    border-radius: $r-full;
+    font-size: 11px;
+    color: #5DCAA5;
+    font-weight: 500;
+  }
+
+  &__statusDot {
+    width: 7px;
+    height: 7px;
+    background: #5DCAA5;
+    border-radius: 50%;
+    position: relative;
+    flex-shrink: 0;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: #5DCAA5;
+      opacity: 0.35;
+      animation: statusPulse 2s ease-out infinite;
+    }
   }
 }
 
+@keyframes statusPulse {
+  0%   { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+// ─── Chat area ────────────────────────────────────────────────
 .chat {
   flex: 1;
-  min-height: 380px;
-  max-height: 52vh;
+  min-height: 280px;
+  max-height: 44vh;
   overflow-y: auto;
-  padding: 16px 0;
+  padding: 20px 0 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-thumb {
+    background: $navy-700;
+    border-radius: 2px;
+  }
 }
 
 .msg {
   display: flex;
   align-items: flex-end;
-  gap: 10px;
+  gap: 9px;
+  animation: msgIn 0.25s $ease-out both;
 
   &.user {
     flex-direction: row-reverse;
 
     .msg__bubble {
-      background: $navy-600;
+      background: linear-gradient(135deg, $navy-500, $navy-400);
       color: $white;
-      border-radius: 16px 16px 4px 16px;
+      border-radius: 18px 18px 4px 18px;
+      border: none;
     }
   }
 
   &.bot .msg__bubble {
-    background: rgba(10,32,64,0.7);
+    background: rgba(10, 32, 64, 0.7);
     border: 1px solid $border-dim;
     color: $navy-100;
-    border-radius: 16px 16px 16px 4px;
+    border-radius: 18px 18px 18px 4px;
   }
 
   &__avatar {
@@ -106,19 +149,24 @@
 
   &__bubble {
     max-width: 72%;
-    padding: 10px 14px;
+    padding: 10px 15px;
     font-size: 13.5px;
     line-height: 1.55;
-    animation: fadeUp 0.2s ease forwards;
   }
 }
 
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Typing indicator
 .typing {
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 12px 16px !important;
-  min-width: 54px;
+  min-width: 56px;
 
   span {
     display: block;
@@ -135,9 +183,10 @@
 
 @keyframes typingDot {
   0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30% { transform: translateY(-5px); opacity: 1; }
+  30%            { transform: translateY(-5px); opacity: 1; }
 }
 
+// ─── Quick replies ────────────────────────────────────────────
 .quick {
   display: flex;
   gap: 8px;
@@ -154,17 +203,22 @@
     border-radius: $r-full;
     font-size: 12px;
     color: $text-muted;
+    font-family: $font-display;
     cursor: pointer;
     transition: all 0.15s ease;
 
     &:hover {
       border-color: $navy-400;
       color: $white;
-      background: rgba(24,95,165,0.1);
+      background: rgba(24,95,165,0.12);
+      transform: translateY(-1px);
     }
+
+    &:active { transform: scale(0.96); }
   }
 }
 
+// ─── Input row ────────────────────────────────────────────────
 .input_row {
   display: flex;
   gap: 10px;
@@ -172,15 +226,17 @@
 
 .input {
   flex: 1;
-  padding: 12px 16px;
+  padding: 12px 18px;
   background: rgba(255,255,255,0.04);
   border: 1px solid $border-dim;
   border-radius: $r-full;
   color: $white;
   font-size: 13.5px;
+  font-family: $font-display;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder { color: $text-hint; }
+
   &:focus {
     border-color: $navy-400;
     box-shadow: 0 0 0 3px rgba(34,114,216,0.12);
@@ -192,29 +248,27 @@
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: $navy-500;
+  background: linear-gradient(135deg, $navy-500, $navy-400);
   color: $white;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: transform 0.15s $ease-spring, box-shadow 0.15s ease;
   border: none;
   cursor: pointer;
 
-  &:hover { background: $navy-400; transform: scale(1.05); }
-  &:active { transform: scale(0.95); }
-  &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-}
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(24,95,165,0.4);
+  }
 
-@media (max-width: 500px) {
-  .inner {
-    padding: 0 16px;
-  }
-  .quick {
-    justify-content: center;
-  }
-  .msg__bubble {
-    max-width: 85%;
+  &:active { transform: scale(0.93); }
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 }
