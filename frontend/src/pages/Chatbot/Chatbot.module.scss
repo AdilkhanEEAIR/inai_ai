@@ -1,22 +1,23 @@
 @use '../../styles/variables.scss' as *;
 
+// ─── Page layout ──────────────────────────────────────────────
 .page {
   display: flex;
   justify-content: center;
-  padding-top: 68px; // header height
+  padding-top: 68px;
   padding-bottom: 40px;
   min-height: 100vh;
 }
 
 .inner {
   width: 100%;
-  max-width: 720px;
+  max-width: 700px;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
 }
 
-// ─── Bot Hero Section ─────────────────────────────────────────
+// ─── Bot hero section ─────────────────────────────────────────
 .botHero {
   display: flex;
   flex-direction: column;
@@ -24,7 +25,6 @@
   padding: 32px 0 8px;
   position: relative;
 
-  // Subtle separator below
   &::after {
     content: '';
     position: absolute;
@@ -54,85 +54,123 @@
     color: $text-muted;
     margin-bottom: 12px;
   }
+}
 
-  &__status {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    padding: 4px 14px;
-    background: rgba(93, 202, 165, 0.1);
-    border: 1px solid rgba(93, 202, 165, 0.2);
-    border-radius: $r-full;
-    font-size: 11px;
-    color: #5DCAA5;
-    font-weight: 500;
+// ─── Chat block with rainbow animated border ──────────────────
+//
+// Technique: position: relative wrapper + ::before pseudo-element
+// The pseudo fills inset: -2px (slightly larger than the block),
+// has a conic/linear gradient background that slides via keyframes,
+// then a mask cuts out the interior so only the border ring shows.
+//
+.chatWrap {
+  position: relative;
+  border-radius: $r-lg;
+  padding: 2px; // space for the border to show through
+  background: transparent;
+  margin: 20px 0 0;
+
+  // The animated border ring
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: $r-lg;
+    background: linear-gradient(
+      90deg,
+      #00c6ff 0%,
+      #2272d8 20%,
+      #5499e8 35%,
+      #8bbef4 50%,
+      #2272d8 65%,
+      #00c6ff 80%,
+      #5499e8 100%
+    );
+    background-size: 300% 100%;
+    animation: chatBorderFlow 4s linear infinite;
+    border-radius: $r-lg;
+    // Mask: keep only the border ring, cut out the interior
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    padding: 1.5px; // border thickness
+    pointer-events: none;
+    opacity: 0.85;
   }
 
-  &__statusDot {
-    width: 7px;
-    height: 7px;
-    background: #5DCAA5;
-    border-radius: 50%;
-    position: relative;
-    flex-shrink: 0;
-
-    &::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      background: #5DCAA5;
-      opacity: 0.35;
-      animation: statusPulse 2s ease-out infinite;
-    }
+  // Glow behind the border
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: calc(#{$r-lg} + 4px);
+    background: linear-gradient(
+      90deg,
+      rgba(0, 198, 255, 0.15),
+      rgba(34, 114, 216, 0.08),
+      rgba(0, 198, 255, 0.15)
+    );
+    background-size: 300% 100%;
+    animation: chatBorderFlow 4s linear infinite;
+    filter: blur(8px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
   }
 }
 
-@keyframes statusPulse {
-  0%   { transform: scale(1); opacity: 0.35; }
-  100% { transform: scale(2.2); opacity: 0; }
+@keyframes chatBorderFlow {
+  0%   { background-position: 0%   0%; }
+  100% { background-position: 300% 0%; }
 }
 
-// ─── Chat area ────────────────────────────────────────────────
+// The actual chat scrollable area sits inside .chatWrap
 .chat {
   flex: 1;
-  min-height: 280px;
-  max-height: 44vh;
+  min-height: 340px;
+  max-height: 48vh;
   overflow-y: auto;
-  padding: 20px 0 12px;
+  padding: 16px 14px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  background: rgba(6, 20, 37, 0.85);
+  border-radius: calc(#{$r-lg} - 2px); // slightly smaller to sit inside border
+  backdrop-filter: blur(12px);
 
-  &::-webkit-scrollbar { width: 4px; }
-  &::-webkit-scrollbar-thumb {
-    background: $navy-700;
-    border-radius: 2px;
-  }
+  &::-webkit-scrollbar       { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: $navy-700; border-radius: 2px; }
 }
 
+// ─── Messages ─────────────────────────────────────────────────
 .msg {
   display: flex;
   align-items: flex-end;
-  gap: 9px;
-  animation: msgIn 0.25s $ease-out both;
+  gap: 10px;
+  animation: msgIn 0.22s $ease-out both;
 
   &.user {
     flex-direction: row-reverse;
 
     .msg__bubble {
-      background: linear-gradient(135deg, $navy-500, $navy-400);
+      background: linear-gradient(135deg, $navy-600, $navy-500);
       color: $white;
-      border-radius: 18px 18px 4px 18px;
+      border-radius: 16px 16px 4px 16px;
       border: none;
     }
   }
 
   &.bot .msg__bubble {
-    background: rgba(10, 32, 64, 0.7);
+    background: rgba(10, 32, 64, 0.75);
     border: 1px solid $border-dim;
     color: $navy-100;
-    border-radius: 18px 18px 18px 4px;
+    border-radius: 16px 16px 16px 4px;
   }
 
   &__avatar {
@@ -149,7 +187,7 @@
 
   &__bubble {
     max-width: 72%;
-    padding: 10px 15px;
+    padding: 10px 14px;
     font-size: 13.5px;
     line-height: 1.55;
   }
@@ -160,13 +198,13 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
-// Typing indicator
+// ─── Typing indicator ─────────────────────────────────────────
 .typing {
   display: flex;
   align-items: center;
   gap: 5px;
   padding: 12px 16px !important;
-  min-width: 56px;
+  min-width: 54px;
 
   span {
     display: block;
@@ -182,8 +220,8 @@
 }
 
 @keyframes typingDot {
-  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-  30%            { transform: translateY(-5px); opacity: 1; }
+  0%, 60%, 100% { transform: translateY(0);    opacity: 0.5; }
+  30%            { transform: translateY(-5px); opacity: 1;   }
 }
 
 // ─── Quick replies ────────────────────────────────────────────
@@ -191,14 +229,14 @@
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
-  padding: 12px 0;
+  padding: 14px 0 12px;
   border-top: 1px solid $border-dim;
   border-bottom: 1px solid $border-dim;
   margin-bottom: 12px;
 
   &__btn {
     padding: 6px 14px;
-    background: rgba(255,255,255,0.04);
+    background: rgba(255, 255, 255, 0.04);
     border: 1px solid $border-dim;
     border-radius: $r-full;
     font-size: 12px;
@@ -210,7 +248,7 @@
     &:hover {
       border-color: $navy-400;
       color: $white;
-      background: rgba(24,95,165,0.12);
+      background: rgba(24, 95, 165, 0.12);
       transform: translateY(-1px);
     }
 
@@ -227,7 +265,7 @@
 .input {
   flex: 1;
   padding: 12px 18px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid $border-dim;
   border-radius: $r-full;
   color: $white;
@@ -239,7 +277,7 @@
 
   &:focus {
     border-color: $navy-400;
-    box-shadow: 0 0 0 3px rgba(34,114,216,0.12);
+    box-shadow: 0 0 0 3px rgba(34, 114, 216, 0.12);
     outline: none;
   }
 }
@@ -254,13 +292,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: transform 0.15s $ease-spring, box-shadow 0.15s ease;
   border: none;
   cursor: pointer;
+  transition: transform 0.15s $ease-spring, box-shadow 0.15s ease;
 
   &:hover {
     transform: scale(1.08);
-    box-shadow: 0 6px 20px rgba(24,95,165,0.4);
+    box-shadow: 0 6px 20px rgba(24, 95, 165, 0.4);
   }
 
   &:active { transform: scale(0.93); }
@@ -271,4 +309,11 @@
     transform: none;
     box-shadow: none;
   }
+}
+
+// ─── Responsive ───────────────────────────────────────────────
+@media (max-width: 500px) {
+  .inner      { padding: 0 12px; }
+  .quick      { justify-content: center; }
+  .msg__bubble { max-width: 85%; }
 }

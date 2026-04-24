@@ -16,14 +16,14 @@ const BOT_REPLIES: Record<string, string[]> = {
     'Я могу помочь с вопросами о кредитах, ставках и условиях займов.',
     'Для расчёта кредитного скоринга перейдите в раздел «Кредитный скоринг».',
   ],
-  ставк:  ['Процентные ставки зависят от суммы и срока займа. Минимальная ставка — от 8% годовых.'],
-  кредит: ['Кредит можно оформить на сумму от 50 000 до 5 000 000 ₸ сроком от 6 до 84 месяцев.'],
-  скоринг:['Скоринг — это числовая оценка кредитоспособности заёмщика. Чем ниже P(default), тем надёжнее заёмщик.'],
-  дефолт: ['Дефолт — невозврат кредита. Наша модель предсказывает его вероятность с точностью 78.5% ROC-AUC.'],
-  одобр:  ['Решение об одобрении принимается автоматически на основе ML-модели. Обычно это занимает меньше секунды.'],
-  привет: ['Привет! 👋 Рад вас видеть. Спросите меня что-нибудь о кредитах или скоринге!'],
-  hello:  ['Hello! 👋 How can I help you with your credit questions?'],
-  hi:     ['Hi there! 😊 Ask me anything about credit scoring!'],
+  ставк:   ['Процентные ставки зависят от суммы и срока займа. Минимальная ставка — от 8% годовых.'],
+  кредит:  ['Кредит можно оформить на сумму от 50 000 до 5 000 000 сом сроком от 6 до 84 месяцев.'],
+  скоринг: ['Скоринг — это числовая оценка кредитоспособности заёмщика. Чем ниже P(default), тем надёжнее заёмщик.'],
+  дефолт:  ['Дефолт — невозврат кредита. Наша модель предсказывает его вероятность с точностью 78.5% ROC-AUC.'],
+  одобр:   ['Решение об одобрении принимается автоматически на основе ML-модели. Обычно это занимает меньше секунды.'],
+  привет:  ['Привет! 👋 Рад вас видеть. Спросите меня что-нибудь о кредитах или скоринге!'],
+  hello:   ['Hello! 👋 How can I help you with your credit questions?'],
+  hi:      ['Hi there! 😊 Ask me anything about credit scoring!'],
 }
 
 function getBotReply(text: string): string {
@@ -33,18 +33,22 @@ function getBotReply(text: string): string {
       return replies[Math.floor(Math.random() * replies.length)]
     }
   }
-  const def = BOT_REPLIES.default
-  return def[Math.floor(Math.random() * def.length)]
+  return BOT_REPLIES.default[Math.floor(Math.random() * BOT_REPLIES.default.length)]
 }
 
-const QUICK_REPLIES = ['Каковы ставки?', 'Как работает скоринг?', 'Условия кредита', 'Что такое дефолт?']
+const QUICK_REPLIES = [
+  'Каковы ставки?',
+  'Как работает скоринг?',
+  'Условия кредита',
+  'Что такое дефолт?',
+]
 
 export default function ChatbotPage() {
   const { t } = useLangStore()
   const [messages, setMessages] = useState<Message[]>(() => [
     { id: '0', role: 'bot', text: t.chatbot.welcome, ts: Date.now() },
   ])
-  const [input, setInput]   = useState('')
+  const [input,  setInput]  = useState('')
   const [typing, setTyping] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
 
@@ -55,19 +59,26 @@ export default function ChatbotPage() {
   const send = (text?: string) => {
     const txt = (text ?? input).trim()
     if (!txt) return
-    const userMsg: Message = { id: Date.now().toString(), role: 'user', text: txt, ts: Date.now() }
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      role: 'user',
+      text: txt,
+      ts: Date.now(),
+    }
     setMessages((p) => [...p, userMsg])
     setInput('')
     setTyping(true)
     setTimeout(() => {
       setTyping(false)
-      const botMsg: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'bot',
-        text: getBotReply(txt),
-        ts: Date.now(),
-      }
-      setMessages((p) => [...p, botMsg])
+      setMessages((p) => [
+        ...p,
+        {
+          id: (Date.now() + 1).toString(),
+          role: 'bot',
+          text: getBotReply(txt),
+          ts: Date.now(),
+        },
+      ])
     }, 800 + Math.random() * 600)
   }
 
@@ -83,32 +94,37 @@ export default function ChatbotPage() {
           <div className={s.botHero__text}>
             <h1 className={s.botHero__title}>{t.chatbot.title}</h1>
             <p className={s.botHero__sub}>{t.chatbot.subtitle}</p>
-            {/* статус убран */}
           </div>
         </div>
 
-        {/* ── Chat messages ── */}
-        <div className={s.chat}>
-          {messages.map((m) => (
-            <div key={m.id} className={`${s.msg} ${m.role === 'user' ? s.user : s.bot}`}>
-              {m.role === 'bot' && (
-                <div className={s.msg__avatar}>
-                  <SmallBotIcon />
-                </div>
-              )}
-              <div className={s.msg__bubble}>{m.text}</div>
-            </div>
-          ))}
-
-          {typing && (
-            <div className={`${s.msg} ${s.bot}`}>
-              <div className={s.msg__avatar}><SmallBotIcon /></div>
-              <div className={`${s.msg__bubble} ${s.typing}`}>
-                <span /><span /><span />
+        {/* ── Chat block with animated rainbow border ── */}
+        <div className={s.chatWrap}>
+          <div className={s.chat}>
+            {messages.map((m) => (
+              <div
+                key={m.id}
+                className={`${s.msg} ${m.role === 'user' ? s.user : s.bot}`}
+              >
+                {m.role === 'bot' && (
+                  <div className={s.msg__avatar}>
+                    <SmallBotIcon />
+                  </div>
+                )}
+                <div className={s.msg__bubble}>{m.text}</div>
               </div>
-            </div>
-          )}
-          <div ref={bottomRef} />
+            ))}
+
+            {typing && (
+              <div className={`${s.msg} ${s.bot}`}>
+                <div className={s.msg__avatar}><SmallBotIcon /></div>
+                <div className={`${s.msg__bubble} ${s.typing}`}>
+                  <span /><span /><span />
+                </div>
+              </div>
+            )}
+
+            <div ref={bottomRef} />
+          </div>
         </div>
 
         {/* ── Quick replies ── */}
@@ -129,7 +145,11 @@ export default function ChatbotPage() {
             placeholder={t.chatbot.placeholder}
             onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && send()}
           />
-          <button className={s.send_btn} onClick={() => send()} disabled={!input.trim()}>
+          <button
+            className={s.send_btn}
+            onClick={() => send()}
+            disabled={!input.trim()}
+          >
             <SendIcon />
           </button>
         </div>
@@ -154,7 +174,13 @@ function SmallBotIcon() {
 function SendIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M14 2L1 7l5 2M14 2l-4 12-4-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path
+        d="M14 2L1 7l5 2M14 2l-4 12-4-5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   )
 }
