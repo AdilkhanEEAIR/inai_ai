@@ -20,7 +20,6 @@
     border-bottom-color: $border-dim;
   }
 
-  // ── Logo ────────────────────────────────────────────────────
   &__logo {
     display: flex;
     align-items: center;
@@ -37,21 +36,8 @@
       letter-spacing: -0.4px;
       span { color: $accent-400; }
     }
-
-    &-badge {
-      font-family: $font-mono;
-      font-size: 9px;
-      background: rgba(0, 198, 255, 0.15);
-      color: $accent-400;
-      border: 1px solid rgba(0, 198, 255, 0.3);
-      padding: 2px 7px;
-      border-radius: $r-full;
-      letter-spacing: 0.5px;
-      margin-left: 4px;
-    }
   }
 
-  // ── Nav ─────────────────────────────────────────────────────
   &__nav {
     display: flex;
     align-items: center;
@@ -94,7 +80,6 @@
     }
   }
 
-  // ── Right container ─────────────────────────────────────────
   &__right {
     display: flex;
     align-items: center;
@@ -102,7 +87,6 @@
     flex-shrink: 0;
   }
 
-  // ── Language picker ─────────────────────────────────────────
   &__lang {
     position: relative;
 
@@ -161,17 +145,14 @@
         color: $text-muted;
 
         .flag { font-size: 15px; }
-
         .lang-name { flex: 1; }
 
         &:hover { background: rgba(255,255,255,0.06); color: $white; }
-
         &.selected { color: $white; }
       }
     }
   }
 
-  // ── Auth button ──────────────────────────────────────────────
   &__auth {
     &-btn {
       display: flex;
@@ -195,7 +176,6 @@
       &:active { transform: scale(0.97); }
     }
 
-    // ── User avatar ────────────────────────────────────────────
     &-avatar {
       position: relative;
       cursor: pointer;
@@ -272,7 +252,6 @@
           transition: background 0.15s ease, color 0.15s ease;
 
           &:hover { background: rgba(255,255,255,0.06); color: $white; }
-
           &.danger {
             color: #f09595;
             &:hover { background: rgba(240,149,149,0.08); }
@@ -280,5 +259,33 @@
         }
       }
     }
+  }
+}
+
+// ─── Адаптивность Header ─────────────────────────────────────
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+  .header__nav {
+    gap: 0;
+    a {
+      padding: 7px 10px;
+      font-size: 12px;
+    }
+  }
+  .header__lang-btn {
+    padding: 6px 8px;
+    .code { display: none; } // скрываем код языка, оставляем флаг
+  }
+  .header__auth-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header__nav a:nth-child(2) {
+    display: none; // скрываем "Анализ по фото" на совсем узких экранах
   }
 }

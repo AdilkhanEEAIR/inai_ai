@@ -45,11 +45,7 @@ export default function Footer() {
 
       <div className={s.footer__bottom}>
         <span>{t.footer.rights}</span>
-        <div className={s.footer__tech}>
-          <span className={s.tech_pill}>React</span>
-          <span className={s.tech_pill}>FastAPI</span>
-          <span className={s.tech_pill}>scikit-learn</span>
-        </div>
+        {/* Блок с технологиями удалён */}
       </div>
     </footer>
   )

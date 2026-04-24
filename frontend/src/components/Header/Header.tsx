@@ -36,7 +36,6 @@ export default function Header() {
 
   return (
     <header className={`${s.header} ${scrolled ? s.scrolled : ''}`}>
-      {/* ── Logo ── */}
       <NavLink to="/" className={s.header__logo}>
         <div style={{
           width: 34, height: 34, borderRadius: 9,
@@ -47,10 +46,9 @@ export default function Header() {
         <span className={s['header__logo-text']}>
           Credit<span>Score</span>
         </span>
-        <span className={s['header__logo-badge']}>AI</span>
+        {/* Бейдж AI удалён */}
       </NavLink>
 
-      {/* ── Nav ── */}
       <nav className={s.header__nav}>
         <NavLink to="/chatbot" className={({ isActive }) => isActive ? s.active : ''}>
           {t.nav.chatbot}
@@ -63,10 +61,7 @@ export default function Header() {
         </NavLink>
       </nav>
 
-      {/* ── Right: Lang + Auth ── */}
       <div className={s.header__right}>
-
-        {/* Language picker */}
         <div className={s.header__lang} ref={langRef}>
           <button
             className={`${s['header__lang-btn']} ${langOpen ? s.open : ''}`}
@@ -104,7 +99,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* Auth: avatar dropdown OR login button */}
         {user ? (
           <div className={s['header__auth-avatar']} ref={avatarRef}>
             <div

@@ -27,7 +27,6 @@ function ParticleCanvas() {
       mouse.y = e.clientY - rect.top
     })
 
-    // Create particles
     const N = 90
     type P = { x: number; y: number; vx: number; vy: number; r: number; alpha: number; pulse: number }
     const particles: P[] = Array.from({ length: N }, () => ({
@@ -43,7 +42,6 @@ function ParticleCanvas() {
     const draw = () => {
       ctx.clearRect(0, 0, w, h)
 
-      // Draw connections
       for (let i = 0; i < N; i++) {
         for (let j = i + 1; j < N; j++) {
           const dx = particles[i].x - particles[j].x
@@ -60,7 +58,6 @@ function ParticleCanvas() {
         }
       }
 
-      // Draw particles + mouse repel
       particles.forEach((p) => {
         p.pulse += 0.02
         const mdx = p.x - mouse.x
@@ -101,12 +98,10 @@ function ParticleCanvas() {
   return <canvas ref={canvasRef} className={s.hero__canvas} />
 }
 
-// ─── Animated counter ────────────────────────────────────────
 function CountUp({ to, suffix = '' }: { to: string; suffix?: string }) {
   return <span>{to}{suffix}</span>
 }
 
-// ─── Feature card icons ───────────────────────────────────────
 function IconForm() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -138,7 +133,6 @@ function IconDoc() {
   )
 }
 
-// ─── Main component ───────────────────────────────────────────
 export default function HomePage() {
   const { t } = useLangStore()
   const navigate = useNavigate()
@@ -157,11 +151,8 @@ export default function HomePage() {
 
   return (
     <div className={s.home}>
-      {/* ── Hero ── */}
       <section className={s.hero}>
         <ParticleCanvas />
-
-        {/* Glow orbs */}
         <div className={s.hero__orb1} />
         <div className={s.hero__orb2} />
 
@@ -184,13 +175,9 @@ export default function HomePage() {
               <span>{t.home.ctaPrimary}</span>
               <ArrowIcon />
             </button>
-            <button className="btn-ghost" onClick={() => navigate('/chatbot')}>
-              <PlayIcon />
-              <span>{t.home.ctaSecondary}</span>
-            </button>
+            {/* Кнопка "Смотреть демо" удалена */}
           </div>
 
-          {/* Stats */}
           <div className={s.hero__stats}>
             <div className={s.hero__stat}>
               <span className={s.hero__stat_val}><CountUp to={t.home.stat1val} /></span>
@@ -209,7 +196,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Scroll cue */}
         <div className={s.hero__scroll}>
           <div className={s.hero__scroll_mouse}>
             <div className={s.hero__scroll_dot} />
@@ -217,7 +203,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Features ── */}
       <section className={s.features}>
         <div className={s.features__inner}>
           <div className={s.features__header}>
@@ -247,7 +232,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── CTA Banner ── */}
       <section className={s.cta_banner}>
         <div className={s.cta_banner__inner}>
           <div className={s.cta_banner__glow} />
@@ -267,14 +251,6 @@ function ArrowIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-function PlayIcon() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.3"/>
-      <path d="M5.5 5l4 2-4 2V5z" fill="currentColor"/>
     </svg>
   )
 }

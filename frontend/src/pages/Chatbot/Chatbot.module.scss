@@ -206,3 +206,15 @@
   &:active { transform: scale(0.95); }
   &:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 }
+
+@media (max-width: 500px) {
+  .inner {
+    padding: 0 16px;
+  }
+  .quick {
+    justify-content: center;
+  }
+  .msg__bubble {
+    max-width: 85%;
+  }
+}

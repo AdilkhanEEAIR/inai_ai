@@ -407,3 +407,37 @@
 
   .btn-accent { position: relative; }
 }
+
+// добавить в конец файла после всех основных стилей
+@media (max-width: 600px) {
+  .hero__stats {
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  .hero__stat_divider {
+    display: none;
+  }
+  .hero__stat {
+    padding: 0;
+    width: 100%;
+    text-align: center;
+  }
+  .hero__cta {
+    flex-direction: column;
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  .features {
+    padding: 60px 16px;
+  }
+  .feature_card {
+    padding: 24px 20px;
+  }
+  .cta_banner__inner {
+    padding: 40px 24px;
+    h2 { font-size: 28px; }
+  }
+}
