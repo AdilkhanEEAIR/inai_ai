@@ -1,6 +1,6 @@
 @use '../../styles/variables.scss' as *;
 
-// ─── Wrapper ──────────────────────────────────────────────────
+// ─── Root wrapper ─────────────────────────────────────────────
 .botFace {
   display: flex;
   flex-direction: column;
@@ -12,7 +12,7 @@
   user-select: none;
 }
 
-// ─── Glow behind ─────────────────────────────────────────────
+// ─── Ambient glow ─────────────────────────────────────────────
 .glow {
   position: absolute;
   width: 280px;
@@ -29,6 +29,16 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
   animation: glowPulse 3s ease-in-out infinite;
+  transition: background 0.4s ease;
+
+  .hovered & {
+    background: radial-gradient(
+      circle,
+      rgba(93, 202, 165, 0.20) 0%,
+      rgba(0, 180, 100, 0.08) 45%,
+      transparent 70%
+    );
+  }
 }
 
 @keyframes glowPulse {
@@ -36,7 +46,7 @@
   50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.14); }
 }
 
-// ─── Float animation ──────────────────────────────────────────
+// ─── Float ────────────────────────────────────────────────────
 .floater {
   display: flex;
   flex-direction: column;
@@ -45,18 +55,16 @@
 }
 
 @keyframes botFloat {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  25%       { transform: translateY(-10px) rotate(0.5deg); }
-  75%       { transform: translateY(-6px) rotate(-0.5deg); }
+  0%, 100% { transform: translateY(0px); }
+  25%       { transform: translateY(-10px); }
+  75%       { transform: translateY(-6px); }
 }
 
+// On hover: stop float, tilt right (bot's right = our left visually)
 .hovered .floater {
-  animation: botHover 0.7s ease-in-out infinite alternate;
-}
-
-@keyframes botHover {
-  from { transform: translateY(-4px) scale(1.02); }
-  to   { transform: translateY(-11px) scale(1.04); }
+  animation: none;
+  transform: translateY(-8px) rotate(6deg);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 // ─── Antenna ─────────────────────────────────────────────────
@@ -69,9 +77,7 @@
   z-index: 2;
   transform-origin: bottom center;
 
-  &.wiggle {
-    animation: antennaWiggle 0.55s ease-in-out;
-  }
+  &.wiggle { animation: antennaWiggle 0.55s ease-in-out; }
 }
 
 @keyframes antennaWiggle {
@@ -93,13 +99,16 @@
   height: 16px;
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #5bc8ff, #1857a8);
-  box-shadow:
-    0 0 12px rgba(0, 198, 255, 0.9),
-    0 0 28px rgba(0, 198, 255, 0.4),
-    inset 0 1px 2px rgba(255,255,255,0.4);
+  box-shadow: 0 0 12px rgba(0,198,255,0.9), 0 0 28px rgba(0,198,255,0.4);
   position: absolute;
   top: -8px;
   animation: antennaBallPulse 2s ease-in-out infinite;
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+
+  .hovered & {
+    background: radial-gradient(circle at 35% 35%, #5dff9e, #1a8a50);
+    box-shadow: 0 0 14px rgba(93,202,165,0.9), 0 0 32px rgba(93,202,165,0.4);
+  }
 }
 
 @keyframes antennaBallPulse {
@@ -107,11 +116,107 @@
   50%       { box-shadow: 0 0 18px rgba(0,198,255,1),   0 0 40px rgba(0,198,255,0.6); }
 }
 
+// ─── Body row (arm + head) ────────────────────────────────────
+.body {
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+// ─── Arm slot (left of head = bot's right arm) ───────────────
+.armSlot {
+  width: 0;
+  overflow: visible;
+  position: relative;
+  // Hidden by default
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+
+  &_visible {
+    opacity: 1;
+    pointer-events: none;
+  }
+}
+
+// ─── Waving arm ───────────────────────────────────────────────
+.arm {
+  position: absolute;
+  // Sits to the left of the head, slightly overlapping
+  right: 8px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transform-origin: bottom right;
+  // Whole arm waves
+  animation: armWave 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes armWave {
+  from { transform: rotate(-30deg) translateY(0px); }
+  to   { transform: rotate(10deg)  translateY(-6px); }
+}
+
+.arm__upper {
+  width: 14px;
+  height: 36px;
+  background: linear-gradient(to bottom, #7b7bcc, #4a4aaa);
+  border-radius: 7px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+  transform-origin: top center;
+}
+
+.arm__lower {
+  width: 12px;
+  height: 28px;
+  background: linear-gradient(to bottom, #6a6acc, #3a3a99);
+  border-radius: 6px;
+  margin-top: -2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  transform-origin: top center;
+  animation: forearmWave 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes forearmWave {
+  from { transform: rotate(10deg); }
+  to   { transform: rotate(-15deg); }
+}
+
+.arm__hand {
+  width: 18px;
+  height: 16px;
+  background: radial-gradient(circle at 40% 40%, #9898dd, #5555aa);
+  border-radius: 50% 50% 45% 45%;
+  margin-bottom: -4px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-evenly;
+  padding-top: 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.arm__finger {
+  width: 4px;
+  height: 8px;
+  background: linear-gradient(to bottom, #aaaaee, #6666bb);
+  border-radius: 2px;
+  transform-origin: bottom center;
+
+  &:nth-child(1) { transform: rotate(-8deg); }
+  &:nth-child(2) { transform: rotate(0deg) scaleY(1.1); }
+  &:nth-child(3) { transform: rotate(8deg); }
+}
+
 // ─── Head ────────────────────────────────────────────────────
 .head {
   position: relative;
   width: 180px;
   height: 160px;
+  flex-shrink: 0;
 }
 
 // ─── Ears ────────────────────────────────────────────────────
@@ -125,12 +230,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow:
-    0 4px 12px rgba(0,0,0,0.35),
-    inset 0 1px 0 rgba(255,255,255,0.15);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+  transition: background 0.4s ease;
 
   &.left  { left: -14px; }
   &.right { right: -14px; }
+
+  .hovered & {
+    background: linear-gradient(135deg, #4aaa7b, #2a7a5a);
+  }
 }
 
 .ear__inner {
@@ -139,9 +247,15 @@
   border-radius: 5px;
   background: radial-gradient(circle at 50% 40%, rgba(0,198,255,0.35), rgba(100,100,200,0.1));
   border: 1px solid rgba(0,198,255,0.3);
+  transition: background 0.4s ease, border-color 0.4s ease;
+
+  .hovered & {
+    background: radial-gradient(circle at 50% 40%, rgba(93,202,165,0.45), rgba(30,120,80,0.1));
+    border-color: rgba(93,202,165,0.4);
+  }
 }
 
-// ─── Face (screen) ────────────────────────────────────────────
+// ─── Face screen ──────────────────────────────────────────────
 .face {
   width: 100%;
   height: 100%;
@@ -157,11 +271,17 @@
   box-shadow:
     0 0 0 5px #f0f0ff,
     0 0 0 8px rgba(91, 91, 200, 0.4),
-    0 16px 48px rgba(0,0,0,0.6),
-    inset 0 1px 0 rgba(255,255,255,0.04);
+    0 16px 48px rgba(0,0,0,0.6);
+  transition: box-shadow 0.4s ease;
+
+  .hovered & {
+    box-shadow:
+      0 0 0 5px #f0fff8,
+      0 0 0 8px rgba(60, 180, 120, 0.45),
+      0 16px 48px rgba(0,0,0,0.6);
+  }
 }
 
-// Screen glare
 .face__glare {
   position: absolute;
   top: 10px;
@@ -173,13 +293,12 @@
   pointer-events: none;
 }
 
-// ─── Eyes row ────────────────────────────────────────────────
+// ─── Eyes ────────────────────────────────────────────────────
 .eyes {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0;
-  position: relative;
 }
 
 .eye {
@@ -188,23 +307,28 @@
   justify-content: center;
 }
 
+// Normal: cyan glow ring
 .eye__outer {
   width: 44px;
   height: 44px;
   border-radius: 50%;
   background: radial-gradient(circle at 40% 35%, #2a2a4a, #111128);
-  border: 1.5px solid rgba(91, 91, 200, 0.3);
+  border: 1.5px solid rgba(91,91,200,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
   overflow: hidden;
-  box-shadow:
-    0 0 12px rgba(0,198,255,0.22),
-    inset 0 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 0 0 12px rgba(0,198,255,0.22), inset 0 2px 4px rgba(0,0,0,0.5);
+  transition: box-shadow 0.35s ease, border-color 0.35s ease;
+
+  // Green on hover
+  &_green {
+    border-color: rgba(93,202,165,0.5);
+    box-shadow: 0 0 16px rgba(93,202,165,0.55), inset 0 2px 4px rgba(0,0,0,0.5);
+  }
 }
 
-// Eyelid slides down to cover eye on blink
 .eye__lid {
   position: absolute;
   top: -110%;
@@ -216,10 +340,7 @@
   transition: top 0.07s ease;
   z-index: 10;
 
-  &.blink {
-    top: 0;
-    transition: top 0.055s ease;
-  }
+  &.blink { top: 0; transition: top 0.055s ease; }
 }
 
 .eye__pupil {
@@ -231,9 +352,14 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  // Smooth tracking — short duration feels responsive but not jittery
-  transition: transform 0.07s linear;
-  box-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
+  transition: transform 0.07s linear, background 0.35s ease, box-shadow 0.35s ease;
+  box-shadow: 0 0 10px rgba(0,198,255,0.7);
+
+  // Green on hover
+  &_green {
+    background: radial-gradient(circle at 40% 35%, #5dff9e, #0fa060);
+    box-shadow: 0 0 14px rgba(93,202,165,0.9);
+  }
 }
 
 .eye__iris {
@@ -247,11 +373,19 @@
     rgba(0,198,255,0.55)
   );
   animation: irisRotate 4s linear infinite;
+  transition: background 0.35s ease;
+
+  &_green {
+    background: conic-gradient(
+      from 0deg,
+      rgba(93,202,165,0.65),
+      rgba(20,140,80,0.15),
+      rgba(93,202,165,0.65)
+    );
+  }
 }
 
-@keyframes irisRotate {
-  to { transform: rotate(360deg); }
-}
+@keyframes irisRotate { to { transform: rotate(360deg); } }
 
 .eye__dot {
   width: 10px;
@@ -261,6 +395,12 @@
   position: relative;
   z-index: 2;
   box-shadow: 0 0 8px rgba(0,255,255,0.9);
+  transition: background 0.35s ease, box-shadow 0.35s ease;
+
+  &_green {
+    background: radial-gradient(circle at 40% 35%, #80ffbb, #1da060);
+    box-shadow: 0 0 10px rgba(93,255,165,0.9);
+  }
 }
 
 .eye__shine {
@@ -274,7 +414,7 @@
   z-index: 3;
 }
 
-// ─── Mouth ───────────────────────────────────────────────────
+// ─── Mouth — ALL variants are CLOSED curves, no open mouth ───
 .mouth {
   width: 60px;
   height: 28px;
@@ -292,44 +432,51 @@
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-// Normal smile — medium arc
+// Normal smile — medium ) arc
 .mouth_smile {
   .mouth__curve {
-    width: 38px;
-    height: 18px;
+    width: 36px;
+    height: 16px;
     border-bottom: 3px solid #00c6ff;
-    border-left: 3px solid transparent;
-    border-right: 3px solid transparent;
-    border-radius: 0 0 38px 38px;
+    border-left:   3px solid transparent;
+    border-right:  3px solid transparent;
+    border-radius: 0 0 36px 36px;
     background: transparent;
-    box-shadow: 0 5px 12px rgba(0,198,255,0.35);
+    box-shadow: 0 4px 10px rgba(0,198,255,0.3);
   }
 }
 
-// Big grin — wider, taller arc
+// Grin — wider ) arc, still closed
 .mouth_grin {
   .mouth__curve {
-    width: 52px;
-    height: 24px;
+    width: 50px;
+    height: 22px;
     border-bottom: 3.5px solid #00e5ff;
-    border-left: 3.5px solid transparent;
-    border-right: 3.5px solid transparent;
-    border-radius: 0 0 52px 52px;
+    border-left:   3.5px solid transparent;
+    border-right:  3.5px solid transparent;
+    border-radius: 0 0 50px 50px;
     background: transparent;
-    box-shadow: 0 6px 18px rgba(0,198,255,0.55);
-    animation: grinPop 0.35s $ease-spring both;
+    box-shadow: 0 5px 16px rgba(0,198,255,0.5);
+    animation: grinPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 }
 
 @keyframes grinPop {
-  from { transform: translateX(-50%) scaleX(0.5) scaleY(0.4); opacity: 0; }
-  to   { transform: translateX(-50%) scaleX(1) scaleY(1); opacity: 1; }
+  from { transform: translateX(-50%) scaleX(0.4) scaleY(0.3); opacity: 0; }
+  to   { transform: translateX(-50%) scaleX(1)   scaleY(1);   opacity: 1; }
 }
 
-// Neutral — straight horizontal line
+// Green grin on hover
+.hovered .mouth_grin .mouth__curve,
+.hovered .mouth_smile .mouth__curve {
+  border-bottom-color: #5dff9e;
+  box-shadow: 0 5px 16px rgba(93,202,165,0.55);
+}
+
+// Neutral — straight line
 .mouth_neutral {
   .mouth__curve {
-    width: 32px;
+    width: 30px;
     height: 3px;
     background: linear-gradient(to right, transparent, rgba(0,198,255,0.65), transparent);
     border-radius: 2px;
@@ -338,7 +485,7 @@
   }
 }
 
-// ─── Shadow under bot ─────────────────────────────────────────
+// ─── Shadow ───────────────────────────────────────────────────
 .shadow {
   width: 120px;
   height: 14px;
@@ -346,6 +493,12 @@
   border-radius: 50%;
   margin-top: 10px;
   animation: shadowBreath 3.8s ease-in-out infinite;
+
+  .hovered & {
+    animation: none;
+    transform: scaleX(0.8);
+    opacity: 0.22;
+  }
 }
 
 @keyframes shadowBreath {
