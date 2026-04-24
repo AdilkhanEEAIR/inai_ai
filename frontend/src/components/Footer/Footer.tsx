@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useLangStore } from '../../store'
+import logo from '../../images/logo.png'
 import s from './Footer.module.scss'
 
 export default function Footer() {
@@ -10,12 +11,12 @@ export default function Footer() {
       <div className={s.footer__inner}>
         <div className={s.footer__brand}>
           <div className={s.footer__logo}>
-            <div className={s.footer__logo_icon}>C</div>
-            <span>CreditScore <strong>AI</strong></span>
+            <img src={logo} alt="Кredиtоr" className={s.footer__logo_img} />
+            <span>Кredиtоr</span>
           </div>
           <p className={s.footer__tagline}>{t.footer.tagline}</p>
           <div className={s.footer__socials}>
-            <a href="#" aria-label="GitHub" className={s.footer__social}><GithubIcon /></a>
+            <a href="#" aria-label="GitHub"   className={s.footer__social}><GithubIcon /></a>
             <a href="#" aria-label="Telegram" className={s.footer__social}><TelegramIcon /></a>
             <a href="#" aria-label="LinkedIn" className={s.footer__social}><LinkedinIcon /></a>
           </div>
@@ -45,7 +46,6 @@ function GithubIcon() {
     </svg>
   )
 }
-
 function TelegramIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -53,7 +53,6 @@ function TelegramIcon() {
     </svg>
   )
 }
-
 function LinkedinIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">

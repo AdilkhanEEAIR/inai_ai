@@ -34,7 +34,7 @@
 
   &__icon {
     width: 36px;
-    height: 36px;
+    height: 72px;
     border-radius: 9px;
     background: linear-gradient(135deg, $navy-500, $navy-300);
     display: flex;
@@ -182,4 +182,11 @@
     font-size: 14px;
     padding: 8px 0;
   }
+}
+.logo__img {
+  height: 72px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
 }

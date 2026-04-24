@@ -38,9 +38,17 @@
     strong { color: $accent-400; }
   }
 
+  &__logo_img {
+    height: 64px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
   &__logo_icon {
     width: 32px;
-    height: 32px;
+    height: 64px;
     border-radius: 8px;
     background: linear-gradient(135deg, $navy-500, $navy-300);
     display: flex;

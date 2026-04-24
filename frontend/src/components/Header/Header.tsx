@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuthStore, useLangStore } from '../../store'
 import { LANGUAGES } from '../../i18n/translations'
+import logo from '../../images/logo.png'
 import s from './Header.module.scss'
 
 export default function Header() {
@@ -9,11 +10,11 @@ export default function Header() {
   const { lang, t, setLang } = useLangStore()
   const navigate = useNavigate()
 
-  const [scrolled, setScrolled] = useState(false)
-  const [langOpen, setLangOpen] = useState(false)
-  const [avatarOpen, setAvatarOpen] = useState(false)
+  const [scrolled,    setScrolled]    = useState(false)
+  const [langOpen,    setLangOpen]    = useState(false)
+  const [avatarOpen,  setAvatarOpen]  = useState(false)
 
-  const langRef = useRef<HTMLDivElement>(null)
+  const langRef   = useRef<HTMLDivElement>(null)
   const avatarRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -24,7 +25,7 @@ export default function Header() {
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) setLangOpen(false)
+      if (langRef.current   && !langRef.current.contains(e.target as Node))   setLangOpen(false)
       if (avatarRef.current && !avatarRef.current.contains(e.target as Node)) setAvatarOpen(false)
     }
     document.addEventListener('mousedown', handler)
@@ -32,27 +33,23 @@ export default function Header() {
   }, [])
 
   const currentLang = LANGUAGES.find((l: (typeof LANGUAGES)[0]) => l.code === lang)!
-  const initials = user ? user.name.slice(0, 2).toUpperCase() : ''
+  const initials    = user ? user.name.slice(0, 2).toUpperCase() : ''
 
   return (
     <header className={`${s.header} ${scrolled ? s.scrolled : ''}`}>
+
+      {/* ── Logo ── */}
       <NavLink to="/" className={s.header__logo}>
-        <div style={{
-          width: 34, height: 34, borderRadius: 9,
-          background: 'linear-gradient(135deg, #1857a8, #00c6ff)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 16, fontWeight: 800, color: '#fff', flexShrink: 0,
-        }}>C</div>
-        <span className={s['header__logo-text']}>
-          Credit<span>Score</span>
-        </span>
+        <img src={logo} alt="Кredиtоr logo" className={s.header__logo_img} />
+        <span className={s['header__logo-text']}>Кredиtоr</span>
       </NavLink>
 
+      {/* ── Nav ── */}
       <nav className={s.header__nav}>
         <NavLink to="/chatbot" className={({ isActive }) => isActive ? s.active : ''}>
           {t.nav.chatbot}
         </NavLink>
-        <NavLink to="/photo" className={({ isActive }) => isActive ? s.active : ''}>
+        <NavLink to="/photo"   className={({ isActive }) => isActive ? s.active : ''}>
           {t.nav.photoAnalysis}
         </NavLink>
         <NavLink to="/scoring" className={({ isActive }) => isActive ? s.active : ''}>
@@ -60,7 +57,10 @@ export default function Header() {
         </NavLink>
       </nav>
 
+      {/* ── Right: lang + auth ── */}
       <div className={s.header__right}>
+
+        {/* Language picker */}
         <div className={s.header__lang} ref={langRef}>
           <button
             className={`${s['header__lang-btn']} ${langOpen ? s.open : ''}`}
@@ -69,9 +69,8 @@ export default function Header() {
             <span className={s.flag}>{currentLang.flag}</span>
             <span className={s.code}>{currentLang.label}</span>
             <svg
-              className={s.chevron}
               width="10" height="6" viewBox="0 0 10 6" fill="none"
-              style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease' }}
+              style={{ transform: langOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s ease', opacity: 0.5 }}
             >
               <path d="M1 1l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
@@ -98,6 +97,7 @@ export default function Header() {
           )}
         </div>
 
+        {/* Auth */}
         {user ? (
           <div className={s['header__auth-avatar']} ref={avatarRef}>
             <div
@@ -159,7 +159,6 @@ function LockIcon() {
     </svg>
   )
 }
-
 function UserIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -168,7 +167,6 @@ function UserIcon() {
     </svg>
   )
 }
-
 function LogoutIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
@@ -177,7 +175,6 @@ function LogoutIcon() {
     </svg>
   )
 }
-
 function UserPlusIcon() {
   return (
     <svg width="13" height="13" viewBox="0 0 14 14" fill="none">
