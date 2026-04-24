@@ -1,0 +1,200 @@
+@use './variables.scss' as *;
+
+// ─── Reset ───────────────────────────────────────────────────
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: $font-display;
+  background: $navy-950;
+  color: $white;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: $font-display;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: $font-display;
+  outline: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: $navy-900;
+}
+::-webkit-scrollbar-thumb {
+  background: $navy-600;
+  border-radius: $r-full;
+}
+
+// ─── Utility ─────────────────────────────────────────────────
+.mono { font-family: $font-mono; }
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ─── Page wrapper ────────────────────────────────────────────
+.page {
+  padding-top: $header-h;
+  min-height: 100vh;
+}
+
+// ─── Glass card mixin ────────────────────────────────────────
+.glass {
+  background: $glass-bg;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $border-mid;
+  border-radius: $r-lg;
+}
+
+// ─── Keyframes ───────────────────────────────────────────────
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-12px); }
+}
+
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// ─── Button styles ───────────────────────────────────────────
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: linear-gradient(135deg, $navy-500, $navy-400);
+  color: $white;
+  border-radius: $r-full;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: transform 0.2s $ease-spring, box-shadow 0.2s ease, background 0.2s ease;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, $accent-400, $navy-300);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: inherit;
+  }
+
+  span { position: relative; z-index: 1; }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(34, 114, 216, 0.4);
+    &::before { opacity: 1; }
+  }
+
+  &:active { transform: translateY(0) scale(0.97); }
+}
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  color: $navy-200;
+  border: 1px solid $border-mid;
+  border-radius: $r-full;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: transparent;
+
+  &:hover {
+    border-color: $navy-300;
+    color: $white;
+    background: rgba(255,255,255,0.05);
+  }
+}
+
+.btn-accent {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 32px;
+  background: linear-gradient(135deg, $accent-400, $navy-300);
+  color: $navy-900;
+  border-radius: $r-full;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  transition: transform 0.2s $ease-spring, box-shadow 0.2s ease;
+  box-shadow: 0 0 0 0 $accent-glow;
+
+  &:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 40px $accent-glow;
+  }
+
+  &:active { transform: scale(0.97); }
+}

@@ -1,0 +1,153 @@
+@use '../../styles/variables.scss' as *;
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(14,45,90,0.5) 0%, transparent 60%);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(10,32,64,0.5);
+  border: 1px solid $border-mid;
+  border-radius: $r-xl;
+  padding: 40px 36px;
+  backdrop-filter: blur(20px);
+  animation: fadeUp 0.5s $ease-out forwards;
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: $white;
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+    text-align: center;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: $white;
+  margin-bottom: 24px;
+
+  strong { color: $accent-400; }
+
+  &__icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: linear-gradient(135deg, $navy-500, $navy-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 800;
+  }
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  margin-bottom: 28px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  label {
+    font-size: 12px;
+    color: $text-muted;
+    font-weight: 500;
+  }
+
+  input {
+    padding: 11px 14px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid $border-dim;
+    border-radius: $r-sm;
+    color: $white;
+    font-size: 13.5px;
+    font-family: $font-display;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    &::placeholder { color: $text-hint; }
+    &:focus {
+      border-color: $navy-400;
+      box-shadow: 0 0 0 3px rgba(34,114,216,0.15);
+      outline: none;
+    }
+  }
+}
+
+.error {
+  padding: 9px 12px;
+  background: rgba(240,149,149,0.1);
+  border: 1px solid rgba(240,149,149,0.2);
+  border-radius: $r-sm;
+  font-size: 12.5px;
+  color: #f09595;
+  text-align: center;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: $border-dim;
+  }
+
+  span {
+    position: relative;
+    background: rgba(10,32,64,0.8);
+    padding: 0 12px;
+    font-size: 11px;
+    color: $text-hint;
+  }
+}
+
+.register {
+  text-align: center;
+  font-size: 12.5px;
+  color: $text-muted;
+  margin-top: 20px;
+
+  a {
+    color: $navy-200;
+    transition: color 0.15s ease;
+    &:hover { color: $accent-400; }
+  }
+}
+
+.spin {
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}

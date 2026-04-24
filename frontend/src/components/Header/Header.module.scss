@@ -1,0 +1,284 @@
+@use '../../styles/variables.scss' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: $header-h;
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+
+  &.scrolled {
+    background: rgba(2, 13, 26, 0.88);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border-bottom-color: $border-dim;
+  }
+
+  // ── Logo ────────────────────────────────────────────────────
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+
+    img { height: 34px; width: auto; }
+
+    &-text {
+      font-size: 17px;
+      font-weight: 700;
+      color: $white;
+      letter-spacing: -0.4px;
+      span { color: $accent-400; }
+    }
+
+    &-badge {
+      font-family: $font-mono;
+      font-size: 9px;
+      background: rgba(0, 198, 255, 0.15);
+      color: $accent-400;
+      border: 1px solid rgba(0, 198, 255, 0.3);
+      padding: 2px 7px;
+      border-radius: $r-full;
+      letter-spacing: 0.5px;
+      margin-left: 4px;
+    }
+  }
+
+  // ── Nav ─────────────────────────────────────────────────────
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 auto;
+
+    a {
+      position: relative;
+      padding: 7px 14px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: $text-muted;
+      border-radius: $r-sm;
+      transition: color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: 3px;
+        left: 14px;
+        right: 14px;
+        height: 1.5px;
+        background: $accent-400;
+        border-radius: 1px;
+        transform: scaleX(0);
+        transition: transform 0.25s $ease-spring;
+        transform-origin: left;
+      }
+
+      &:hover {
+        color: $white;
+        background: rgba(255,255,255,0.05);
+      }
+
+      &.active {
+        color: $white;
+        &::after { transform: scaleX(1); }
+      }
+    }
+  }
+
+  // ── Right container ─────────────────────────────────────────
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  // ── Language picker ─────────────────────────────────────────
+  &__lang {
+    position: relative;
+
+    &-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid $border-dim;
+      border-radius: $r-sm;
+      color: $text-muted;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: $font-display;
+      transition: all 0.2s ease;
+      cursor: pointer;
+
+      .flag { font-size: 15px; line-height: 1; }
+      .code { font-family: $font-mono; font-size: 11px; }
+
+      &:hover {
+        border-color: $border-mid;
+        color: $white;
+        background: rgba(255,255,255,0.07);
+      }
+
+      &.open {
+        border-color: $navy-400;
+        color: $white;
+      }
+    }
+
+    &-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      background: $navy-800;
+      border: 1px solid $border-mid;
+      border-radius: $r-md;
+      padding: 6px;
+      min-width: 148px;
+      animation: slideDown 0.18s $ease-out forwards;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+      z-index: 200;
+
+      &-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        border-radius: $r-sm;
+        cursor: pointer;
+        transition: background 0.15s ease;
+        font-size: 13px;
+        color: $text-muted;
+
+        .flag { font-size: 15px; }
+
+        .lang-name { flex: 1; }
+
+        &:hover { background: rgba(255,255,255,0.06); color: $white; }
+
+        &.selected { color: $white; }
+      }
+    }
+  }
+
+  // ── Auth button ──────────────────────────────────────────────
+  &__auth {
+    &-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: linear-gradient(135deg, $navy-500, $navy-400);
+      color: $white;
+      border-radius: $r-full;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: $font-display;
+      transition: transform 0.2s $ease-spring, box-shadow 0.2s ease;
+      border: none;
+      cursor: pointer;
+
+      &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 24px rgba(24,95,165,0.45);
+      }
+      &:active { transform: scale(0.97); }
+    }
+
+    // ── User avatar ────────────────────────────────────────────
+    &-avatar {
+      position: relative;
+      cursor: pointer;
+
+      &-img {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, $navy-500, $navy-300);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 600;
+        color: $white;
+        border: 2px solid $border-mid;
+        transition: border-color 0.2s ease;
+        user-select: none;
+      }
+
+      &:hover &-img { border-color: $accent-400; }
+
+      &-menu {
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background: $navy-800;
+        border: 1px solid $border-mid;
+        border-radius: $r-md;
+        padding: 8px;
+        min-width: 185px;
+        animation: slideDown 0.18s $ease-out forwards;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+        z-index: 200;
+
+        &-header {
+          padding: 8px 10px 10px;
+          border-bottom: 1px solid $border-dim;
+          margin-bottom: 6px;
+
+          .name { font-size: 13px; font-weight: 600; color: $white; }
+          .email {
+            font-size: 11px;
+            color: $text-muted;
+            margin-top: 1px;
+            font-family: $font-mono;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .role-badge {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: $r-full;
+            background: rgba(0,198,255,0.12);
+            color: $accent-400;
+            border: 1px solid rgba(0,198,255,0.22);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+          }
+        }
+
+        &-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 10px;
+          border-radius: $r-sm;
+          font-size: 13px;
+          color: $text-muted;
+          cursor: pointer;
+          transition: background 0.15s ease, color 0.15s ease;
+
+          &:hover { background: rgba(255,255,255,0.06); color: $white; }
+
+          &.danger {
+            color: #f09595;
+            &:hover { background: rgba(240,149,149,0.08); }
+          }
+        }
+      }
+    }
+  }
+}

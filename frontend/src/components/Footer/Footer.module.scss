@@ -1,0 +1,143 @@
+@use '../../styles/variables.scss' as *;
+
+.footer {
+  background: $navy-900;
+  border-top: 1px solid $border-dim;
+  padding: 56px 32px 28px;
+
+  &__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 64px;
+    margin-bottom: 40px;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+  }
+
+  &__brand { }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    color: $white;
+    margin-bottom: 12px;
+
+    strong { color: $accent-400; }
+  }
+
+  &__logo_icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, $navy-500, $navy-300);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 800;
+    color: $white;
+  }
+
+  &__tagline {
+    font-size: 13px;
+    color: $text-muted;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 220px;
+  }
+
+  &__socials {
+    display: flex;
+    gap: 8px;
+  }
+
+  &__social {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid $border-dim;
+    border-radius: $r-sm;
+    color: $text-muted;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: $border-mid;
+      color: $white;
+      background: rgba(255,255,255,0.08);
+    }
+  }
+
+  &__links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+
+    @media (max-width: 600px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__col {
+    h4 {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: $text-hint;
+      margin-bottom: 14px;
+    }
+
+    a {
+      display: block;
+      font-size: 13px;
+      color: $text-muted;
+      margin-bottom: 9px;
+      transition: color 0.2s ease;
+
+      &:hover { color: $white; }
+    }
+  }
+
+  &__bottom {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid $border-dim;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    span {
+      font-size: 12px;
+      color: $text-hint;
+    }
+  }
+
+  &__tech {
+    display: flex;
+    gap: 6px;
+  }
+}
+
+.tech_pill {
+  font-family: $font-mono;
+  font-size: 10px;
+  padding: 3px 9px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $border-dim;
+  border-radius: $r-full;
+  color: $text-hint;
+}

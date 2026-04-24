@@ -1,0 +1,433 @@
+@use '../../styles/variables.scss' as *;
+
+.scoring_page {
+  min-height: 100vh;
+  padding-top: 88px;
+  padding-bottom: 60px;
+
+  &__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+}
+
+.page_header {
+  text-align: center;
+  margin-bottom: 36px;
+
+  h1 {
+    font-size: 38px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.8px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 15px;
+    color: $text-muted;
+  }
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border-radius: $r-full;
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-muted;
+  border: 1px solid $border-dim;
+  background: transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    border-color: $border-mid;
+    color: $white;
+    background: rgba(255,255,255,0.04);
+  }
+
+  &.active {
+    background: $navy-700;
+    border-color: $navy-500;
+    color: $white;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 24px;
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form_panel {
+  background: rgba(10,32,64,0.4);
+  border: 1px solid $border-dim;
+  border-radius: $r-xl;
+  padding: 28px;
+}
+
+.form_grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: $border-dim;
+  margin: 4px 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11.5px;
+    color: $text-muted;
+    font-weight: 500;
+  }
+
+  &__val {
+    font-family: $font-mono;
+    font-size: 11px;
+    color: $navy-300;
+  }
+}
+
+.slider_wrap {
+  position: relative;
+  height: 4px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 2px;
+  margin-top: 2px;
+
+  input[type="range"] {
+    position: absolute;
+    inset: -8px 0;
+    height: 20px;
+    z-index: 2;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+
+    &::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; }
+  }
+}
+
+.slider_fill {
+  position: absolute;
+  left: 0; top: 0;
+  height: 4px;
+  background: linear-gradient(to right, $navy-500, $navy-300);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: width 0.1s;
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -7px;
+    top: -5px;
+    width: 14px;
+    height: 14px;
+    background: $white;
+    border-radius: 50%;
+    border: 3px solid $navy-400;
+    box-shadow: 0 0 0 2px rgba(34,114,216,0.3);
+  }
+}
+
+.input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid $border-dim;
+  border-radius: $r-sm;
+  color: $white;
+  font-size: 13px;
+  font-family: $font-display;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  appearance: none;
+
+  &::placeholder { color: $text-hint; }
+
+  &:focus {
+    border-color: $navy-400;
+    box-shadow: 0 0 0 3px rgba(34,114,216,0.15);
+    outline: none;
+  }
+
+  option { background: $navy-800; color: $white; }
+}
+
+.error {
+  margin-top: 12px;
+  padding: 10px 14px;
+  background: rgba(240,149,149,0.1);
+  border: 1px solid rgba(240,149,149,0.25);
+  border-radius: $r-sm;
+  font-size: 12px;
+  color: #f09595;
+}
+
+.submit_btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px !important;
+  border-radius: $r-md !important;
+  font-size: 14px !important;
+  justify-content: center;
+
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+}
+
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top-color: $white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+// ─── Result panel ─────────────────────────────────────────────
+.result_panel { }
+
+.result {
+  background: linear-gradient(160deg, $navy-800 0%, $navy-900 100%);
+  border: 1px solid $border-mid;
+  border-radius: $r-xl;
+  padding: 28px;
+  animation: fadeUp 0.4s $ease-out forwards;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: $text-hint;
+  }
+
+  &__decision {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+  }
+
+  &__prob {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  &__prob_num {
+    font-family: $font-mono;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  &__prob_label {
+    font-size: 11px;
+    color: $text-muted;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+
+  &__explain {
+    padding: 12px 14px;
+    background: rgba(255,255,255,0.05);
+    border-radius: $r-sm;
+    font-size: 12.5px;
+    color: $navy-100;
+    line-height: 1.6;
+    margin: 16px 0;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+
+  &__factors_title {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: $text-hint;
+    margin-bottom: 10px;
+  }
+
+  &__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 20px;
+  }
+}
+
+.gauge {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 6px;
+
+  &__spectrum {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #5DCAA5 0%, #85b7eb 40%, #FAC775 70%, #f09595 100%);
+    opacity: 0.75;
+  }
+
+  &__cursor {
+    position: absolute;
+    top: -2px;
+    width: 3px;
+    height: 10px;
+    background: $white;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(255,255,255,0.7);
+    transition: left 0.5s $ease-out;
+  }
+
+  &__labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: $text-hint;
+    margin-bottom: 16px;
+  }
+}
+
+.factor {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 7px;
+
+  &__name {
+    font-size: 10px;
+    color: $navy-100;
+    flex: 0 0 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__track {
+    flex: 1;
+    height: 3px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+  }
+
+  &__fill {
+    height: 3px;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+  }
+
+  &__val {
+    font-family: $font-mono;
+    font-size: 10px;
+    min-width: 32px;
+    text-align: right;
+  }
+}
+
+.metric {
+  background: rgba(255,255,255,0.04);
+  border-radius: $r-sm;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid $border-dim;
+
+  &__val {
+    display: block;
+    font-family: $font-mono;
+    font-size: 16px;
+    font-weight: 500;
+    color: $navy-200;
+  }
+
+  &__name {
+    display: block;
+    font-size: 9px;
+    color: $text-hint;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+}
+
+.placeholder {
+  border: 2px dashed $border-dim;
+  border-radius: $r-xl;
+  padding: 60px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-height: 360px;
+  justify-content: center;
+
+  &__icon {
+    margin-bottom: 4px;
+    animation: float 4s ease-in-out infinite;
+  }
+
+  p {
+    font-size: 13px;
+    color: $text-muted;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+
+    span {
+      font-size: 11px;
+      padding: 3px 10px;
+      background: rgba(24,95,165,0.15);
+      border: 1px solid rgba(24,95,165,0.25);
+      border-radius: $r-full;
+      color: $navy-200;
+    }
+  }
+}
