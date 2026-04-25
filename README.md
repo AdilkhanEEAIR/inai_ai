@@ -53,3 +53,69 @@
 ```bash
 git clone https://github.com/AdilkhanEEAIR/inai_ai
 cd inai-ai
+```
+
+### 2. Настройка API-ключей. 
+
+# ⚠️ ВАЖНО: Настройка API ключей (2 файла .env)
+
+Для успешного запуска бэкенда необходимо создать **ДВА** файла `.env` в разных папках.
+
+---
+
+## 📁 Файл №1: `backend/bot_tg/.env`
+
+В папке `bot_tg` и `backend` создайте по одному файлу .env, затем внутри создайте файл `.env` со следующим содержимым:
+
+```env внутри папки bot_tg:
+TELEGRAM_TOKEN=8572187967:AAF3VXfFbXP5e_k8kK9jWSnln9owQCoEaLI
+REPLICATE_API_TOKEN=r8_JZnbF2RdRZnD1v9iY19cacBVpVhjjPv3P7qWO
+```
+
+```env внутри папки backend:
+REPLICATE_API_TOKEN = r8_JZnbF2RdRZnD1v9iY19cacBVpVhjjPv3P7qWO
+```
+
+
+### 3. # 🚀 Запуск проекта: бэкенд + фронтенд
+
+### Запуск бекенда
+# 1. Перейти в папку backend
+cd backend
+
+# 2. Создать виртуальное окружение
+python -m venv venv
+
+# 3. Активировать виртуальное окружение
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+# 4. Установить основные зависимости бэкенда
+pip install -r requirements.txt
+
+# 5. Перейти в папку bot_tg и установить зависимости
+cd bot_tg
+pip install -r requirements.txt
+
+# 6. Вернуться в папку backend
+cd ..
+
+# 7. Запустить сервер
+uvicorn main:app --reload --port 8000
+
+### Запуск фронтенда:
+# 1. Открыть новый терминал (не закрывая бэкенд)
+
+# 2. Перейти в папку frontend
+cd frontend
+
+# 3. Установить зависимости
+npm install
+
+# 4. Запустить dev-сервер
+npm run dev
+
+
+✅ Фронтенд запустится на http://localhost:5173
