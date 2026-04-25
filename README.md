@@ -38,34 +38,18 @@
 - PyMuPDF (конвертация PDF)
 - Асинхронная обработка
 
-## 📁 Структура проекта
 
 
 
-inai_ai/
-├── frontend/                 # React + Vite приложение
-│   ├── src/
-│   │   ├── components/       # Header, Footer, BotFace
-│   │   ├── pages/            # Home, Scoring, Chatbot, PhotoAnalysis, Login, Profile
-│   │   ├── i18n/             # Переводы на 7 языков
-│   │   ├── store/            # Zustand store (аутентификация, язык)
-│   │   ├── styles/           # Глобальные SCSS переменные
-│   │   └── videos/           # Видео для фона hero-секции
-│   ├── package.json
-│   └── vite.config.ts
-│
-├── backend/                  # FastAPI сервер
-│   ├── main.py               # Точка входа
-│   ├── chat.py               # Replicate LLM чат
-│   ├── scoring_router.py     # Эндпоинты /predict, /analyze-document
-│   ├── requirements.txt
-│   │
-│   └── bot_tg/               # ML движок (переиспользуется из Telegram-бота)
-│       ├── credit_engine.py  # Кастомный андеррайтинг (ML + DTI)
-│       ├── ai_services.py    # OCR, Llama анализ должности, mock-БКИ
-│       ├── catboost_final.cbm # Обученная модель CatBoost
-│       ├── config.py
-│       ├── handlers.py
-│       └── .env              # Токены (TELEGRAM_TOKEN, REPLICATE_API_TOKEN)
-│
-└── README.md
+## 🛠️ Установка и запуск
+
+### Требования
+- Node.js 18+
+- Python 3.10+
+- npm или yarn
+
+### 1. Клонирование репозитория
+
+```bash
+git clone https://github.com/yourusername/creditor-ai.git
+cd creditor-ai
