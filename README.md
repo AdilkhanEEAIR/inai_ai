@@ -69,12 +69,12 @@ cd inai-ai
 В папке `bot_tg` и `backend` создайте по одному файлу .env, затем внутри создайте файл `.env` со следующим содержимым:
 
 ```env внутри папки bot_tg:
-TELEGRAM_TOKEN=8572187967:AAF3VXfFbXP5e_k8kK9jWSnln9owQCoEaLI
-REPLICATE_API_TOKEN=r8_JZnbF2RdRZnD1v9iY19cacBVpVhjjPv3P7qWO
+TELEGRAM_TOKEN=ваш апи ключ
+REPLICATE_API_TOKEN=ваш апи ключ
 ```
 
 ```env внутри папки backend:
-REPLICATE_API_TOKEN = r8_JZnbF2RdRZnD1v9iY19cacBVpVhjjPv3P7qWO
+REPLICATE_API_TOKEN = ваш апи ключ
 ```
 
 
