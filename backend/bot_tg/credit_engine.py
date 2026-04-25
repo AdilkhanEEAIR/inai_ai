@@ -13,8 +13,6 @@ class MLCreditDecisionEngine:
 
     def __init__(self, model_path: str = "catboost_final.cbm", base_rate_annual: float = 0.18):
         self.base_rate_annual = base_rate_annual
-
-        # Твой оптимальный порог классификации из Colab
         self.target_threshold = 0.4544
 
         # Загрузка обученной модели CatBoost
@@ -43,7 +41,7 @@ class MLCreditDecisionEngine:
 
     def _extract_features(self, client_data, bki_data, current_rate):
         return [
-            0.0,  # Это будет наш фейковый credit_id для позиции 0
+            0.0,  
             float(client_data.get('age', 21)),
             float(client_data.get('net_income', 0)),
             float(client_data.get('experience_years', 0)),
@@ -58,7 +56,6 @@ class MLCreditDecisionEngine:
         try:
             # 1. Получаем текущую ставку
             current_rate = self.get_current_interest_rate()
-
             # 2. Формируем список признаков СТРОГО по порядку
             features = [
                 float(client_data.get('age', 21)),
@@ -66,26 +63,26 @@ class MLCreditDecisionEngine:
                 float(client_data.get('experience_years', 0)),
                 float(client_data.get('requested_amount', 0)),
                 float(client_data.get('term_months', 12)),
-                float(current_rate * 100),  # interest_rate в %
+                float(current_rate * 100),  
                 float(bki_data.get('past_due_30d', 0)),
                 float(bki_data.get('inquiries_6m', 0))
             ]
-
-            # 3. Названия колонок ТОЧНО как в Colab
+            
+            # 3. название колонок
             feature_names = [
                 "age", "monthly_income", "employment_years",
                 "loan_amount", "loan_term_months", "interest_rate",
                 "past_due_30d", "inquiries_6m"
             ]
 
-            # 4. Передаем данные модели ПРАВИЛЬНО (через имена колонок)
+            # 4. Передаем данные модели (через имена колонок)
             import pandas as pd
             X_input = pd.DataFrame([features], columns=feature_names)
 
-            # Предсказание
+            # Предсказание само
             prob = self.model.predict_proba(X_input)[0][1]
 
-            # Логика решения (порог 0.45 как в твоем коде)
+            # Логика решения (порог 0.45)
             is_approved = prob < 0.4544
 
             # Ограничение по DTI
