@@ -51,5 +51,5 @@
 ### 1. Клонирование репозитория
 
 ```bash
-git clone https://github.com/yourusername/creditor-ai.git
-cd creditor-ai
+git clone https://github.com/AdilkhanEEAIR/inai_ai
+cd inai-ai
