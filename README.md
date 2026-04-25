@@ -1,4 +1,5 @@
 # Кredиtоr — AI кредитный скоринг
+Авторы: Команда "Dante": Джантелиев Адилхан, Осмонбаев Айбек, Эмилев Бектур
 
 [![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript)](https://www.typescriptlang.org/)
