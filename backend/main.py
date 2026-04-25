@@ -1,29 +1,40 @@
 """
 backend/main.py
 
-Vite proxy config:
-  '/api' → target: 'http://localhost:8000', rewrite: strip '/api'
+FastAPI — кредитный скоринг + Gemini/Replicate чат.
 
-Значит фронт шлёт:  POST /api/chat
-Vite перенаправляет: POST http://localhost:8000/chat
-FastAPI слушает:     POST /chat  ✅
+Структура проекта:
+  backend/
+    main.py               ← этот файл
+    chat.py               ← Replicate чат-бот
+    scoring_router.py     ← CatBoost скоринг
+    bot_tg/
+      credit_engine.py    ← движок ML + DTI
+      ai_services.py      ← OCR, BKI, LLM
+      catboost_final.cbm  ← обученная модель
+      config.py
+      handlers.py
+      bot.py
 
-Поэтому prefix="/api" НЕ нужен — он был причиной 404.
+Vite proxy:
+  /api/* → http://localhost:8000/*  (strip /api)
+  Фронт шлёт POST /api/predict → FastAPI слушает POST /predict ✅
+  Фронт шлёт POST /api/chat    → FastAPI слушает POST /chat    ✅
 """
+
 from dotenv import load_dotenv
 load_dotenv()
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Чат-роутер (Replicate LLM)
 from chat import router as chat_router
 
-try:
-    from scoring import router as scoring_router
-    HAS_SCORING = True
-except ImportError:
-    HAS_SCORING = False
+# Скоринг-роутер (CatBoost + DTI)
+from scoring_router import router as scoring_router
 
-app = FastAPI(title="Кredиtоr API", version="1.0.0")
+app = FastAPI(title="Кredиtоr API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -32,13 +43,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# БЕЗ prefix — Vite уже убрал /api до того как запрос дошёл до FastAPI
+# БЕЗ prefix — Vite уже убрал /api
 app.include_router(chat_router)
-
-if HAS_SCORING:
-    app.include_router(scoring_router)
+app.include_router(scoring_router)
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {
+        "status": "ok",
+        "services": ["chat", "scoring"],
+    }
